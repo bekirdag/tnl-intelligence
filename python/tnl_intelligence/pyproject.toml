@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tnl-intelligence"
+version = "0.1.0"
+description = "Typed synchronous and asynchronous Python SDK for The Neural Ledger intelligence API."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "The Neural Ledger" }]
+dependencies = ["httpx>=0.27,<1"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
+keywords = ["news", "intelligence", "research", "trading", "api"]
+
+[project.urls]
+Homepage = "https://theneuralledger.com"
+Repository = "https://github.com/bekirdag/tnl-intelligence"
+Documentation = "https://github.com/bekirdag/tnl-intelligence#readme"
+Issues = "https://github.com/bekirdag/tnl-intelligence/issues"
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2",
+  "mypy>=1.15",
+  "pytest>=8.3",
+  "ruff>=0.11",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tnl_intelligence"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+packages = ["tnl_intelligence"]
+mypy_path = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

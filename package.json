@@ -1,0 +1,36 @@
+{
+  "name": "tnl-intelligence-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Developer tools for The Neural Ledger intelligence API.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.10"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "clean": "npm run clean --workspaces --if-present",
+    "build": "npm run build --workspace @theneuralledger/sdk && npm run build --workspace @theneuralledger/mcp && npm run build --workspace @theneuralledger/cli",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:python": "cd python/tnl_intelligence && python3 -m pytest",
+    "lint:python": "cd python/tnl_intelligence && python3 -m ruff check . && python3 -m ruff format --check . && python3 -m mypy src",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate": "npm run openapi:check && npm run format:check && npm run typecheck && npm test && npm run build",
+    "openapi:sync": "node scripts/openapi.mjs sync",
+    "openapi:generate": "node scripts/openapi.mjs generate",
+    "openapi:check": "node scripts/openapi.mjs check",
+    "pack:check": "node scripts/check-package-tarballs.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "openapi-typescript": "^7.13.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

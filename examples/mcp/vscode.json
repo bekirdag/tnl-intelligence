@@ -1,0 +1,18 @@
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "tnl-api-key",
+      "description": "The Neural Ledger API key",
+      "password": true
+    }
+  ],
+  "servers": {
+    "tnl-intelligence": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@theneuralledger/mcp"],
+      "env": { "TNL_API_KEY": "${input:tnl-api-key}" }
+    }
+  }
+}

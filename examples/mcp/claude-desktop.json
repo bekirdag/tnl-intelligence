@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "tnl-intelligence": {
+      "command": "npx",
+      "args": ["-y", "@theneuralledger/mcp"],
+      "env": { "TNL_API_KEY": "replace_with_your_member_api_key" }
+    }
+  }
+}

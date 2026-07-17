@@ -1,0 +1,56 @@
+{
+  "name": "@theneuralledger/cli",
+  "version": "0.1.0",
+  "description": "CLI and foreground intelligence daemon for The Neural Ledger.",
+  "homepage": "https://github.com/bekirdag/tnl-intelligence#readme",
+  "bugs": {
+    "url": "https://github.com/bekirdag/tnl-intelligence/issues"
+  },
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.10"
+  },
+  "bin": {
+    "tnl": "./dist/bin.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bekirdag/tnl-intelligence.git",
+    "directory": "packages/cli"
+  },
+  "scripts": {
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/**/*.test.ts"
+  },
+  "dependencies": {
+    "@theneuralledger/mcp": "0.1.0",
+    "@theneuralledger/sdk": "0.1.0",
+    "commander": "^15.0.0"
+  },
+  "keywords": [
+    "cli",
+    "daemon",
+    "news",
+    "intelligence",
+    "mcp"
+  ]
+}

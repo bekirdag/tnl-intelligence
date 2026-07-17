@@ -1,0 +1,49 @@
+{
+  "name": "@theneuralledger/sdk",
+  "version": "0.1.0",
+  "description": "Typed TypeScript SDK for The Neural Ledger intelligence API.",
+  "homepage": "https://github.com/bekirdag/tnl-intelligence#readme",
+  "bugs": {
+    "url": "https://github.com/bekirdag/tnl-intelligence/issues"
+  },
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.10"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bekirdag/tnl-intelligence.git",
+    "directory": "packages/sdk"
+  },
+  "scripts": {
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/**/*.test.ts"
+  },
+  "keywords": [
+    "news",
+    "intelligence",
+    "trading",
+    "research",
+    "api"
+  ]
+}

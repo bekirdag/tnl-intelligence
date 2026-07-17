@@ -1,0 +1,35 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.theneuralledger/intelligence",
+  "title": "The Neural Ledger Intelligence",
+  "description": "Read-only global event and evidence intelligence with entities, assets, and impact paths.",
+  "websiteUrl": "https://theneuralledger.com",
+  "repository": {
+    "url": "https://github.com/bekirdag/tnl-intelligence",
+    "source": "github",
+    "subfolder": "packages/mcp"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@theneuralledger/mcp",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "TNL_API_KEY",
+          "description": "The Neural Ledger member API key",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "TNL_BASE_URL",
+          "description": "Optional TNL API base URL",
+          "default": "https://theneuralledger.com"
+        }
+      ]
+    }
+  ]
+}

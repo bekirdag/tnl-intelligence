@@ -1,0 +1,15 @@
+.git
+.github
+.docdex
+.venv
+node_modules
+**/dist
+**/*.tsbuildinfo
+**/coverage
+**/__pycache__
+python
+docs
+examples
+*.tgz
+*.jsonl
+.env*

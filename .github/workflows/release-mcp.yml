@@ -1,0 +1,29 @@
+name: Release MCP Registry metadata
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Confirm the published MCP package version
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: mcp-registry
+    steps:
+      - uses: actions/checkout@v4
+      - run: test "${{ inputs.version }}" = "$(node -p "require('./server.json').version")"
+      - name: Install MCP Publisher
+        run: |
+          curl --fail --location "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+      - run: ./mcp-publisher validate server.json
+      - name: Authenticate domain
+        env:
+          MCP_DNS_PRIVATE_KEY: ${{ secrets.MCP_DNS_PRIVATE_KEY }}
+        run: ./mcp-publisher login dns --domain=theneuralledger.com --private-key="$MCP_DNS_PRIVATE_KEY"
+      - run: ./mcp-publisher publish server.json

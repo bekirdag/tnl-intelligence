@@ -1,0 +1,18 @@
+[Unit]
+Description=The Neural Ledger intelligence cache
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=%h/.config/tnl-intelligence/environment
+ExecStart=/usr/bin/env npx -y @theneuralledger/cli daemon --interval 60
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=%h/.tnl-intelligence
+
+[Install]
+WantedBy=default.target

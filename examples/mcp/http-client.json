@@ -1,0 +1,6 @@
+{
+  "name": "tnl-intelligence",
+  "type": "streamable-http",
+  "url": "http://127.0.0.1:7317/mcp",
+  "headers": { "Authorization": "Bearer replace_with_your_member_api_key" }
+}
