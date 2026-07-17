@@ -50,6 +50,7 @@ Status: Complete; publication awaits owner-controlled registry setup
 | Container                        | Pass           | Multi-stage image builds, runs as uid 1000, serves `/healthz`, and rejects unauthenticated MCP requests                                  |
 | Dependency audits                | Pass           | npm and Python runtime dependency audits report no known vulnerabilities                                                                 |
 | Workflow and Compose syntax      | Pass           | All GitHub YAML files parse and Compose resolves with injected environment                                                               |
+| Clean-state Node validation      | Pass           | `npm run clean` followed by full validation and tarball checks passes in dependency order                                                |
 
 ## Owner Actions Required
 

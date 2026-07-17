@@ -14,7 +14,7 @@
   "scripts": {
     "clean": "npm run clean --workspaces --if-present",
     "build": "npm run build --workspace @theneuralledger/sdk && npm run build --workspace @theneuralledger/mcp && npm run build --workspace @theneuralledger/cli",
-    "typecheck": "npm run typecheck --workspaces --if-present",
+    "typecheck": "npm run build && npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "test:python": "cd python/tnl_intelligence && python3 -m pytest",
     "lint:python": "cd python/tnl_intelligence && python3 -m ruff check . && python3 -m ruff format --check . && python3 -m mypy src",
