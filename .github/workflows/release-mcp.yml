@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: mcp-registry
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: test "${{ inputs.version }}" = "$(node -p "require('./server.json').version")"
       - name: Install MCP Publisher
         run: |
