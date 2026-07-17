@@ -37,7 +37,7 @@
     "clean": "rm -rf dist .tsbuildinfo",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "tsx --test test/**/*.test.ts"
+    "test": "tsx --test test/*.test.ts"
   },
   "keywords": [
     "news",
