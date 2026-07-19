@@ -1,7 +1,7 @@
 # TNL Intelligence GitHub and GHCR Release Progress
 
 Date: 2026-07-19
-Status: In progress
+Status: Complete
 Plan: [TNL Intelligence GitHub and GHCR Release Plan](tnl-github-ghcr-release-plan.md)
 Release: `v0.1.0`
 
@@ -15,16 +15,16 @@ Release: `v0.1.0`
 
 ## Progress
 
-| Phase               | Status   | Evidence                                                                  |
-| ------------------- | -------- | ------------------------------------------------------------------------- |
-| Release audit       | Complete | GitHub admin access confirmed; npm/PyPI/MCP/production blockers recorded  |
-| Release planning    | Complete | Execution, validation, asset, and rollback plan documented                |
-| Tree preparation    | Complete | Tools 01-10 tree reviewed; release notes, runbook, and rollback finalized |
-| Local qualification | Complete | Repository, aggregate, format, and staged Docdex semantic gates passed    |
-| Source publication  | Pending  | Commit, push, clean-candidate regeneration, and tag required              |
-| GitHub Release      | Pending  | Release and artifact attachment required                                  |
-| GHCR publication    | Pending  | Workflow, visibility, digest, pull, and runtime smoke required            |
-| Evidence closeout   | Pending  | Final identifiers and remaining owner gates must be recorded              |
+| Phase               | Status   | Evidence                                                                                   |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------ |
+| Release audit       | Complete | GitHub admin access confirmed; npm/PyPI/MCP/production blockers recorded                   |
+| Release planning    | Complete | Execution, validation, asset, and rollback plan documented                                 |
+| Tree preparation    | Complete | Tools 01-10 tree reviewed; release notes, runbook, and rollback finalized                  |
+| Local qualification | Complete | Clean candidate `tnl-rc-1419d34aba032124`; seven technical gates passed                    |
+| Source publication  | Complete | `main` pushed; annotated `v0.1.0` tag resolves to qualified commit `2afb198`               |
+| GitHub Release      | Complete | Public non-prerelease release created with 25 qualified assets                             |
+| GHCR publication    | Complete | Public image tags share the published digest; authenticated and anonymous smoke tests pass |
+| Evidence closeout   | Complete | Immutable identifiers, checks, and remaining external gates recorded                       |
 
 ## Initial Evidence
 
@@ -50,16 +50,34 @@ Release: `v0.1.0`
 | ------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------- |
 | Repository workspace tests      | Pass   | `docdexd run-tests --repo .`; all configured workspace test suites passed                                                     |
 | Aggregate release qualification | Pass   | `npm run qualify:release`; six scenarios and seven technical gates passed                                                     |
-| Candidate integrity             | Pass   | Candidate `tnl-rc-2a483e2868585b09`; digest `9d3b6a06d71f43ee65a175fc37e10e61479ff1ca7cb9e7fb64096f40a13335b5`                |
+| Candidate integrity             | Pass   | Clean candidate `tnl-rc-1419d34aba032124` from commit `2afb19864891575f825cd5f552e84d4703b554a8`                              |
 | Production dependency audit     | Pass   | Zero npm production vulnerabilities                                                                                           |
 | Secret and privacy scans        | Pass   | No credential/private-key material or high/critical privacy blocker found                                                     |
 | Container qualification         | Pass   | Non-root runtime, multi-architecture build, SBOM, and scan evidence passed                                                    |
 | Rollback and recovery           | Pass   | Capacity/chaos and rollback rehearsals passed                                                                                 |
 | Staged semantic validation      | Pass   | All 431 staged files passed `/v1/hooks/validate` in 11 bounded batches; the single-request CLI exceeded the daemon body limit |
 
-The aggregate candidate remains marked as a dirty-tree build until the reviewed
-source is committed. It will be regenerated and requalified from the clean
-release commit before tagging.
+## Publication Evidence
+
+- Qualified source and annotated tag: `2afb19864891575f825cd5f552e84d4703b554a8`
+  and `v0.1.0`.
+- Clean source digest: `897732633c3e0d1fe8b517a337d4f608e43044ce7b4462100886eec7c38b19ec`.
+- Green source CI: https://github.com/bekirdag/tnl-intelligence/actions/runs/29681636655.
+- Public GitHub Release: https://github.com/bekirdag/tnl-intelligence/releases/tag/v0.1.0
+  with 25 attached artifacts and evidence records.
+- GHCR publication run: https://github.com/bekirdag/tnl-intelligence/actions/runs/29682005073,
+  dispatched from `v0.1.0`.
+- Published image tags: `ghcr.io/bekirdag/tnl-intelligence:0.1.0` and
+  `ghcr.io/bekirdag/tnl-intelligence:latest`.
+- Registry digest:
+  `sha256:698798ed42d2045cc17d103ee38796d1e30a10546cb23d28f60784e710e3cf24`.
+- Authenticated pull and runtime verification:
+  https://github.com/bekirdag/tnl-intelligence/actions/runs/29682150454; the
+  image runs read-only as `node`, `/healthz` passes, and an unauthenticated
+  `/mcp` POST returns `401`.
+- Anonymous pull verification resolves the same digest. The public image runs
+  read-only as `node`, returns the expected `/healthz` payload, and rejects an
+  unauthenticated `/mcp` POST with `401`.
 
 ## Remaining External Gates
 

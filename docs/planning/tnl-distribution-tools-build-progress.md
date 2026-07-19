@@ -1,7 +1,7 @@
 # TNL Distribution Tools Build Progress
 
 Date: 2026-07-19
-Status: Tools 01-10 repository implementation complete; GitHub/GHCR publication in progress
+Status: Complete; public GitHub Release and GHCR image published
 Plan: [TNL Distribution Tools High-Level Build Plan](tnl-distribution-tools-build-plan.md)
 
 GitHub and GHCR release execution is tracked separately in the
@@ -63,11 +63,11 @@ column is intentionally not inferred from local tests.
 | 03 Developer onboarding and sample access | [`distribution-tools/03-developer-onboarding-sample-access-build-plan.md`](distribution-tools/03-developer-onboarding-sample-access-build-plan.md) | Complete   | Deploy public identity, durable stores, billing, and sample service |
 | 04 Webhook and event delivery             | [`distribution-tools/04-webhook-event-delivery-build-plan.md`](distribution-tools/04-webhook-event-delivery-build-plan.md)                         | Complete   | Deploy database, queue, KMS, DNS/egress adapters and run canary     |
 | 05 Research skills and app                | [`distribution-tools/05-research-skills-app-build-plan.md`](distribution-tools/05-research-skills-app-build-plan.md)                               | Complete   | Connect live TNL/Codali/Docdex/web ports and durable result storage |
-| 06 MCP installation artifacts             | [`distribution-tools/06-mcp-installation-artifacts-build-plan.md`](distribution-tools/06-mcp-installation-artifacts-build-plan.md)                 | Complete   | Sign with owner keys and publish approved artifacts                 |
+| 06 MCP installation artifacts             | [`distribution-tools/06-mcp-installation-artifacts-build-plan.md`](distribution-tools/06-mcp-installation-artifacts-build-plan.md)                 | Complete   | Public GitHub assets and GHCR image published and verified          |
 | 07 AI client adapters                     | [`distribution-tools/07-ai-client-adapters-build-plan.md`](distribution-tools/07-ai-client-adapters-build-plan.md)                                 | Complete   | Run live OAuth/host UI canaries and submit approved listings        |
 | 08 Automation connectors                  | [`distribution-tools/08-automation-connectors-build-plan.md`](distribution-tools/08-automation-connectors-build-plan.md)                           | Complete   | Register hosts, deploy callbacks, run canaries, and submit listings |
 | 09 Quantitative research toolkit          | [`distribution-tools/09-quant-research-toolkit-build-plan.md`](distribution-tools/09-quant-research-toolkit-build-plan.md)                         | Complete   | Run opt-in live data canaries and publish to PyPI                   |
-| 10 Cross-tool qualification               | [`distribution-tools/10-cross-tool-qualification-build-plan.md`](distribution-tools/10-cross-tool-qualification-build-plan.md)                     | Complete   | Owner reviews exact candidate and authorizes promotion              |
+| 10 Cross-tool qualification               | [`distribution-tools/10-cross-tool-qualification-build-plan.md`](distribution-tools/10-cross-tool-qualification-build-plan.md)                     | Complete   | Owner approved GitHub/GHCR; other promotion channels remain gated   |
 
 ## Existing Foundation Evidence
 
@@ -157,16 +157,15 @@ column is intentionally not inferred from local tests.
 | Tool 10 security and privacy         | Pass               | Isolation, SSRF, secrets, retention, supply chain, and zero-vulnerability npm production audit pass                                               |
 | Tool 10 reliability and rollback     | Pass               | Baseline/peak/burst/soak, retry storm, quota fairness, concurrent research, and eight rollback/recovery rehearsals pass                           |
 | Tool 10 accessibility and docs       | Pass               | Four browser viewports, keyboard/focus, reduced motion, fallback parity, guides, and local links pass                                             |
-| Tool 10 release decision             | Technical go       | Seven automated gates pass; publication is enforced as `no-go-pending-owner`                                                                      |
+| Tool 10 release decision             | Published          | Seven automated gates pass; owner approved candidate `tnl-rc-1419d34aba032124` for GitHub Release and GHCR                                        |
 
 ## Current Blockers
 
-None for repository implementation. The external promotion gates are listed per
-tool above and must remain pending until there is evidence from the relevant
-owner account, deployment, signing key, or production canary.
+None for repository implementation or GitHub/GHCR publication. npm, PyPI,
+hosted services, and marketplaces keep their existing owner configuration
+gates.
 
 ## Next Implementation Step
 
-No repository implementation step remains. The next phase is an owner-approved
-promotion workflow against the exact Tool 10 candidate; this progress record
-does not authorize deployment or publication.
+No repository or GitHub/GHCR implementation step remains. Other channels
+require their separately documented credentials and production environments.

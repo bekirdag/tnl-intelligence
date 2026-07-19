@@ -1,7 +1,7 @@
 # TNL Intelligence Cross-Tool Qualification Build Progress
 
 - **Date:** 2026-07-19
-- **Status:** Repository implementation complete; owner publication approval pending
+- **Status:** Repository complete; GitHub Release and GHCR publication approved and executed
 - **Plan:** [`10-cross-tool-qualification-build-plan.md`](10-cross-tool-qualification-build-plan.md)
 - **Parent progress:** [`../tnl-distribution-tools-build-progress.md`](../tnl-distribution-tools-build-progress.md)
 
@@ -49,18 +49,30 @@
 
 ## Validation Trail
 
-| Gate                         | Status        | Evidence                                                                                                           |
-| ---------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Planning/progress loop       | Pass          | Tool plan linked to this separate progress trail before broad implementation                                       |
-| Repository dependency review | Pass          | Docdex search, tree, impact graph, DAG export, and diagnostics completed                                           |
-| Tools 01-09 frozen evidence  | Pass          | Component qualification runs before candidate freeze; scenario lanes only consume the frozen candidate             |
-| Contract and artifact gates  | Pass          | Candidate schemas, hashes, matrix, SBOM, provenance, licenses, and scans pass                                      |
-| Cross-tool scenarios         | Pass          | The integrated flow preserves event/story/research identity through three hosts and a point-in-time quant snapshot |
-| Security and privacy         | Pass          | Isolation, SSRF, secret, retention, audit, and supply-chain checks pass                                            |
-| Reliability and performance  | Pass          | Numeric capacity profiles, chaos scenarios, degraded operation, and eight rollback/recovery checks pass            |
-| Accessibility and docs       | Pass          | Browser, fallback, guide, local-link, and advertised-surface checks pass                                           |
-| Tool 10 automated gates      | Pass          | Seven technical gates produce a signed technical `go` decision                                                     |
-| Human business approval      | Pending owner | Publication remains a separate explicit action                                                                     |
+| Gate                         | Status         | Evidence                                                                                                           |
+| ---------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Planning/progress loop       | Pass           | Tool plan linked to this separate progress trail before broad implementation                                       |
+| Repository dependency review | Pass           | Docdex search, tree, impact graph, DAG export, and diagnostics completed                                           |
+| Tools 01-09 frozen evidence  | Pass           | Component qualification runs before candidate freeze; scenario lanes only consume the frozen candidate             |
+| Contract and artifact gates  | Pass           | Candidate schemas, hashes, matrix, SBOM, provenance, licenses, and scans pass                                      |
+| Cross-tool scenarios         | Pass           | The integrated flow preserves event/story/research identity through three hosts and a point-in-time quant snapshot |
+| Security and privacy         | Pass           | Isolation, SSRF, secret, retention, audit, and supply-chain checks pass                                            |
+| Reliability and performance  | Pass           | Numeric capacity profiles, chaos scenarios, degraded operation, and eight rollback/recovery checks pass            |
+| Accessibility and docs       | Pass           | Browser, fallback, guide, local-link, and advertised-surface checks pass                                           |
+| Tool 10 automated gates      | Pass           | Seven technical gates produce a signed technical `go` decision                                                     |
+| Human business approval      | Pass for scope | Owner approved GitHub Release and GHCR; npm, PyPI, hosted services, and marketplaces remain separate               |
+
+## Publication Evidence
+
+- Clean candidate: `tnl-rc-1419d34aba032124` from commit
+  `2afb19864891575f825cd5f552e84d4703b554a8`.
+- GitHub Release: https://github.com/bekirdag/tnl-intelligence/releases/tag/v0.1.0.
+- GHCR digest:
+  `sha256:698798ed42d2045cc17d103ee38796d1e30a10546cb23d28f60784e710e3cf24`.
+- Authenticated pull, non-root/read-only health, and unauthenticated rejection
+  passed in https://github.com/bekirdag/tnl-intelligence/actions/runs/29682150454.
+- Anonymous GHCR pull resolves the published digest, and the public image passes
+  read-only/non-root health and unauthenticated rejection checks.
 
 ## Resolved Blockers and Constraints
 

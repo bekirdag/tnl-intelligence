@@ -1,7 +1,7 @@
 # Tool 06: MCP Installation Artifacts Build Progress
 
 Date: 2026-07-19
-Status: Repository implementation complete; owner signing and publication pending
+Status: Repository complete; GitHub assets and GHCR image published
 Plan: [MCP Installation Artifacts Build Plan](06-mcp-installation-artifacts-build-plan.md)
 Master progress: [TNL Distribution Tools Build Progress](../tnl-distribution-tools-build-progress.md)
 
@@ -17,6 +17,7 @@ Master progress: [TNL Distribution Tools Build Progress](../tnl-distribution-too
 | Supply-chain evidence                    | Complete | SHA-256 integrity, CycloneDX SBOM, notices, provenance, archive, and image audit recorded    |
 | Clean-profile compatibility              | Complete | Bundle restart, safe tool call, removal, container health, and multi-architecture build pass |
 | Qualification and regressions            | Complete | Distribution gate, 71 TypeScript tests, 10 Python tests, pack/audit, and Docdex gates pass   |
+| GitHub and GHCR promotion                | Complete | Release assets published; image digest pulled and smoke-tested through GitHub Actions        |
 
 ## Current Implementation Decisions
 
@@ -24,7 +25,7 @@ Master progress: [TNL Distribution Tools Build Progress](../tnl-distribution-too
 2. Canonical metadata and committed generated files contain public URLs and credential placeholders only.
 3. Generated host files are installation configuration, while richer Tool 07 adapters remain separate products.
 4. Connection diagnostics are read-only and redact environment values, authorization material, and queries.
-5. Marketplace publication, artifact signing with owner keys, and external registry promotion remain approval-controlled steps.
+5. GitHub Release and GHCR promotion were owner-approved; marketplace publication and owner-key signing remain separate steps.
 
 ## Validation Evidence
 
@@ -41,12 +42,14 @@ Master progress: [TNL Distribution Tools Build Progress](../tnl-distribution-too
 | Python regression                      | Pass   | Ruff, formatting, strict mypy, and 10 pytest cases pass in the managed environment                      |
 | Package and dependency gates           | Pass   | Five publishable packages inspected; `npm audit --audit-level=high` reports zero vulnerabilities        |
 | Docdex final gate                      | Pass   | 257 documents indexed and unresolved import diagnostics are empty                                       |
+| GHCR registry smoke                    | Pass   | Digest `sha256:698798ed42d2045cc17d103ee38796d1e30a10546cb23d28f60784e710e3cf24`; health and `401` pass |
 
 ## Current Blockers
 
-None for repository implementation. External marketplace submission and release signing remain owner-controlled promotion gates.
+None for repository implementation or GitHub/GHCR publication. External
+marketplace submission and release signing remain owner-controlled promotion
+gates.
 
 ## Next Gate
 
-Review the exact candidate, sign it with owner-controlled release keys, and
-publish only the approved artifacts through the separate promotion workflow.
+Owner-key signing and marketplace promotion remain later gates.
