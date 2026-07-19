@@ -12,7 +12,7 @@
     "mcpName": "com.theneuralledger/intelligence"
   },
   "runtime": {
-    "node": ">=20.10",
+    "node": ">=22",
     "mcpProtocol": "2025-11-25",
     "packageEntry": "dist/bin.js",
     "binary": "tnl-mcp"

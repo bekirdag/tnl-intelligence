@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [20, 22]
+        node: [22, 24]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           cache: pip
-      - run: python -m pip install -e 'python/tnl_intelligence[dev]'
+      - run: python -m pip install -e 'python/tnl_intelligence[dev,quant]'
       - run: cd python/tnl_intelligence && ruff check .
       - run: cd python/tnl_intelligence && ruff format --check .
       - run: cd python/tnl_intelligence && mypy src

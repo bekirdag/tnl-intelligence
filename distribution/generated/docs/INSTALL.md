@@ -2,7 +2,7 @@
 # TNL Intelligence MCP Installation
 
 - Version: 0.1.0
-- Runtime: Node >=20.10
+- Runtime: Node >=22
 - Packaged capability inventory: 8 tools, 3 resource templates, 2 prompts.
 
 ## Local tarball

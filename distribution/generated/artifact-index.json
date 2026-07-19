@@ -78,8 +78,8 @@
       "path": "distribution/generated/mcpb/manifest.json",
       "kind": "manifest",
       "host": "mcpb",
-      "bytes": 3525,
-      "sha256": "32614465a6232a34fb733222f25bea8495bf4794bdc0968ab25a510ab984941c"
+      "bytes": 3522,
+      "sha256": "17cc8443ea13cffad152865d8f8872d9e37deed5d549feb73d8882d9d959a2ce"
     },
     {
       "path": "distribution/generated/compatibility-matrix.json",
@@ -92,8 +92,8 @@
       "path": "distribution/generated/docs/INSTALL.md",
       "kind": "documentation",
       "host": "all",
-      "bytes": 2244,
-      "sha256": "9715f6d908d56d7c711457172e2635374ee489fde2d4865df73cba76b0979dd0"
+      "bytes": 2241,
+      "sha256": "791992e643944a06330ebee21825b0f2d94ce17b83256c7d3bf0ed3b8921db5b"
     },
     {
       "path": "distribution/generated/artifact-index.json",
