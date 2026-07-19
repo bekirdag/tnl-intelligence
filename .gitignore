@@ -18,6 +18,7 @@ build/
 
 .tnl/
 *.jsonl
+!python/tnl_intelligence/src/tnl_intelligence/quant/example_assets/data/observations.jsonl
 *.lock
 
 openapi/*.tmp
