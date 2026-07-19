@@ -1,0 +1,67 @@
+name: Verify published container
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Published container version tag
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Pull and smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          image="ghcr.io/bekirdag/tnl-intelligence:${{ inputs.version }}"
+          container="tnl-published-${{ github.run_id }}"
+
+          cleanup() {
+            docker rm -f "$container" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          docker pull "$image"
+          digest="$(docker image inspect "$image" --format '{{ index .RepoDigests 0 }}')"
+          test -n "$digest"
+          test "$(docker image inspect "$image" --format '{{ .Config.User }}')" = "node"
+
+          docker run -d \
+            --name "$container" \
+            --read-only \
+            --tmpfs /tmp:rw,noexec,nosuid,size=16m \
+            -p 127.0.0.1::7317 \
+            -e TNL_API_KEY=tnl_registry_smoke_key \
+            "$image" >/dev/null
+
+          port_output="$(docker port "$container" 7317/tcp)"
+          port="${port_output##*:}"
+          healthy=0
+          for _ in $(seq 1 40); do
+            if curl -fsS "http://127.0.0.1:$port/healthz" >/dev/null; then
+              healthy=1
+              break
+            fi
+            sleep 0.25
+          done
+          test "$healthy" -eq 1
+
+          status="$(curl -sS -o /tmp/tnl-mcp-response -w '%{http_code}' \
+            -X POST "http://127.0.0.1:$port/mcp")"
+          test "$status" = "401"
+
+          printf 'Verified %s\n' "$digest"
+          printf '### Published container verification\n\n- `%s`\n- `/healthz`: pass\n- unauthenticated `/mcp`: `401`\n' \
+            "$digest" >>"$GITHUB_STEP_SUMMARY"
