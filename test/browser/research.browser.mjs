@@ -72,7 +72,11 @@ async function exerciseDesktop(browserInstance, url) {
   await page.route('**/api/research/runs', async (route) => {
     if (!delayed) return route.continue();
     await new Promise((resolvePromise) => setTimeout(resolvePromise, 300));
-    await route.abort('aborted');
+    try {
+      await route.abort('aborted');
+    } catch (error) {
+      if (!String(error).includes('Route is already handled')) throw error;
+    }
   });
   await page.getByRole('button', { name: 'Run research' }).click();
   await page.getByRole('heading', { name: 'Gathering evidence' }).waitFor();
