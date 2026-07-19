@@ -1,0 +1,191 @@
+[
+  {
+    "id": "what-changed",
+    "name": "What Changed?",
+    "description": "Compare a recent window with its baseline and distinguish new facts, revisions, and repeated coverage.",
+    "owners": ["TNL Intelligence"],
+    "version": "1.0.0",
+    "taskType": "what_changed",
+    "taskSchemaVersion": "1.0",
+    "resultSchemaVersion": "1.0",
+    "requiredTools": ["tnl", "codali"],
+    "optionalTools": ["docdex", "web"],
+    "sourcePolicy": {
+      "version": "research-sources-1",
+      "requirePrimary": false,
+      "minimumIndependentSources": 2,
+      "freshnessMs": 86400000
+    },
+    "graders": [
+      "schema",
+      "citations",
+      "unsupported_claims",
+      "contradictions",
+      "freshness",
+      "safety"
+    ],
+    "thresholds": { "citations": 1, "unsupported_claims": 0.9, "safety": 1 },
+    "evaluationDatasetVersion": "research-evals-1",
+    "knownFailureModes": ["baseline unavailable", "revision timestamps missing"],
+    "fallback": "Return a partial timeline with unresolved changes called out.",
+    "changelog": ["1.0.0 initial immutable release"]
+  },
+  {
+    "id": "source-comparison",
+    "name": "Source Comparison",
+    "description": "Compare agreement, omissions, contradictions, framing, and timing across sources.",
+    "owners": ["TNL Intelligence"],
+    "version": "1.0.0",
+    "taskType": "source_comparison",
+    "taskSchemaVersion": "1.0",
+    "resultSchemaVersion": "1.0",
+    "requiredTools": ["tnl", "codali"],
+    "optionalTools": ["docdex", "web"],
+    "sourcePolicy": {
+      "version": "research-sources-1",
+      "requirePrimary": false,
+      "minimumIndependentSources": 2,
+      "freshnessMs": 604800000
+    },
+    "graders": [
+      "schema",
+      "citations",
+      "unsupported_claims",
+      "contradictions",
+      "freshness",
+      "safety"
+    ],
+    "thresholds": { "citations": 1, "contradictions": 1, "safety": 1 },
+    "evaluationDatasetVersion": "research-evals-1",
+    "knownFailureModes": ["only one source available", "syndicated copies appear independent"],
+    "fallback": "Return the available source matrix without declaring a winner.",
+    "changelog": ["1.0.0 initial immutable release"]
+  },
+  {
+    "id": "event-validation",
+    "name": "Event Validation",
+    "description": "Resolve and corroborate an event while detecting recycled, misdated, weak, or revised claims.",
+    "owners": ["TNL Intelligence"],
+    "version": "1.0.0",
+    "taskType": "event_validation",
+    "taskSchemaVersion": "1.0",
+    "resultSchemaVersion": "1.0",
+    "requiredTools": ["tnl", "codali"],
+    "optionalTools": ["docdex", "web"],
+    "sourcePolicy": {
+      "version": "research-sources-1",
+      "requirePrimary": true,
+      "minimumIndependentSources": 2,
+      "freshnessMs": 86400000
+    },
+    "graders": [
+      "schema",
+      "citations",
+      "unsupported_claims",
+      "contradictions",
+      "freshness",
+      "safety"
+    ],
+    "thresholds": { "citations": 1, "unsupported_claims": 1, "safety": 1 },
+    "evaluationDatasetVersion": "research-evals-1",
+    "knownFailureModes": ["primary source unavailable", "event identity ambiguous"],
+    "fallback": "Return insufficient_evidence or partially_verified; never infer verification.",
+    "changelog": ["1.0.0 initial immutable release"]
+  },
+  {
+    "id": "asset-entity-exposure",
+    "name": "Asset and Entity Exposure",
+    "description": "Map documented and inferred direct or indirect exposure with counterfactors and horizons.",
+    "owners": ["TNL Intelligence"],
+    "version": "1.0.0",
+    "taskType": "asset_entity_exposure",
+    "taskSchemaVersion": "1.0",
+    "resultSchemaVersion": "1.0",
+    "requiredTools": ["tnl", "codali"],
+    "optionalTools": ["docdex", "web"],
+    "sourcePolicy": {
+      "version": "research-sources-1",
+      "requirePrimary": false,
+      "minimumIndependentSources": 2,
+      "freshnessMs": 604800000
+    },
+    "graders": [
+      "schema",
+      "citations",
+      "unsupported_claims",
+      "contradictions",
+      "freshness",
+      "safety"
+    ],
+    "thresholds": { "citations": 1, "unsupported_claims": 0.9, "safety": 1 },
+    "evaluationDatasetVersion": "research-evals-1",
+    "knownFailureModes": ["entity alias collision", "inferred exposure presented as documented"],
+    "fallback": "Return only documented relationships and label other paths unknown.",
+    "changelog": ["1.0.0 initial immutable release"]
+  },
+  {
+    "id": "geopolitical-operational-risk",
+    "name": "Geopolitical and Operational Risk",
+    "description": "Build scenario-based impact paths, assumptions, counterfactors, and leading indicators.",
+    "owners": ["TNL Intelligence"],
+    "version": "1.0.0",
+    "taskType": "geopolitical_operational_risk",
+    "taskSchemaVersion": "1.0",
+    "resultSchemaVersion": "1.0",
+    "requiredTools": ["tnl", "codali"],
+    "optionalTools": ["docdex", "web"],
+    "sourcePolicy": {
+      "version": "research-sources-1",
+      "requirePrimary": false,
+      "minimumIndependentSources": 3,
+      "freshnessMs": 86400000
+    },
+    "graders": [
+      "schema",
+      "citations",
+      "unsupported_claims",
+      "contradictions",
+      "freshness",
+      "safety"
+    ],
+    "thresholds": { "citations": 1, "contradictions": 1, "safety": 1 },
+    "evaluationDatasetVersion": "research-evals-1",
+    "knownFailureModes": ["scenario described as forecast", "missing counterfactor"],
+    "fallback": "Return bounded scenarios with explicit unknowns and no point prediction.",
+    "changelog": ["1.0.0 initial immutable release"]
+  },
+  {
+    "id": "weekly-consequential",
+    "name": "Weekly Most Consequential Developments",
+    "description": "Deduplicate and rank a week's developments with a versioned materiality rubric.",
+    "owners": ["TNL Intelligence"],
+    "version": "1.0.0",
+    "taskType": "weekly_consequential",
+    "taskSchemaVersion": "1.0",
+    "resultSchemaVersion": "1.0",
+    "requiredTools": ["tnl", "codali"],
+    "optionalTools": ["docdex", "web"],
+    "sourcePolicy": {
+      "version": "research-sources-1",
+      "requirePrimary": false,
+      "minimumIndependentSources": 3,
+      "freshnessMs": 86400000
+    },
+    "graders": [
+      "schema",
+      "citations",
+      "unsupported_claims",
+      "contradictions",
+      "freshness",
+      "safety"
+    ],
+    "thresholds": { "citations": 1, "unsupported_claims": 0.9, "freshness": 0.8, "safety": 1 },
+    "evaluationDatasetVersion": "research-evals-1",
+    "knownFailureModes": [
+      "duplicate stories ranked separately",
+      "recency confused with consequence"
+    ],
+    "fallback": "Publish a shorter partial edition with missing coverage disclosed.",
+    "changelog": ["1.0.0 initial immutable release"]
+  }
+]

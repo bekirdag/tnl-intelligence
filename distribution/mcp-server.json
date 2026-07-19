@@ -1,0 +1,121 @@
+{
+  "$schema": "./schema/mcp-distribution.schema.json",
+  "schemaVersion": "1.0",
+  "generatorVersion": "1.0.0",
+  "product": {
+    "name": "tnl-intelligence",
+    "displayName": "TNL Intelligence",
+    "description": "Read-only event, evidence, entity, asset, impact-path, and research intelligence from The Neural Ledger.",
+    "version": "0.1.0",
+    "license": "MIT",
+    "package": "@theneuralledger/mcp",
+    "mcpName": "com.theneuralledger/intelligence"
+  },
+  "runtime": {
+    "node": ">=20.10",
+    "mcpProtocol": "2025-11-25",
+    "packageEntry": "dist/bin.js",
+    "binary": "tnl-mcp"
+  },
+  "transports": {
+    "local": {
+      "type": "stdio",
+      "command": "tnl-mcp",
+      "requiredEnvironment": [
+        {
+          "name": "TNL_API_KEY",
+          "description": "Read-only TNL developer API key.",
+          "secret": true,
+          "required": true
+        }
+      ],
+      "optionalEnvironment": [
+        {
+          "name": "TNL_BASE_URL",
+          "description": "Approved TNL API origin override for development.",
+          "secret": false,
+          "required": false,
+          "default": "https://theneuralledger.com"
+        }
+      ]
+    },
+    "remote": {
+      "type": "http",
+      "url": "https://mcp.theneuralledger.com/mcp",
+      "oauthMetadataUrl": "https://mcp.theneuralledger.com/.well-known/oauth-protected-resource",
+      "scopes": ["tnl:read", "tnl:research"]
+    }
+  },
+  "clients": {
+    "generic": { "enabled": true, "versionPolicy": "MCP 2025-06-18 or newer" },
+    "vscode": { "enabled": true, "versionPolicy": "Current stable MCP configuration schema" },
+    "cursor": { "enabled": true, "versionPolicy": "Current stable mcp.json schema" },
+    "mcpb": { "enabled": true, "versionPolicy": "Manifest 0.4" },
+    "docker": { "enabled": true, "versionPolicy": "Docker Engine 24 or newer" }
+  },
+  "platforms": {
+    "operatingSystems": ["darwin", "linux", "win32"],
+    "architectures": ["x64", "arm64"],
+    "containerPlatforms": ["linux/amd64", "linux/arm64"]
+  },
+  "links": {
+    "homepage": "https://theneuralledger.com",
+    "documentation": "https://github.com/bekirdag/tnl-intelligence#readme",
+    "privacy": "https://theneuralledger.com/privacy",
+    "support": "https://github.com/bekirdag/tnl-intelligence/issues",
+    "changelog": "https://github.com/bekirdag/tnl-intelligence/blob/main/CHANGELOG.md",
+    "source": "https://github.com/bekirdag/tnl-intelligence"
+  },
+  "artifacts": [
+    { "path": "distribution/generated/capabilities.json", "kind": "capabilities", "host": "all" },
+    {
+      "path": "distribution/generated/generic/local.json",
+      "kind": "config",
+      "host": "generic-local"
+    },
+    {
+      "path": "distribution/generated/generic/remote.json",
+      "kind": "config",
+      "host": "generic-remote"
+    },
+    {
+      "path": "distribution/generated/generic/docker.json",
+      "kind": "config",
+      "host": "generic-docker"
+    },
+    {
+      "path": "distribution/generated/generic/published-placeholder.json",
+      "kind": "config",
+      "host": "future-npm"
+    },
+    {
+      "path": "distribution/generated/vscode/local.mcp.json",
+      "kind": "config",
+      "host": "vscode-local"
+    },
+    {
+      "path": "distribution/generated/vscode/remote.mcp.json",
+      "kind": "config",
+      "host": "vscode-remote"
+    },
+    {
+      "path": "distribution/generated/cursor/local.mcp.json",
+      "kind": "config",
+      "host": "cursor-local"
+    },
+    {
+      "path": "distribution/generated/cursor/remote.mcp.json",
+      "kind": "config",
+      "host": "cursor-remote"
+    },
+    { "path": "distribution/generated/docker/catalog.json", "kind": "catalog", "host": "docker" },
+    { "path": "distribution/generated/mcpb/manifest.json", "kind": "manifest", "host": "mcpb" },
+    { "path": "distribution/generated/compatibility-matrix.json", "kind": "matrix", "host": "all" },
+    { "path": "distribution/generated/docs/INSTALL.md", "kind": "documentation", "host": "all" },
+    { "path": "distribution/generated/artifact-index.json", "kind": "index", "host": "all" }
+  ],
+  "limits": {
+    "bundleBytes": 52428800,
+    "imageBytes": 536870912
+  }
+}

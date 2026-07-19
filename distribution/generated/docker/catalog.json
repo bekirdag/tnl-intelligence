@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0",
+  "name": "com.theneuralledger/intelligence",
+  "displayName": "TNL Intelligence",
+  "description": "Read-only event, evidence, entity, asset, impact-path, and research intelligence from The Neural Ledger.",
+  "image": "ghcr.io/bekirdag/tnl-intelligence:0.1.0",
+  "platforms": [
+    "linux/amd64",
+    "linux/arm64"
+  ],
+  "command": [
+    "node",
+    "packages/mcp/dist/bin.js"
+  ],
+  "transport": "stdio",
+  "secrets": [
+    {
+      "name": "TNL_API_KEY",
+      "required": true
+    }
+  ],
+  "tools": [
+    "tnl_latest_news",
+    "tnl_search_news",
+    "tnl_asset_intelligence",
+    "tnl_entity_intelligence",
+    "tnl_impact_path",
+    "tnl_explain_event",
+    "tnl_deep_research",
+    "tnl_service_status"
+  ],
+  "source": "https://github.com/bekirdag/tnl-intelligence"
+}

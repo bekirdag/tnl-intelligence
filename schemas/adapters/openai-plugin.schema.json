@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bekirdag/tnl-intelligence/schemas/adapters/openai-plugin.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "version", "description", "author", "skills", "interface", "mcpServers"],
+  "properties": {
+    "name": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "description": { "type": "string", "minLength": 20 },
+    "author": {
+      "type": "object",
+      "required": ["name"],
+      "properties": { "name": { "type": "string" } },
+      "additionalProperties": false
+    },
+    "skills": { "const": "./skills/" },
+    "mcpServers": { "const": "./.mcp.json" },
+    "interface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "displayName",
+        "shortDescription",
+        "longDescription",
+        "developerName",
+        "category",
+        "capabilities",
+        "defaultPrompt"
+      ],
+      "properties": {
+        "displayName": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "longDescription": { "type": "string" },
+        "developerName": { "type": "string" },
+        "category": { "type": "string" },
+        "capabilities": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "defaultPrompt": { "type": "string" }
+      }
+    }
+  }
+}

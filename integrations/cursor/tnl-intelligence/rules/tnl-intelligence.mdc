@@ -1,0 +1,7 @@
+---
+description: Safety and attribution rules for explicit TNL Intelligence research requests
+globs:
+alwaysApply: false
+---
+
+Apply only while a user explicitly invokes a TNL command or asks to use TNL Intelligence. Keep workspace context opt-in. Do not place API keys, OAuth tokens, prompt bodies, source contents, or private workspace text in logs or telemetry. Preserve citations, uncertainty, as-of time, and [TNL Bot](https://theneuralledger.com/about/tnl-bot) attribution. TNL provides research and does not execute trades or provide personalized investment advice.

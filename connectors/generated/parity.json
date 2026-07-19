@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0",
+  "connectorVersion": "0.1.0",
+  "generatedFrom": "connectors/connector-manifest.json",
+  "operations": [
+    {
+      "id": "search_intelligence",
+      "title": "Search intelligence",
+      "description": "Search cited TNL intelligence with bounded filters and cursor pagination.",
+      "requiredScope": "tnl:read",
+      "asynchronous": false,
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true,
+      "notes": ""
+    },
+    {
+      "id": "get_intelligence",
+      "title": "Get intelligence item",
+      "description": "Retrieve one stable TNL intelligence item and its revision metadata.",
+      "requiredScope": "tnl:read",
+      "asynchronous": false,
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true,
+      "notes": ""
+    },
+    {
+      "id": "list_recent_changes",
+      "title": "List recent changes",
+      "description": "List published, revised, or retracted intelligence since an explicit timestamp.",
+      "requiredScope": "tnl:read",
+      "asynchronous": false,
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true,
+      "notes": ""
+    },
+    {
+      "id": "get_exposure",
+      "title": "Get entity or asset exposure",
+      "description": "Retrieve structured stories and impact paths for an entity, asset, or impact path.",
+      "requiredScope": "tnl:read",
+      "asynchronous": false,
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true,
+      "notes": ""
+    },
+    {
+      "id": "run_research",
+      "title": "Run research skill",
+      "description": "Run one evidence-first TNL Bot research workflow with citations and an as-of boundary.",
+      "requiredScope": "tnl:research",
+      "asynchronous": true,
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true,
+      "notes": ""
+    },
+    {
+      "id": "get_research_result",
+      "title": "Get research result",
+      "description": "Retrieve a previously started research result by stable result ID.",
+      "requiredScope": "tnl:research",
+      "asynchronous": false,
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true,
+      "notes": ""
+    },
+    {
+      "id": "get_weekly_edition",
+      "title": "Get weekly consequential edition",
+      "description": "Retrieve the cited weekly consequential-development edition.",
+      "requiredScope": "tnl:research",
+      "asynchronous": false,
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true,
+      "notes": ""
+    }
+  ],
+  "triggers": [
+    {
+      "type": "intelligence.published",
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true
+    },
+    {
+      "type": "intelligence.updated",
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true
+    },
+    {
+      "type": "intelligence.retracted",
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true
+    },
+    {
+      "type": "intelligence.impact_changed",
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true
+    },
+    {
+      "type": "digest.weekly_published",
+      "n8n": true,
+      "pipedream": true,
+      "zapier": true
+    }
+  ],
+  "verification": {
+    "n8n": "compiled action runtime plus signed-trigger event catalog",
+    "pipedream": "action/source modules present and imported by platform tests",
+    "zapier": "registered creates/searches/triggers in exported App"
+  },
+  "guarantees": {
+    "signedRawBody": true,
+    "stableDedupeId": "eventId:revision",
+    "subscribe": true,
+    "unsubscribe": true,
+    "pollingBackfillDefault": false
+  }
+}

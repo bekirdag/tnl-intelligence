@@ -3,4 +3,7 @@ dist
 coverage
 openapi/tnl.openapi.json
 packages/sdk/src/generated
+distribution/generated
+integrations
+connectors/generated
 python

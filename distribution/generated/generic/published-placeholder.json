@@ -1,0 +1,15 @@
+{
+  "publicationRequired": true,
+  "mcpServers": {
+    "tnlIntelligence": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "@theneuralledger/mcp@0.1.0"
+      ],
+      "env": {
+        "TNL_API_KEY": "${TNL_API_KEY}"
+      }
+    }
+  }
+}

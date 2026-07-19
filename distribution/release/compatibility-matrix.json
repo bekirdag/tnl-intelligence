@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "1.0.0",
+  "policy": {
+    "additive": "Minor versions may add optional fields, tools, actions, triggers, and enum values while preserving existing semantics.",
+    "breaking": "Required-field, authentication, identifier, timestamp, signing, or removal changes require a major contract version and migration guide.",
+    "deprecationWindowDays": 180
+  },
+  "runtimes": [
+    { "name": "Node.js", "minimum": "20.10.0", "currentTested": "22.18.0", "status": "tested" },
+    { "name": "Python", "minimum": "3.10", "currentTested": "3.14.6", "status": "tested" },
+    {
+      "name": "Linux container",
+      "minimum": "linux/amd64",
+      "currentTested": "linux/amd64 and linux/arm64 image metadata",
+      "status": "tested"
+    },
+    {
+      "name": "macOS",
+      "minimum": "arm64 Node 20.10/Python 3.10",
+      "currentTested": "arm64 Node 22.18/Python 3.14",
+      "status": "tested"
+    },
+    {
+      "name": "Quant optional engines",
+      "minimum": "Arrow 14, pandas 2.1, Polars 0.20, DuckDB 0.10",
+      "currentTested": "Arrow 25, pandas 3.0, Polars 1.42, DuckDB 1.5",
+      "status": "tested"
+    }
+  ],
+  "contracts": [
+    {
+      "name": "TNL REST/OpenAPI",
+      "minimum": "1.0.0",
+      "currentTested": "1.0.0",
+      "status": "tested"
+    },
+    {
+      "name": "MCP tools/resources/prompts",
+      "minimum": "2025-03-26",
+      "currentTested": "2025-03-26",
+      "status": "tested"
+    },
+    {
+      "name": "Webhook envelope/signing",
+      "minimum": "1.0",
+      "currentTested": "1.0",
+      "status": "tested"
+    },
+    {
+      "name": "Research task/result",
+      "minimum": "1.0",
+      "currentTested": "1.0",
+      "status": "tested"
+    },
+    {
+      "name": "Adapter/connector manifests",
+      "minimum": "1.0",
+      "currentTested": "1.0",
+      "status": "tested"
+    },
+    {
+      "name": "Quant observation/dataset manifest",
+      "minimum": "1.0",
+      "currentTested": "1.0",
+      "status": "tested"
+    }
+  ],
+  "hosts": [
+    {
+      "name": "MCP stdio",
+      "minimum": "JSON-RPC stdio",
+      "currentTested": "clean local bundle",
+      "status": "tested"
+    },
+    {
+      "name": "MCP Streamable HTTP",
+      "minimum": "stateless HTTP",
+      "currentTested": "local gateway and OAuth metadata stub",
+      "status": "tested"
+    },
+    {
+      "name": "Cursor",
+      "minimum": "MCP configuration and adapter schema v1",
+      "currentTested": "local generated archive",
+      "status": "contract-tested"
+    },
+    {
+      "name": "OpenAI/Codex",
+      "minimum": "MCP/app adapter schema v1",
+      "currentTested": "local generated archive",
+      "status": "contract-tested"
+    },
+    {
+      "name": "Automation",
+      "minimum": "n8n Node API v1, Pipedream component v1, Zapier platform schema",
+      "currentTested": "clean local bundles",
+      "status": "contract-tested"
+    }
+  ],
+  "pairwise": [
+    {
+      "left": "TypeScript SDK",
+      "right": "TNL OpenAPI",
+      "status": "tested",
+      "evidence": ".artifacts/tool-01/evidence.json"
+    },
+    {
+      "left": "Python SDK",
+      "right": "TNL OpenAPI",
+      "status": "tested",
+      "evidence": ".artifacts/tool-01/evidence.json"
+    },
+    {
+      "left": "MCP stdio",
+      "right": "TypeScript SDK",
+      "status": "tested",
+      "evidence": ".artifacts/tool-01/evidence.json"
+    },
+    {
+      "left": "MCP HTTP",
+      "right": "Gateway identity",
+      "status": "tested",
+      "evidence": "packages/gateway/test"
+    },
+    {
+      "left": "Research skills",
+      "right": "TNL/Docdex/web adapters",
+      "status": "tested",
+      "evidence": ".artifacts/tool-05/evidence.json"
+    },
+    {
+      "left": "MCP bundle",
+      "right": "Cursor adapter",
+      "status": "contract-tested",
+      "evidence": ".artifacts/tool-07/evidence.json"
+    },
+    {
+      "left": "MCP bundle",
+      "right": "OpenAI adapter",
+      "status": "contract-tested",
+      "evidence": ".artifacts/tool-07/evidence.json"
+    },
+    {
+      "left": "Webhook v1",
+      "right": "n8n",
+      "status": "tested",
+      "evidence": ".artifacts/tool-08/evidence.json"
+    },
+    {
+      "left": "Webhook v1",
+      "right": "Pipedream",
+      "status": "tested",
+      "evidence": ".artifacts/tool-08/evidence.json"
+    },
+    {
+      "left": "Webhook v1",
+      "right": "Zapier",
+      "status": "tested",
+      "evidence": ".artifacts/tool-08/evidence.json"
+    },
+    {
+      "left": "Python SDK",
+      "right": "Quant toolkit",
+      "status": "tested",
+      "evidence": ".artifacts/tool-09/qualification-evidence.json"
+    },
+    {
+      "left": "Remote MCP",
+      "right": "live OAuth provider",
+      "status": "owner-canary",
+      "evidence": "Owner staging approval required"
+    }
+  ],
+  "unsupported": [
+    {
+      "combination": "Node.js before 20.10",
+      "reason": "Runtime and built-in fetch guarantees are below the package support floor."
+    },
+    {
+      "combination": "Python before 3.10",
+      "reason": "The Python SDK and quant typing/runtime contract require Python 3.10 or newer."
+    },
+    {
+      "combination": "Stateful legacy MCP HTTP sessions",
+      "reason": "The hosted gateway supports the documented stateless Streamable HTTP contract."
+    },
+    {
+      "combination": "Brokerage or order-execution hosts",
+      "reason": "All tools are read-only intelligence and research surfaces."
+    }
+  ]
+}

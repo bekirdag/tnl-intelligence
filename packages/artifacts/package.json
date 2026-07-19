@@ -1,0 +1,38 @@
+{
+  "name": "@theneuralledger/artifacts",
+  "version": "0.1.0",
+  "description": "MCP distribution generator and read-only connection doctor for TNL Intelligence.",
+  "homepage": "https://github.com/bekirdag/tnl-intelligence#readme",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.10"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "tnl-doctor": "./dist/doctor-bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist .tsbuildinfo",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@theneuralledger/mcp": "0.1.0",
+    "@theneuralledger/sdk": "0.1.0"
+  }
+}

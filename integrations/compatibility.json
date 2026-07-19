@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "adapterVersion": "0.1.0",
+  "protocolVersion": "2025-11-25",
+  "minimumGatewayVersion": "0.1.0",
+  "researchSchemaVersion": "1.0",
+  "hosts": {
+    "cursor": {
+      "local": true,
+      "remoteOAuth": true,
+      "skills": 6,
+      "richUi": "resource-link-dependent"
+    },
+    "openai": {
+      "local": false,
+      "remoteOAuth": true,
+      "skills": 6,
+      "richUi": "mcp-app-with-text-fallback"
+    }
+  }
+}

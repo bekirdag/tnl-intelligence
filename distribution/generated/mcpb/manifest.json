@@ -1,0 +1,110 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/mcpb/main/schemas/mcpb-manifest-v0.4.schema.json",
+  "manifest_version": "0.4",
+  "name": "tnl-intelligence",
+  "display_name": "TNL Intelligence",
+  "version": "0.1.0",
+  "description": "Read-only event, evidence, entity, asset, impact-path, and research intelligence from The Neural Ledger.",
+  "long_description": "Read-only event, evidence, entity, asset, causal-impact, and Ledger AI intelligence from The Neural Ledger.",
+  "author": {
+    "name": "The Neural Ledger",
+    "url": "https://theneuralledger.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bekirdag/tnl-intelligence"
+  },
+  "homepage": "https://theneuralledger.com",
+  "documentation": "https://github.com/bekirdag/tnl-intelligence#readme",
+  "support": "https://github.com/bekirdag/tnl-intelligence/issues",
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "server/node_modules/@theneuralledger/mcp/dist/bin.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/server/node_modules/@theneuralledger/mcp/dist/bin.js"
+      ],
+      "env": {
+        "TNL_API_KEY": "${user_config.tnl_api_key}",
+        "TNL_BASE_URL": "${user_config.tnl_base_url}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "tnl_latest_news",
+      "description": "Return recent evidence-backed news intelligence, optionally filtered by category or country."
+    },
+    {
+      "name": "tnl_search_news",
+      "description": "Search TNL stories and return structured evidence, impacted assets, entities, and impact paths."
+    },
+    {
+      "name": "tnl_asset_intelligence",
+      "description": "Return event intelligence linked to an asset ticker. This is not a live trading-price tool."
+    },
+    {
+      "name": "tnl_entity_intelligence",
+      "description": "Return recent stories connected to a named TNL entity or entity id."
+    },
+    {
+      "name": "tnl_impact_path",
+      "description": "Return stories associated with a causal or market impact path."
+    },
+    {
+      "name": "tnl_explain_event",
+      "description": "Ask Ledger AI to explain a TNL event using its evidence, contradictions, affected assets, and likely impact paths."
+    },
+    {
+      "name": "tnl_deep_research",
+      "description": "Run a question through TNL Ledger AI research orchestration and return its answer with citations and context."
+    },
+    {
+      "name": "tnl_service_status",
+      "description": "Check API access, plan usage, market-context freshness, and current rate-limit headers."
+    }
+  ],
+  "tools_generated": true,
+  "prompts_generated": true,
+  "keywords": [
+    "mcp",
+    "news",
+    "intelligence",
+    "research",
+    "evidence",
+    "markets"
+  ],
+  "license": "MIT",
+  "user_config": {
+    "tnl_api_key": {
+      "type": "string",
+      "title": "TNL API key",
+      "description": "A read-only TNL developer API key.",
+      "sensitive": true,
+      "required": true
+    },
+    "tnl_base_url": {
+      "type": "string",
+      "title": "TNL API base URL",
+      "description": "The HTTPS TNL API origin. Change only for an approved development environment.",
+      "default": "https://theneuralledger.com",
+      "required": false
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": [
+      "darwin",
+      "linux",
+      "win32"
+    ],
+    "runtimes": {
+      "node": ">=20.10"
+    }
+  },
+  "privacy_policies": [
+    "https://theneuralledger.com/privacy"
+  ]
+}

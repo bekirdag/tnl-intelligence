@@ -1,0 +1,19 @@
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "tnl-api-key",
+      "description": "TNL developer API key",
+      "password": true
+    }
+  ],
+  "servers": {
+    "tnlIntelligence": {
+      "type": "stdio",
+      "command": "tnl-mcp",
+      "env": {
+        "TNL_API_KEY": "${input:tnl-api-key}"
+      }
+    }
+  }
+}

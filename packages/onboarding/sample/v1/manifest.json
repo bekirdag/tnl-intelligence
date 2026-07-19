@@ -1,0 +1,9 @@
+{
+  "dataset": "tnl-developer-sample",
+  "version": "1.0.0",
+  "schemaVersion": "2026-05-31",
+  "generatedAt": "2026-07-18T00:00:00.000Z",
+  "license": "CC0-1.0",
+  "provenance": "Synthetic examples authored for TNL developer documentation; no production member data.",
+  "staticOnly": true
+}

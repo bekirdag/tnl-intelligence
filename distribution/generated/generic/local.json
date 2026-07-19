@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "tnlIntelligence": {
+      "command": "tnl-mcp",
+      "env": {
+        "TNL_API_KEY": "${TNL_API_KEY}"
+      }
+    }
+  }
+}

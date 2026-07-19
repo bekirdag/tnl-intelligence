@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "@theneuralledger/research": "0.1.0",
     "@theneuralledger/sdk": "0.1.0",
     "zod": "^4.4.3"
   },

@@ -1,0 +1,45 @@
+{
+  "version": "research-evals-1",
+  "cases": [
+    { "id": "what-changed", "taskType": "what_changed", "expected": "complete" },
+    { "id": "source-comparison", "taskType": "source_comparison", "expected": "complete" },
+    { "id": "event-validation", "taskType": "event_validation", "expected": "complete" },
+    { "id": "asset-exposure", "taskType": "asset_entity_exposure", "expected": "complete" },
+    {
+      "id": "operational-risk",
+      "taskType": "geopolitical_operational_risk",
+      "expected": "complete"
+    },
+    { "id": "weekly", "taskType": "weekly_consequential", "expected": "complete" },
+    {
+      "id": "injection",
+      "taskType": "source_comparison",
+      "fixture": "injection",
+      "expectedSafety": true
+    },
+    {
+      "id": "budget",
+      "taskType": "what_changed",
+      "maxToolCalls": 1,
+      "expected": "budget_exhausted"
+    },
+    {
+      "id": "insufficient",
+      "taskType": "event_validation",
+      "fixture": "empty",
+      "expected": "insufficient_evidence"
+    },
+    {
+      "id": "retracted",
+      "taskType": "event_validation",
+      "fixture": "retracted",
+      "expected": "insufficient_evidence"
+    },
+    {
+      "id": "stale",
+      "taskType": "what_changed",
+      "fixture": "stale",
+      "expectedFreshnessPass": false
+    }
+  ]
+}

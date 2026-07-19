@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>TNL Developer Console</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand" aria-label="The Neural Ledger developer console">
+        <span class="brand-mark" aria-hidden="true">TNL</span>
+        <span>Developer Console</span>
+      </div>
+      <div class="contract-state">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="contract-version">Contract loading</span>
+      </div>
+    </header>
+
+    <div class="shell">
+      <nav class="sidebar" aria-label="Developer console sections">
+        <button class="nav-item active" type="button" data-view="explorer" aria-current="page">
+          API Explorer
+        </button>
+        <button class="nav-item" type="button" data-view="credentials">Credentials</button>
+        <button class="nav-item" type="button" data-view="usage">Usage</button>
+        <div class="nav-links">
+          <a href="/openapi.json">OpenAPI</a>
+          <a href="/postman/collection.json">Postman</a>
+          <a href="https://theneuralledger.com/status">Status</a>
+          <a href="https://theneuralledger.com/privacy">Privacy</a>
+        </div>
+      </nav>
+
+      <main>
+        <section id="explorer" class="view active" aria-labelledby="explorer-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Static sample v1</p>
+              <h1 id="explorer-title">API Explorer</h1>
+            </div>
+            <span class="mode-label">No key</span>
+          </div>
+
+          <form id="request-form" class="request-bar">
+            <label>
+              <span>Endpoint</span>
+              <select id="endpoint">
+                <option value="/v1/sample/news">GET /v1/sample/news</option>
+                <option value="/v1/search">GET /v1/search</option>
+                <option value="/v1/entities">GET /v1/entities</option>
+                <option value="/v1/impact-paths">GET /v1/impact-paths</option>
+                <option value="/v1/filters">GET /v1/filters</option>
+              </select>
+            </label>
+            <label class="query-field">
+              <span>Query</span>
+              <input id="query" name="query" placeholder="semiconductor" autocomplete="off" />
+            </label>
+            <button class="primary" type="submit">Run request</button>
+          </form>
+
+          <div class="response-toolbar">
+            <span id="response-status" role="status">Ready</span>
+            <button id="copy-response" class="secondary" type="button">Copy JSON</button>
+          </div>
+          <pre id="response-output" tabindex="0" aria-label="API response">{}</pre>
+        </section>
+
+        <section id="credentials" class="view" aria-labelledby="credentials-title" hidden>
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Developer evaluation</p>
+              <h1 id="credentials-title">Credentials</h1>
+            </div>
+            <span class="mode-label secure">One-time secrets</span>
+          </div>
+
+          <form id="credential-form" class="credential-form">
+            <label>
+              <span>Name</span>
+              <input name="name" value="Local evaluation" maxlength="80" required />
+            </label>
+            <fieldset>
+              <legend>Scopes</legend>
+              <label><input type="checkbox" name="scope" value="news:read" checked /> News</label>
+              <label><input type="checkbox" name="scope" value="research:read" /> Research</label>
+              <label><input type="checkbox" name="scope" value="mcp:read" /> MCP</label>
+            </fieldset>
+            <label class="lifetime">
+              <span>Days</span>
+              <input name="lifetimeDays" type="number" min="1" max="90" value="30" />
+            </label>
+            <button class="primary" type="submit">Create key</button>
+          </form>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Prefix</th>
+                  <th>Scopes</th>
+                  <th>Status</th>
+                  <th>Expires</th>
+                  <th><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="credential-rows"></tbody>
+            </table>
+          </div>
+          <p id="credential-status" class="inline-status" role="status"></p>
+        </section>
+
+        <section id="usage" class="view" aria-labelledby="usage-title" hidden>
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">UTC daily window</p>
+              <h1 id="usage-title">Usage</h1>
+            </div>
+            <button id="refresh-usage" class="secondary" type="button">Refresh</button>
+          </div>
+          <div class="usage-grid">
+            <div><span>Tier</span><strong id="usage-tier">-</strong></div>
+            <div><span>Requests</span><strong id="usage-requests">0 / 0</strong></div>
+            <div><span>Remaining</span><strong id="usage-remaining">0</strong></div>
+            <div><span>Reset</span><strong id="usage-reset">-</strong></div>
+          </div>
+          <h2>Onboarding checkpoints</h2>
+          <ul id="checkpoint-list" class="checkpoint-list"></ul>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="secret-dialog" aria-labelledby="secret-title">
+      <form method="dialog">
+        <div class="dialog-heading">
+          <h2 id="secret-title">Developer key</h2>
+          <button class="close" value="close" aria-label="Close">&times;</button>
+        </div>
+        <label>
+          <span>One-time value</span>
+          <input id="secret-value" readonly autocomplete="off" spellcheck="false" />
+        </label>
+        <div class="dialog-actions">
+          <button id="copy-secret" class="primary" type="button">Copy key</button>
+          <button class="secondary" value="close">Done</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "id": "story-3",
+      "slug": "energy-grid-investment",
+      "title": "Grid investment plan accelerates",
+      "category": "Energy",
+      "author": "TNL Bot",
+      "publishedAt": "2026-07-18T06:00:00.000Z",
+      "updatedAt": "2026-07-18T06:20:00.000Z",
+      "verificationState": "verified",
+      "impactedAssets": ["ETN"]
+    }
+  ],
+  "page": {
+    "page": 2,
+    "page_size": 2,
+    "offset": 2,
+    "total_count": 3,
+    "total_pages": 2,
+    "has_more": false,
+    "cursor": "fixture-page-2",
+    "next_cursor": null
+  },
+  "lastSyncAt": "2026-07-18T08:30:00.000Z"
+}

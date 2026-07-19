@@ -1,0 +1,26 @@
+{
+  "name": "tnl-intelligence",
+  "version": "0.1.0",
+  "description": "Evidence-first news intelligence and cited research from The Neural Ledger.",
+  "author": {
+    "name": "The Neural Ledger"
+  },
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "TNL Intelligence",
+    "shortDescription": "Evidence-first news intelligence and cited research from The Neural Ledger.",
+    "longDescription": "Run evidence-first TNL Bot research over recent news, compare sources, validate events, map exposure, and create cited consequential-development briefs.",
+    "developerName": "The Neural Ledger",
+    "category": "research",
+    "capabilities": [
+      "Research what changed",
+      "Compare event sources",
+      "Validate an event",
+      "Research asset and entity exposure",
+      "Research geopolitical and operational risk",
+      "Research weekly consequential developments"
+    ],
+    "defaultPrompt": "Research the most consequential developments from the last seven days."
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "../schemas/adapters/adapter-manifest.schema.json",
+  "schemaVersion": "1.0",
+  "adapterVersion": "0.1.0",
+  "product": {
+    "name": "TNL Intelligence",
+    "shortDescription": "Evidence-first news intelligence and cited research from The Neural Ledger.",
+    "developer": "The Neural Ledger",
+    "homepage": "https://theneuralledger.com",
+    "documentation": "https://github.com/bekirdag/tnl-intelligence",
+    "privacy": "https://theneuralledger.com/privacy",
+    "support": "https://theneuralledger.com/contact",
+    "terms": "https://theneuralledger.com/terms",
+    "repository": "https://github.com/bekirdag/tnl-intelligence",
+    "botProfile": "https://theneuralledger.com/about/tnl-bot"
+  },
+  "connection": {
+    "remoteUrl": "https://mcp.theneuralledger.com/mcp",
+    "oauthMetadataUrl": "https://mcp.theneuralledger.com/.well-known/oauth-protected-resource",
+    "scopes": ["tnl:read", "tnl:research"],
+    "localConfig": "distribution/generated/cursor/local.mcp.json"
+  },
+  "compatibility": {
+    "mcpProtocol": "2025-11-25",
+    "minimumGatewayVersion": "0.1.0",
+    "researchSchemaVersion": "1.0"
+  },
+  "officialSources": [
+    {
+      "platform": "Cursor",
+      "url": "https://cursor.com/docs/plugins",
+      "accessed": "2026-07-18"
+    },
+    {
+      "platform": "Cursor schema",
+      "url": "https://github.com/cursor/plugins/blob/main/schemas/plugin.schema.json",
+      "accessed": "2026-07-18"
+    },
+    {
+      "platform": "OpenAI Apps SDK",
+      "url": "https://developers.openai.com/apps-sdk",
+      "accessed": "2026-07-18"
+    },
+    {
+      "platform": "OpenAI MCP server",
+      "url": "https://developers.openai.com/apps-sdk/build/mcp-server",
+      "accessed": "2026-07-18"
+    },
+    {
+      "platform": "OpenAI authentication",
+      "url": "https://developers.openai.com/apps-sdk/build/auth",
+      "accessed": "2026-07-18"
+    },
+    {
+      "platform": "OpenAI plugin submission",
+      "url": "https://learn.chatgpt.com/docs/submit-plugins",
+      "accessed": "2026-07-18"
+    }
+  ]
+}

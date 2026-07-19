@@ -1,0 +1,49 @@
+{
+  "name": "@theneuralledger/events",
+  "version": "0.1.0",
+  "description": "TNL webhook contracts, delivery service, and verification helpers.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.10"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "tnl-webhook-receiver": "./dist/receiver-bin.js",
+    "tnl-webhook-service": "./dist/service-bin.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bekirdag/tnl-intelligence.git",
+    "directory": "packages/events"
+  },
+  "scripts": {
+    "clean": "rm -rf dist .tsbuildinfo",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "keywords": [
+    "webhook",
+    "news",
+    "intelligence",
+    "events",
+    "hmac"
+  ]
+}

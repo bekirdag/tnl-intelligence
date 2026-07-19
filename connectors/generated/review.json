@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0",
+  "connectorVersion": "0.1.0",
+  "platforms": {
+    "n8n": {
+      "node": "22",
+      "validator": "@n8n/node-cli@0.39.3",
+      "runtime": "n8n-workflow@2.30.2"
+    },
+    "pipedream": {
+      "node": "22",
+      "componentApi": "2026-07-18"
+    },
+    "zapier": {
+      "node": "22",
+      "runtime": "zapier-platform-core@19.0.0",
+      "validator": "zapier-platform-cli@19.0.0"
+    }
+  },
+  "privacy": "https://theneuralledger.com/privacy",
+  "support": "https://theneuralledger.com/contact",
+  "security": "https://github.com/bekirdag/tnl-intelligence/blob/main/SECURITY.md",
+  "limitations": [
+    "Read-only intelligence and research; no trade execution.",
+    "At-least-once webhooks require eventId:revision deduplication.",
+    "Large story bodies are opt-in."
+  ],
+  "externalOwnerGates": [
+    {
+      "id": "n8n-creator-verification",
+      "status": "not-performed"
+    },
+    {
+      "id": "pipedream-app-registration",
+      "status": "not-performed"
+    },
+    {
+      "id": "zapier-app-registration",
+      "status": "not-performed"
+    },
+    {
+      "id": "marketplace-submission",
+      "status": "not-performed"
+    }
+  ],
+  "officialSources": [
+    {
+      "platform": "n8n",
+      "url": "https://github.com/n8n-io/n8n-nodes-starter",
+      "accessed": "2026-07-18"
+    },
+    {
+      "platform": "Pipedream",
+      "url": "https://pipedream.com/docs/components/contributing/api",
+      "accessed": "2026-07-18"
+    },
+    {
+      "platform": "Pipedream",
+      "url": "https://pipedream.com/docs/components/contributing/guidelines",
+      "accessed": "2026-07-18"
+    },
+    {
+      "platform": "Zapier",
+      "url": "https://docs.zapier.com/integrations/build-cli/overview",
+      "accessed": "2026-07-18"
+    },
+    {
+      "platform": "Zapier",
+      "url": "https://docs.zapier.com/integrations/build/cli-hook-trigger",
+      "accessed": "2026-07-18"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "tnl-intelligence",
+  "displayName": "TNL Intelligence",
+  "description": "Evidence-first news intelligence and cited research from The Neural Ledger.",
+  "version": "0.1.0",
+  "author": {
+    "name": "The Neural Ledger"
+  },
+  "publisher": "theneuralledger",
+  "homepage": "https://theneuralledger.com",
+  "repository": "https://github.com/bekirdag/tnl-intelligence",
+  "license": "MIT",
+  "logo": "./assets/tnl-bot.png",
+  "keywords": [
+    "news",
+    "intelligence",
+    "research",
+    "mcp",
+    "citations"
+  ],
+  "category": "Productivity",
+  "tags": [
+    "research",
+    "news",
+    "finance",
+    "geopolitics"
+  ],
+  "commands": "./commands/*.md",
+  "skills": "./skills/",
+  "rules": "./rules/*.mdc",
+  "mcpServers": "./mcp.json"
+}

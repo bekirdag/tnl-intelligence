@@ -270,6 +270,121 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/sample/news": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Static sample stories
+         * @description Returns a bounded, cacheable, synthetic CC0 sample dataset for no-account evaluation. This operation never queries or falls through to production member data.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /**
+                     * @description Case-insensitive search across sample title, excerpt, category, and country.
+                     * @example semiconductor
+                     */
+                    q?: string;
+                    /** @description Static sample stories per page; maximum 20. */
+                    page_size?: number;
+                    /** @description Opaque cursor returned as page.next_cursor. */
+                    cursor?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Static sample response. */
+                200: {
+                    headers: {
+                        /** @description Always static-sample for this operation. */
+                        "X-TNL-Data-Mode"?: "static-sample";
+                        /** @description Public sample request limit. */
+                        "X-RateLimit-Limit"?: number;
+                        /** @description Remaining public sample requests. */
+                        "X-RateLimit-Remaining"?: number;
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        /**
+                         * @example {
+                         *       "data": [
+                         *         {
+                         *           "id": "sample-story-1",
+                         *           "title": "Sample: semiconductor equipment controls expand",
+                         *           "author": "TNL Bot",
+                         *           "revision": 2,
+                         *           "verificationState": "verified",
+                         *           "impactedAssets": [
+                         *             "NVDA",
+                         *             "ASML"
+                         *           ],
+                         *           "sources": [
+                         *             {
+                         *               "name": "Synthetic Public Register",
+                         *               "url": "https://example.com/tnl-sample/public-register"
+                         *             }
+                         *           ]
+                         *         }
+                         *       ],
+                         *       "page": {
+                         *         "total_count": 2,
+                         *         "has_more": false,
+                         *         "next_cursor": null
+                         *       },
+                         *       "sample": {
+                         *         "dataset": "tnl-developer-sample",
+                         *         "version": "1.0.0",
+                         *         "license": "CC0-1.0",
+                         *         "staticOnly": true
+                         *       }
+                         *     }
+                         */
+                        "application/json": {
+                            data: {
+                                [key: string]: unknown;
+                            }[];
+                            page: {
+                                [key: string]: unknown;
+                            };
+                            sample: {
+                                /** @example tnl-developer-sample */
+                                dataset: string;
+                                /** @example 1.0.0 */
+                                version: string;
+                                /** @example CC0-1.0 */
+                                license: string;
+                                /** @constant */
+                                staticOnly: true;
+                            } & {
+                                [key: string]: unknown;
+                            };
+                        };
+                    };
+                };
+                /** @description Public sample rate limit exceeded. */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/news": {
         parameters: {
             query?: never;

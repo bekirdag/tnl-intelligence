@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <title>TNL Research Workspace</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="brand" href="/" aria-label="TNL Research home">
+        <span class="brand-mark">TNL</span>
+        <span><strong>Research</strong><small>Evidence workspace</small></span>
+      </a>
+      <a class="bot-identity" href="/tnl-bot.html">
+        <img src="/assets/tnl-bot.png" alt="TNL Bot profile" width="44" height="44" />
+        <span><strong>TNL Bot</strong><small>Automated research</small></span>
+        <span class="service-state" id="service-state">Checking</span>
+      </a>
+    </header>
+
+    <main class="workspace">
+      <aside class="control-pane" aria-label="Research controls">
+        <form id="research-form">
+          <fieldset>
+            <legend>Skill</legend>
+            <div
+              id="skill-list"
+              class="skill-list"
+              role="radiogroup"
+              aria-label="Research skill"
+            ></div>
+          </fieldset>
+          <label for="question">Research question</label>
+          <textarea id="question" name="question" rows="5" maxlength="8000" required>
+What were the most consequential developments in the selected period?</textarea
+          >
+          <div class="field-grid">
+            <label>From<input id="from" type="datetime-local" required /></label>
+            <label>To<input id="to" type="datetime-local" required /></label>
+          </div>
+          <label for="depth">Depth</label>
+          <select id="depth">
+            <option value="brief">Brief</option>
+            <option value="standard" selected>Standard</option>
+            <option value="deep">Deep</option>
+          </select>
+          <div class="form-actions">
+            <button class="primary" type="submit" id="run-button">Run research</button>
+            <button type="button" id="cancel-button" disabled>Cancel</button>
+          </div>
+        </form>
+      </aside>
+
+      <section class="result-pane" aria-live="polite" aria-busy="false" id="result-pane">
+        <div class="empty-state" id="empty-state">
+          <img src="/assets/tnl-bot.png" alt="" width="92" height="92" />
+          <h1>Research workspace</h1>
+          <p>Select a skill and run an evidence-bounded question.</p>
+        </div>
+        <div class="loading-state" id="loading-state" hidden>
+          <span class="activity" aria-hidden="true"></span>
+          <h1>Gathering evidence</h1>
+          <p id="loading-copy">Retrieving TNL intelligence first.</p>
+        </div>
+        <div id="failure-state" class="failure-state" hidden>
+          <h1>Research run failed</h1>
+          <p id="failure-copy"></p>
+          <button type="button" id="retry-button">Retry</button>
+        </div>
+        <article id="research-result" hidden>
+          <header class="result-header">
+            <div>
+              <div class="eyebrow" id="result-skill"></div>
+              <h1 id="direct-answer"></h1>
+              <p id="executive-summary"></p>
+            </div>
+            <div class="result-actions">
+              <button type="button" id="copy-citations">Copy citations</button>
+              <button type="button" id="export-json">Export JSON</button>
+            </div>
+          </header>
+          <div id="warning-band" class="warning-band" hidden></div>
+          <nav class="tabs" aria-label="Research result views">
+            <button role="tab" aria-selected="true" data-tab="evidence">Evidence</button>
+            <button role="tab" aria-selected="false" data-tab="timeline">Timeline</button>
+            <button role="tab" aria-selected="false" data-tab="comparison">Comparison</button>
+            <button role="tab" aria-selected="false" data-tab="impact">Impact</button>
+            <button role="tab" aria-selected="false" data-tab="run">Run details</button>
+          </nav>
+          <section id="tab-evidence" class="tab-panel"></section>
+          <section id="tab-timeline" class="tab-panel" hidden></section>
+          <section id="tab-comparison" class="tab-panel" hidden></section>
+          <section id="tab-impact" class="tab-panel" hidden></section>
+          <section id="tab-run" class="tab-panel" hidden></section>
+        </article>
+      </section>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

@@ -6,12 +6,18 @@ TNL Intelligence gives AI agents and quantitative research systems structured, s
 
 ## Packages
 
-| Package                | Purpose                                                      |
-| ---------------------- | ------------------------------------------------------------ |
-| `@theneuralledger/sdk` | Typed TypeScript client for the TNL `/v1` API                |
-| `@theneuralledger/mcp` | Read-only MCP server over stdio or Streamable HTTP           |
-| `@theneuralledger/cli` | `tnl` CLI, watch command, local cache, and foreground daemon |
-| `tnl-intelligence`     | Synchronous and asynchronous Python SDK                      |
+| Package                       | Purpose                                                      |
+| ----------------------------- | ------------------------------------------------------------ |
+| `@theneuralledger/sdk`        | Typed TypeScript client for the TNL `/v1` API                |
+| `@theneuralledger/mcp`        | Read-only MCP server over stdio or Streamable HTTP           |
+| `@theneuralledger/gateway`    | Hosted OAuth, tenant policy, quota, and audit MCP gateway    |
+| `@theneuralledger/onboarding` | Developer credentials, static sample API, and explorer       |
+| `@theneuralledger/events`     | Webhook contracts, signed delivery, and verification helpers |
+| `@theneuralledger/research`   | Evidence-first skills, orchestration, MCP App, and web UI    |
+| `@theneuralledger/adapters`   | Shared Cursor and OpenAI workflow contracts and rendering    |
+| `@theneuralledger/connectors` | Shared n8n, Pipedream, and Zapier action/trigger contracts   |
+| `@theneuralledger/cli`        | `tnl` CLI, watch command, local cache, and foreground daemon |
+| `tnl-intelligence`            | Python SDK and optional point-in-time quant research toolkit |
 
 ## Quick Start
 
@@ -65,9 +71,12 @@ with TnlClient(api_key="...") as client:
 - MCP tools are read-only and do not place trades.
 - Streamable HTTP binds to `127.0.0.1` by default.
 - Local daemon events never contain the API key.
-- Remote deployments require TLS and an authentication layer.
+- Hosted deployments use the separate gateway, TLS ingress, OAuth validation,
+  tenant policy, short-lived upstream capabilities, and distributed quotas.
 
 See [SECURITY.md](SECURITY.md) and the [build plan](docs/planning/tnl-intelligence-build-plan.md).
+Research deployment boundaries and staged rollout are documented in
+[Research operations](docs/research-operations.md).
 
 ## Development
 
@@ -83,9 +92,17 @@ Python development uses the project under `python/tnl_intelligence`.
 
 - [Architecture](docs/architecture.md)
 - [Configuration and credential handling](docs/configuration.md)
+- [Hosted gateway operations](docs/gateway-operations.md)
+- [Developer onboarding](docs/developer/index.md)
+- [Webhook operations](docs/webhook-operations.md)
 - [Foreground daemon operations](docs/daemon.md)
 - [Publication runbook](docs/publishing.md)
+- [Distribution and product expansion strategy](docs/distribution-and-product-expansion.md)
+- [AI client adapters](docs/ai-client-adapters.md)
+- [Automation connectors](docs/automation-connectors.md)
+- [Quantitative research toolkit](docs/quant-research-toolkit.md)
 - [Implementation plan](docs/planning/tnl-intelligence-build-plan.md)
+- [Distribution tools build plan](docs/planning/tnl-distribution-tools-build-plan.md)
 
 ## License
 

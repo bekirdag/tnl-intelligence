@@ -32,6 +32,7 @@ export interface TnlClientOptions {
   retries?: number;
   fetch?: typeof globalThis.fetch;
   userAgent?: string;
+  requestId?: string;
 }
 
 interface RequestOptions {
@@ -53,6 +54,7 @@ export class TnlClient {
   readonly timeoutMs: number;
   readonly retries: number;
   readonly userAgent: string;
+  readonly requestId: string | undefined;
   lastRateLimit: TnlRateLimit | null = null;
 
   readonly #apiKey: string;
@@ -68,6 +70,7 @@ export class TnlClient {
     this.#fetch = options.fetch || globalThis.fetch;
     if (!this.#fetch) throw new TypeError('A Fetch API implementation is required');
     this.userAgent = options.userAgent?.trim() || '@theneuralledger/sdk/0.1.0';
+    this.requestId = normalizeRequestId(options.requestId);
   }
 
   async getAccount(options: { signal?: AbortSignal } = {}): Promise<TnlAccountResponse> {
@@ -245,6 +248,7 @@ export class TnlClient {
             accept: options.accept || 'application/json',
             'content-type': 'application/json',
             'user-agent': this.userAgent,
+            ...(this.requestId ? { 'x-request-id': this.requestId } : {}),
           },
           signal,
         };
@@ -299,6 +303,15 @@ function normalizeNonNegativeInteger(value: number | undefined, fallback: number
   if (value === undefined) return fallback;
   if (!Number.isFinite(value) || value < 0) throw new TypeError('Expected a non-negative number');
   return Math.floor(value);
+}
+
+function normalizeRequestId(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined;
+  const normalized = value.trim();
+  if (!/^[A-Za-z0-9._:-]{1,128}$/.test(normalized)) {
+    throw new TypeError('requestId must contain 1-128 safe identifier characters');
+  }
+  return normalized;
 }
 
 function encodePath(value: string): string {

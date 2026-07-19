@@ -2,6 +2,10 @@ import { execFileSync } from 'node:child_process';
 
 const packages = [
   { workspace: '@theneuralledger/sdk', bin: false },
+  { workspace: '@theneuralledger/events', bin: true },
+  { workspace: '@theneuralledger/research', bin: true },
+  { workspace: '@theneuralledger/adapters', bin: false },
+  { workspace: '@theneuralledger/connectors', bin: false },
   { workspace: '@theneuralledger/mcp', bin: true },
   { workspace: '@theneuralledger/cli', bin: true },
 ];

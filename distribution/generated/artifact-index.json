@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1.0",
+  "generatorVersion": "1.0.0",
+  "productVersion": "0.1.0",
+  "capabilitySource": "runtime-introspection",
+  "entries": [
+    {
+      "path": "distribution/generated/capabilities.json",
+      "kind": "capabilities",
+      "host": "all",
+      "bytes": 4014,
+      "sha256": "1a4d1a2505bcaed537296048fc7a5830f6d3fb5f4627772f83c8c86a46cb9a4c"
+    },
+    {
+      "path": "distribution/generated/generic/local.json",
+      "kind": "config",
+      "host": "generic-local",
+      "bytes": 148,
+      "sha256": "48f5e6731a06864e4fecd53d88ffed6d6f5c74b50e493e35170ae410b88cc302"
+    },
+    {
+      "path": "distribution/generated/generic/remote.json",
+      "kind": "config",
+      "host": "generic-remote",
+      "bytes": 130,
+      "sha256": "2691b9dde9867e7c38285cd5b3f75a6ef5a3b9e6262d843dc2c21cc5e6decbc4"
+    },
+    {
+      "path": "distribution/generated/generic/docker.json",
+      "kind": "config",
+      "host": "generic-docker",
+      "bytes": 400,
+      "sha256": "ffe69843d93808bd4a5a09f66d347cf90c85813f9cfa5fcd27f0f4f42e109468"
+    },
+    {
+      "path": "distribution/generated/generic/published-placeholder.json",
+      "kind": "config",
+      "host": "future-npm",
+      "bytes": 254,
+      "sha256": "623e7c9904f0c55639730c2a1a0774639f744a3906008ec8daca14dee9ae3646"
+    },
+    {
+      "path": "distribution/generated/vscode/local.mcp.json",
+      "kind": "config",
+      "host": "vscode-local",
+      "bytes": 331,
+      "sha256": "3f889a1a3fa5168acd9b44e9c74767ec5cc1e4c83575f50c75c4ca3de8ff6707"
+    },
+    {
+      "path": "distribution/generated/vscode/remote.mcp.json",
+      "kind": "config",
+      "host": "vscode-remote",
+      "bytes": 127,
+      "sha256": "85a17622cc39531adeb4a4291856352b26fcfdcc5b2a94705dc5702530ddcdf6"
+    },
+    {
+      "path": "distribution/generated/cursor/local.mcp.json",
+      "kind": "config",
+      "host": "cursor-local",
+      "bytes": 84,
+      "sha256": "94186b37063e6a5cceb1b1366ff1056839577eddd5999a26aa37d9d89d6eec63"
+    },
+    {
+      "path": "distribution/generated/cursor/remote.mcp.json",
+      "kind": "config",
+      "host": "cursor-remote",
+      "bytes": 108,
+      "sha256": "61b70324e35e3655ebbdd0597fee7b6177aee9a5d7fe07131aee8f2466f1aa66"
+    },
+    {
+      "path": "distribution/generated/docker/catalog.json",
+      "kind": "catalog",
+      "host": "docker",
+      "bytes": 804,
+      "sha256": "425dc8ac16694a76f5f89443e6e1af79035a6790b079ae6476813aa68e4deecf"
+    },
+    {
+      "path": "distribution/generated/mcpb/manifest.json",
+      "kind": "manifest",
+      "host": "mcpb",
+      "bytes": 3525,
+      "sha256": "32614465a6232a34fb733222f25bea8495bf4794bdc0968ab25a510ab984941c"
+    },
+    {
+      "path": "distribution/generated/compatibility-matrix.json",
+      "kind": "matrix",
+      "host": "all",
+      "bytes": 2022,
+      "sha256": "ea482473844410ddda1db7321439540f60139bdd97d59b65d048ef59cff256f1"
+    },
+    {
+      "path": "distribution/generated/docs/INSTALL.md",
+      "kind": "documentation",
+      "host": "all",
+      "bytes": 2244,
+      "sha256": "9715f6d908d56d7c711457172e2635374ee489fde2d4865df73cba76b0979dd0"
+    },
+    {
+      "path": "distribution/generated/artifact-index.json",
+      "kind": "index",
+      "host": "all",
+      "bytes": null,
+      "sha256": null,
+      "hashReason": "self-index"
+    }
+  ]
+}

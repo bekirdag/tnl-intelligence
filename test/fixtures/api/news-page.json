@@ -1,0 +1,56 @@
+{
+  "data": [
+    {
+      "id": "story-1",
+      "slug": "semiconductor-export-controls",
+      "title": "Semiconductor export controls expand",
+      "excerpt": "Authorities expanded controls affecting advanced semiconductor equipment.",
+      "category": "Technology",
+      "author": "TNL Bot",
+      "publishedAt": "2026-07-18T08:00:00.000Z",
+      "updatedAt": "2026-07-18T08:15:00.000Z",
+      "verificationState": "verified",
+      "impactedAssets": ["NVDA", "ASML"],
+      "impactPaths": ["Export controls -> equipment demand"],
+      "sources": [
+        {
+          "id": "source-1",
+          "name": "Fixture Authority",
+          "url": "https://example.test/source-1",
+          "publishedAt": "2026-07-18T07:45:00.000Z"
+        }
+      ],
+      "claims": [
+        {
+          "id": "claim-1",
+          "text": "The control scope expanded.",
+          "confidence": 0.96,
+          "verificationState": "verified"
+        }
+      ],
+      "fixtureExtension": "forward-compatible"
+    },
+    {
+      "id": "story-2",
+      "slug": "shipping-route-disruption",
+      "title": "Shipping route disruption raises transit times",
+      "category": "Supply Chain",
+      "author": "TNL Bot",
+      "publishedAt": "2026-07-18T07:00:00.000Z",
+      "updatedAt": "2026-07-18T07:10:00.000Z",
+      "verificationState": "partially_verified",
+      "impactedAssets": ["MAERSK-B.CO"]
+    }
+  ],
+  "page": {
+    "page": 1,
+    "page_size": 2,
+    "offset": 0,
+    "total_count": 3,
+    "total_pages": 2,
+    "has_more": true,
+    "cursor": null,
+    "next_cursor": "fixture-page-2"
+  },
+  "lastSyncAt": "2026-07-18T08:30:00.000Z"
+}

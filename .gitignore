@@ -26,3 +26,4 @@ openapi/*.tmp
 *.tar.gz
 /.docdex/
 /.docdex-state/
+/.artifacts/

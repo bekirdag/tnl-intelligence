@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "The Neural Ledger API",
-    "version": "2026-05-31",
-    "description": "The Neural Ledger member API for source-linked news, market context, saved searches, and feeds."
+    "version": "2026-07-18",
+    "description": "The Neural Ledger API for source-linked news, market context, saved searches, feeds, and a static no-key developer sample."
   },
   "servers": [
     {
@@ -228,6 +228,107 @@
           },
           "429": {
             "description": "Monthly API call limit exceeded."
+          }
+        }
+      }
+    },
+    "/v1/sample/news": {
+      "get": {
+        "summary": "Static sample stories",
+        "description": "Returns a bounded, cacheable, synthetic CC0 sample dataset for no-account evaluation. This operation never queries or falls through to production member data.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "maxLength": 200 },
+            "description": "Case-insensitive search across sample title, excerpt, category, and country.",
+            "example": "semiconductor"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 20, "default": 20 },
+            "description": "Static sample stories per page; maximum 20."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Opaque cursor returned as page.next_cursor."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Static sample response.",
+            "headers": {
+              "X-TNL-Data-Mode": {
+                "description": "Always static-sample for this operation.",
+                "schema": { "type": "string", "const": "static-sample" }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Public sample request limit.",
+                "schema": { "type": "integer" }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Remaining public sample requests.",
+                "schema": { "type": "integer" }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "page", "sample"],
+                  "properties": {
+                    "data": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+                    "page": { "type": "object", "additionalProperties": true },
+                    "sample": {
+                      "type": "object",
+                      "required": ["dataset", "version", "license", "staticOnly"],
+                      "properties": {
+                        "dataset": { "type": "string", "example": "tnl-developer-sample" },
+                        "version": { "type": "string", "example": "1.0.0" },
+                        "license": { "type": "string", "example": "CC0-1.0" },
+                        "staticOnly": { "type": "boolean", "const": true }
+                      },
+                      "additionalProperties": true
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": "sample-story-1",
+                      "title": "Sample: semiconductor equipment controls expand",
+                      "author": "TNL Bot",
+                      "revision": 2,
+                      "verificationState": "verified",
+                      "impactedAssets": ["NVDA", "ASML"],
+                      "sources": [
+                        {
+                          "name": "Synthetic Public Register",
+                          "url": "https://example.com/tnl-sample/public-register"
+                        }
+                      ]
+                    }
+                  ],
+                  "page": { "total_count": 2, "has_more": false, "next_cursor": null },
+                  "sample": {
+                    "dataset": "tnl-developer-sample",
+                    "version": "1.0.0",
+                    "license": "CC0-1.0",
+                    "staticOnly": true
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Public sample rate limit exceeded."
           }
         }
       }

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theneuralledger.com/schemas/quant/event-study-config-v1.json",
+  "title": "TNL Quant Event Study Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "snapshot", "sessions", "outcomes", "entityAssets"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "snapshot": { "type": "string", "minLength": 1 },
+    "sessions": { "type": "string", "minLength": 1 },
+    "outcomes": { "type": "string", "minLength": 1 },
+    "entityAssets": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "latencySeconds": { "type": "integer", "minimum": 0 },
+    "pre": { "type": "integer", "minimum": 0 },
+    "post": { "type": "integer", "minimum": 0 },
+    "overlap": { "enum": ["keep", "first", "exclude"] }
+  }
+}

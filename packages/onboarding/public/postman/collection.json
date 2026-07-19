@@ -1,0 +1,335 @@
+{
+  "info": {
+    "name": "The Neural Ledger Developer API",
+    "description": "Generated from TNL OpenAPI 2026-07-18. Static sample requests require no key.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "sample_base_url",
+      "value": "http://127.0.0.1:7320"
+    },
+    {
+      "key": "tnl_api_key",
+      "value": "",
+      "type": "secret"
+    }
+  ],
+  "item": [
+    {
+      "name": "Static sample",
+      "item": [
+        {
+          "name": "Latest sample stories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{sample_base_url}}/v1/sample/news?page_size=2",
+              "host": ["{{sample_base_url}}"],
+              "path": ["", "v1", "sample", "news?page_size=2"]
+            },
+            "description": "Static synthetic data only. No production member data or credential required."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"static sample lane\", () => pm.expect(pm.response.headers.get(\"x-tnl-data-mode\")).to.eql(\"static-sample\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search sample stories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{sample_base_url}}/v1/search?q=semiconductor&page_size=2",
+              "host": ["{{sample_base_url}}"],
+              "path": ["", "v1", "search?q=semiconductor&page_size=2"]
+            },
+            "description": "Static synthetic data only. No production member data or credential required."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"static sample lane\", () => pm.expect(pm.response.headers.get(\"x-tnl-data-mode\")).to.eql(\"static-sample\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get sample story",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{sample_base_url}}/v1/news/sample-story-1",
+              "host": ["{{sample_base_url}}"],
+              "path": ["", "v1", "news", "sample-story-1"]
+            },
+            "description": "Static synthetic data only. No production member data or credential required."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"static sample lane\", () => pm.expect(pm.response.headers.get(\"x-tnl-data-mode\")).to.eql(\"static-sample\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List sample entities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{sample_base_url}}/v1/entities",
+              "host": ["{{sample_base_url}}"],
+              "path": ["", "v1", "entities"]
+            },
+            "description": "Static synthetic data only. No production member data or credential required."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"static sample lane\", () => pm.expect(pm.response.headers.get(\"x-tnl-data-mode\")).to.eql(\"static-sample\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List sample impact paths",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{sample_base_url}}/v1/impact-paths",
+              "host": ["{{sample_base_url}}"],
+              "path": ["", "v1", "impact-paths"]
+            },
+            "description": "Static synthetic data only. No production member data or credential required."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"static sample lane\", () => pm.expect(pm.response.headers.get(\"x-tnl-data-mode\")).to.eql(\"static-sample\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Developer credential lifecycle",
+      "item": [
+        {
+          "name": "List credentials",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "content-type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-tnl-user",
+                "value": "{{tnl_user}}"
+              },
+              {
+                "key": "x-tnl-tenant",
+                "value": "{{tnl_tenant}}"
+              },
+              {
+                "key": "x-tnl-recent-auth",
+                "value": "{{$timestamp}}000"
+              }
+            ],
+            "url": {
+              "raw": "{{sample_base_url}}/developer/api/keys",
+              "host": ["{{sample_base_url}}"],
+              "path": ["", "developer", "api", "keys"]
+            },
+            "description": "Local identity fixtures only. Production uses the TNL authenticated session."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create credential",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-tnl-user",
+                "value": "{{tnl_user}}"
+              },
+              {
+                "key": "x-tnl-tenant",
+                "value": "{{tnl_tenant}}"
+              },
+              {
+                "key": "x-tnl-recent-auth",
+                "value": "{{$timestamp}}000"
+              }
+            ],
+            "url": {
+              "raw": "{{sample_base_url}}/developer/api/keys",
+              "host": ["{{sample_base_url}}"],
+              "path": ["", "developer", "api", "keys"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman evaluation\",\n  \"scopes\": [\n    \"news:read\"\n  ],\n  \"lifetimeDays\": 30\n}"
+            },
+            "description": "Local identity fixtures only. Production uses the TNL authenticated session."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Authenticate credential",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "content-type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-tnl-user",
+                "value": "{{tnl_user}}"
+              },
+              {
+                "key": "x-tnl-tenant",
+                "value": "{{tnl_tenant}}"
+              },
+              {
+                "key": "x-tnl-recent-auth",
+                "value": "{{$timestamp}}000"
+              }
+            ],
+            "url": {
+              "raw": "{{sample_base_url}}/developer/api/authenticate",
+              "host": ["{{sample_base_url}}"],
+              "path": ["", "developer", "api", "authenticate"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apiKey\": \"{{tnl_api_key}}\"\n}"
+            },
+            "description": "Local identity fixtures only. Production uses the TNL authenticated session."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Usage summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "content-type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-tnl-user",
+                "value": "{{tnl_user}}"
+              },
+              {
+                "key": "x-tnl-tenant",
+                "value": "{{tnl_tenant}}"
+              },
+              {
+                "key": "x-tnl-recent-auth",
+                "value": "{{$timestamp}}000"
+              }
+            ],
+            "url": {
+              "raw": "{{sample_base_url}}/developer/api/usage",
+              "host": ["{{sample_base_url}}"],
+              "path": ["", "developer", "api", "usage"]
+            },
+            "description": "Local identity fixtures only. Production uses the TNL authenticated session."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": ["pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "data": {
+    "answer": "Export controls expanded, with the strongest documented exposure in advanced semiconductor equipment.",
+    "citations": [
+      {
+        "id": "source-1",
+        "title": "Fixture Authority",
+        "url": "https://example.test/source-1",
+        "excerpt": "The fixture confirms the expanded control scope."
+      }
+    ],
+    "asOf": "2026-07-18T08:30:00.000Z",
+    "author": "TNL Bot"
+  }
+}

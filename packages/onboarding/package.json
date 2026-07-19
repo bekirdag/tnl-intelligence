@@ -1,0 +1,34 @@
+{
+  "name": "@theneuralledger/onboarding",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Developer onboarding, sample API, explorer, and credential lifecycle for TNL.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.10"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "tnl-onboarding": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "public",
+    "sample",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist .tsbuildinfo",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  }
+}

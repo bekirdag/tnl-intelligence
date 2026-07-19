@@ -1,0 +1,17 @@
+{
+  "name": "@theneuralledger/pipedream-components",
+  "version": "0.1.0",
+  "private": true,
+  "files": ["*.mjs", "actions", "sources", "README.md"],
+  "description": "Registry-compatible TNL Intelligence Pipedream actions and sources.",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node scripts/validate.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@theneuralledger/connectors": "0.1.0"
+  }
+}

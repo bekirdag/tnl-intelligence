@@ -49,6 +49,28 @@ describe('TNL MCP server', () => {
       data: newsPage([{ id: 'story-1', title: 'A consequential event' }]),
     });
   });
+
+  it('publishes only tools in an explicit allowlist', async () => {
+    const server = createTnlMcpServer({
+      client: new TnlClient({ apiKey: 'secret', fetch: async () => Response.json(newsPage([])) }),
+      allowedTools: new Set(['tnl_latest_news', 'tnl_service_status']),
+    });
+    const client = new Client({ name: 'allowlist-test', version: '1.0.0' });
+    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    await Promise.all([server.connect(serverTransport), client.connect(clientTransport)]);
+    active.push(client, server);
+
+    assert.deepEqual(
+      (await client.listTools()).tools.map((tool) => tool.name),
+      ['tnl_latest_news', 'tnl_service_status'],
+    );
+    const denied = await client.callTool({
+      name: 'tnl_deep_research',
+      arguments: { question: 'not allowed' },
+    });
+    assert.equal(denied.isError, true);
+    assert.match(JSON.stringify(denied), /not found/i);
+  });
 });
 
 async function connect(fetch: typeof globalThis.fetch) {

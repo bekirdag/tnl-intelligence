@@ -1,0 +1,17 @@
+{
+  "name": "tnl-intelligence-local",
+  "owner": {
+    "name": "The Neural Ledger"
+  },
+  "metadata": {
+    "description": "Local development marketplace for TNL Intelligence.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "tnl-intelligence",
+      "source": "./tnl-intelligence",
+      "description": "Evidence-first news intelligence and cited research from The Neural Ledger."
+    }
+  ]
+}

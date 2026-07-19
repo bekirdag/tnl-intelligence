@@ -1,0 +1,26 @@
+service:
+  producer_enabled: false
+  dispatcher_enabled: false
+  request_timeout_ms: 10000
+  maximum_attempts: 8
+  base_delay_ms: 5000
+  maximum_delay_ms: 3600000
+  maximum_retry_after_ms: 3600000
+  detailed_history_days: 30
+  dead_letter_days: 14
+  audit_days: 180
+
+adapters:
+  outbox: required-durable-transactional
+  queue: required-durable-tenant-fair
+  subscriptions: required-durable
+  deliveries: required-durable
+  secret_protector: required-kms
+  identity: required-authenticated
+  replay_authorization: required-operator-role
+
+egress:
+  require_https: true
+  allowed_ports: [443]
+  follow_redirects: false
+  pin_validated_address: true

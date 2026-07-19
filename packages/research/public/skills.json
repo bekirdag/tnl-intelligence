@@ -1,0 +1,44 @@
+[
+  {
+    "id": "what-changed",
+    "name": "What Changed?",
+    "description": "Compare a recent window with its baseline and distinguish new facts, revisions, and repeated coverage.",
+    "version": "1.0.0",
+    "taskType": "what_changed"
+  },
+  {
+    "id": "source-comparison",
+    "name": "Source Comparison",
+    "description": "Compare agreement, omissions, contradictions, framing, and timing across sources.",
+    "version": "1.0.0",
+    "taskType": "source_comparison"
+  },
+  {
+    "id": "event-validation",
+    "name": "Event Validation",
+    "description": "Resolve and corroborate an event while detecting recycled, misdated, weak, or revised claims.",
+    "version": "1.0.0",
+    "taskType": "event_validation"
+  },
+  {
+    "id": "asset-entity-exposure",
+    "name": "Asset and Entity Exposure",
+    "description": "Map documented and inferred direct or indirect exposure with counterfactors and horizons.",
+    "version": "1.0.0",
+    "taskType": "asset_entity_exposure"
+  },
+  {
+    "id": "geopolitical-operational-risk",
+    "name": "Geopolitical and Operational Risk",
+    "description": "Build scenario-based impact paths, assumptions, counterfactors, and leading indicators.",
+    "version": "1.0.0",
+    "taskType": "geopolitical_operational_risk"
+  },
+  {
+    "id": "weekly-consequential",
+    "name": "Weekly Most Consequential Developments",
+    "description": "Deduplicate and rank a week's developments with a versioned materiality rubric.",
+    "version": "1.0.0",
+    "taskType": "weekly_consequential"
+  }
+]

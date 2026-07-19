@@ -1,0 +1,48 @@
+{
+  "name": "@theneuralledger/adapters",
+  "version": "0.1.0",
+  "description": "Host-neutral TNL Intelligence AI client adapter contracts and presentation helpers.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.10"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bekirdag/tnl-intelligence.git",
+    "directory": "packages/adapters"
+  },
+  "scripts": {
+    "clean": "rm -rf dist .tsbuildinfo",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test test/*.test.ts"
+  },
+  "dependencies": {
+    "@theneuralledger/research": "0.1.0"
+  },
+  "keywords": [
+    "mcp",
+    "cursor",
+    "openai",
+    "research",
+    "intelligence"
+  ]
+}

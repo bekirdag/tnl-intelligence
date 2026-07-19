@@ -1,0 +1,29 @@
+{
+  "id": "tnl-developer-public-safe",
+  "name": "TNL Developer Local Sample",
+  "values": [
+    {
+      "key": "sample_base_url",
+      "value": "http://127.0.0.1:7320",
+      "enabled": true
+    },
+    {
+      "key": "tnl_api_key",
+      "value": "",
+      "enabled": true,
+      "type": "secret"
+    },
+    {
+      "key": "tnl_user",
+      "value": "local-developer",
+      "enabled": true
+    },
+    {
+      "key": "tnl_tenant",
+      "value": "local-evaluation",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_using": "tnl-intelligence workspace generator"
+}

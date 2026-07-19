@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theneuralledger.com/schemas/quant/dataset-manifest-v1.json",
+  "title": "TNL Quant Dataset Manifest",
+  "type": "object",
+  "required": [
+    "datasetId",
+    "createdAt",
+    "asOf",
+    "query",
+    "apiVersion",
+    "schemaVersion",
+    "files",
+    "latencyPolicy",
+    "featureVersions",
+    "accessTier",
+    "license",
+    "redistribution",
+    "hindsight"
+  ],
+  "properties": {
+    "datasetId": { "type": "string", "pattern": "^tnl-[a-f0-9]{20}$" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "asOf": { "type": "string", "format": "date-time" },
+    "query": { "type": "object" },
+    "apiVersion": { "type": "string" },
+    "schemaVersion": { "const": "1.0.0" },
+    "sourceCursor": { "type": ["string", "null"] },
+    "revisionWatermark": { "type": ["string", "null"] },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "rowCount", "sha256", "columns", "columnTypes", "mediaType"]
+      }
+    },
+    "latencyPolicy": { "type": "object" },
+    "entityMapVersion": { "type": "string" },
+    "featureVersions": { "type": "object" },
+    "accessTier": { "type": "string" },
+    "license": { "type": "string" },
+    "redistribution": { "type": "string" },
+    "hindsight": { "type": "boolean" },
+    "disclaimer": { "type": "string" }
+  }
+}

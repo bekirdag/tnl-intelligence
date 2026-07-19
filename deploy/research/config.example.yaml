@@ -1,0 +1,56 @@
+service:
+  host: 0.0.0.0
+  port: 7425
+  require_https: true
+  result_retention_days: 7
+  body_limit_bytes: 65536
+
+identity:
+  required_scopes:
+    - tnl:read
+    - tnl:research
+
+adapters:
+  tnl:
+    endpoint: https://api.example.invalid/internal/research/tnl
+    timeout_ms: 15000
+  docdex:
+    endpoint: https://docdex.example.invalid/internal/research
+    health_endpoint: https://docdex.example.invalid/healthz
+    timeout_ms: 20000
+  web:
+    endpoint: https://research.example.invalid/internal/web
+    timeout_ms: 20000
+  codali:
+    endpoint: https://codali.example.invalid/v1/research
+    health_endpoint: https://codali.example.invalid/healthz
+    timeout_ms: 45000
+
+budgets:
+  default:
+    tool_calls: 12
+    duration_ms: 45000
+    input_tokens: 24000
+    output_tokens: 4000
+    sources: 20
+    cost_usd: 0.25
+  maximum:
+    tool_calls: 60
+    duration_ms: 180000
+    input_tokens: 120000
+    output_tokens: 20000
+    sources: 80
+    cost_usd: 2.00
+
+secrets:
+  provider: deployment-secret-store
+  tnl_authorization_ref: tnl-research/tnl-capability
+  docdex_authorization_ref: tnl-research/docdex-capability
+  web_authorization_ref: tnl-research/web-capability
+  codali_authorization_ref: tnl-research/codali-capability
+
+rollout:
+  live_adapters_enabled: false
+  eligible_traffic_percent: 0
+  weekly_publishing_enabled: false
+  bdya_integration_enabled: false

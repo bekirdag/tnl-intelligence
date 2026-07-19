@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "tnlIntelligence": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "--read-only",
+        "--tmpfs",
+        "/tmp:rw,noexec,nosuid,size=16m",
+        "-e",
+        "TNL_API_KEY",
+        "--entrypoint",
+        "node",
+        "ghcr.io/bekirdag/tnl-intelligence:0.1.0",
+        "packages/mcp/dist/bin.js"
+      ]
+    }
+  }
+}

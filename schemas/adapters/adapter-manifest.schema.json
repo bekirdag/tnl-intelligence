@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bekirdag/tnl-intelligence/schemas/adapters/adapter-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "adapterVersion",
+    "product",
+    "connection",
+    "compatibility",
+    "officialSources"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": "1.0" },
+    "adapterVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "shortDescription",
+        "developer",
+        "homepage",
+        "documentation",
+        "privacy",
+        "support",
+        "terms",
+        "repository",
+        "botProfile"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "shortDescription": { "type": "string", "minLength": 20, "maxLength": 200 },
+        "developer": { "type": "string", "minLength": 1 },
+        "homepage": { "$ref": "#/$defs/httpsUrl" },
+        "documentation": { "$ref": "#/$defs/httpsUrl" },
+        "privacy": { "$ref": "#/$defs/httpsUrl" },
+        "support": { "$ref": "#/$defs/httpsUrl" },
+        "terms": { "$ref": "#/$defs/httpsUrl" },
+        "repository": { "$ref": "#/$defs/httpsUrl" },
+        "botProfile": { "$ref": "#/$defs/httpsUrl" }
+      }
+    },
+    "connection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["remoteUrl", "oauthMetadataUrl", "scopes", "localConfig"],
+      "properties": {
+        "remoteUrl": { "$ref": "#/$defs/httpsUrl" },
+        "oauthMetadataUrl": { "$ref": "#/$defs/httpsUrl" },
+        "scopes": {
+          "type": "array",
+          "const": ["tnl:read", "tnl:research"]
+        },
+        "localConfig": { "type": "string", "minLength": 1 }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mcpProtocol", "minimumGatewayVersion", "researchSchemaVersion"],
+      "properties": {
+        "mcpProtocol": { "const": "2025-11-25" },
+        "minimumGatewayVersion": { "type": "string" },
+        "researchSchemaVersion": { "const": "1.0" }
+      }
+    },
+    "officialSources": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["platform", "url", "accessed"],
+        "properties": {
+          "platform": { "type": "string" },
+          "url": { "$ref": "#/$defs/httpsUrl" },
+          "accessed": { "type": "string", "format": "date" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "httpsUrl": { "type": "string", "format": "uri", "pattern": "^https://" }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "generatedFrom": "runtime-introspection",
+  "protocolVersion": "2025-11-25",
+  "server": {
+    "name": "tnl-intelligence",
+    "version": "0.1.0"
+  },
+  "tools": [
+    {
+      "name": "tnl_latest_news",
+      "title": "Latest TNL intelligence",
+      "description": "Return recent evidence-backed news intelligence, optionally filtered by category or country.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "tnl_search_news",
+      "title": "Search TNL intelligence",
+      "description": "Search TNL stories and return structured evidence, impacted assets, entities, and impact paths.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "tnl_asset_intelligence",
+      "title": "Asset intelligence",
+      "description": "Return event intelligence linked to an asset ticker. This is not a live trading-price tool.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "tnl_entity_intelligence",
+      "title": "Entity intelligence",
+      "description": "Return recent stories connected to a named TNL entity or entity id.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "tnl_impact_path",
+      "title": "Impact-path intelligence",
+      "description": "Return stories associated with a causal or market impact path.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "tnl_explain_event",
+      "title": "Explain an event",
+      "description": "Ask Ledger AI to explain a TNL event using its evidence, contradictions, affected assets, and likely impact paths.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "tnl_deep_research",
+      "title": "Deep research with Ledger AI",
+      "description": "Run a question through TNL Ledger AI research orchestration and return its answer with citations and context.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "tnl_service_status",
+      "title": "TNL service status",
+      "description": "Check API access, plan usage, market-context freshness, and current rate-limit headers.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    }
+  ],
+  "resources": [],
+  "resourceTemplates": [
+    {
+      "name": "tnl-story",
+      "title": "TNL story",
+      "description": "A TNL intelligence story by id or slug",
+      "uriTemplate": "tnl://story/{id}"
+    },
+    {
+      "name": "tnl-asset",
+      "title": "TNL asset intelligence",
+      "description": "Recent intelligence for an asset",
+      "uriTemplate": "tnl://asset/{ticker}"
+    },
+    {
+      "name": "tnl-entity",
+      "title": "TNL entity intelligence",
+      "description": "Recent intelligence for an entity",
+      "uriTemplate": "tnl://entity/{entity}"
+    }
+  ],
+  "prompts": [
+    {
+      "name": "tnl_daily_risk_review",
+      "title": "Daily risk review",
+      "description": "Analyze current TNL intelligence for portfolio-relevant risk."
+    },
+    {
+      "name": "tnl_event_due_diligence",
+      "title": "Event due diligence",
+      "description": "Investigate one event before it is used in a trading decision."
+    }
+  ]
+}

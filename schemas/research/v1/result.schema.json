@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theneuralledger.com/schemas/research/v1/result.schema.json",
+  "title": "TNL Research Result v1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "resultId",
+    "taskId",
+    "taskType",
+    "skill",
+    "directAnswer",
+    "claims",
+    "evidence",
+    "trace",
+    "graders",
+    "budget",
+    "completionReason",
+    "asOf",
+    "lastCheckedAt",
+    "automatedAuthor",
+    "orchestration"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "resultId": { "type": "string" },
+    "taskId": { "type": "string" },
+    "taskType": { "type": "string" },
+    "skill": { "type": "object", "required": ["id", "version"] },
+    "directAnswer": { "type": "string" },
+    "claims": { "type": "array" },
+    "evidence": { "type": "array" },
+    "trace": { "type": "array" },
+    "graders": { "type": "array" },
+    "budget": { "type": "object" },
+    "completionReason": {
+      "enum": [
+        "complete",
+        "partial",
+        "budget_exhausted",
+        "cancelled",
+        "insufficient_evidence",
+        "failed"
+      ]
+    },
+    "asOf": { "type": "string", "format": "date-time" },
+    "lastCheckedAt": { "type": "string", "format": "date-time" },
+    "automatedAuthor": { "type": "object", "required": ["name", "profileUrl"] },
+    "orchestration": { "type": "object", "required": ["provider", "version"] }
+  }
+}

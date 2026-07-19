@@ -4,7 +4,6 @@ services:
     image: ghcr.io/bekirdag/tnl-intelligence:local
     restart: unless-stopped
     environment:
-      TNL_API_KEY: ${TNL_API_KEY:?Set TNL_API_KEY}
       TNL_BASE_URL: ${TNL_BASE_URL:-https://theneuralledger.com}
     ports:
       - '127.0.0.1:7317:7317'

@@ -9,6 +9,7 @@ from tnl_intelligence import (
     AsyncTnlClient,
     TnlAuthenticationError,
     TnlClient,
+    TnlError,
     TnlRateLimitError,
 )
 
@@ -103,6 +104,24 @@ def test_transient_errors_are_retried() -> None:
     with TnlClient("secret", retries=1, transport=httpx.MockTransport(handler)) as client:
         assert client.list_news().data == ()
     assert calls == 2
+
+
+def test_successful_malformed_json_is_a_typed_error() -> None:
+    transport = httpx.MockTransport(
+        lambda _: httpx.Response(
+            200,
+            content=b'{"data":',
+            headers={"content-type": "application/json", "x-request-id": "request-fixture"},
+        )
+    )
+    with (
+        TnlClient("secret", retries=0, transport=transport) as client,
+        pytest.raises(TnlError, match="malformed JSON") as raised,
+    ):
+        client.list_news()
+    assert raised.value.status_code == 200
+    assert raised.value.request_id == "request-fixture"
+    assert "secret" not in str(raised.value)
 
 
 def _story(identifier: str) -> dict[str, object]:

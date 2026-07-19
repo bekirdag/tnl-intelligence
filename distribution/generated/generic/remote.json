@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "tnlIntelligence": {
+      "type": "http",
+      "url": "https://mcp.theneuralledger.com/mcp"
+    }
+  }
+}

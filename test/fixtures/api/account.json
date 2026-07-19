@@ -1,0 +1,14 @@
+{
+  "key": {
+    "id": "key_fixture",
+    "label": "Integration harness"
+  },
+  "plan": {
+    "id": "fixture",
+    "name": "Fixture plan"
+  },
+  "usage": {
+    "requests": 12,
+    "limit": 1000
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "entities": {
+    "data": [
+      {
+        "id": "entity-semiconductors",
+        "value": "semiconductors",
+        "label": "Semiconductors",
+        "type": "sector",
+        "count": 1
+      }
+    ],
+    "lastSyncAt": "2026-07-18T08:30:00.000Z"
+  },
+  "impactPaths": {
+    "data": [
+      {
+        "id": "impact-export-controls",
+        "value": "Export controls -> equipment demand",
+        "label": "Export controls to equipment demand",
+        "type": "causal",
+        "count": 1
+      }
+    ],
+    "lastSyncAt": "2026-07-18T08:30:00.000Z"
+  }
+}

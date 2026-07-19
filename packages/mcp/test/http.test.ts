@@ -19,6 +19,8 @@ afterEach(async () => {
 
 describe('MCP HTTP transport', () => {
   it('exposes health and protects MCP with an API key', async () => {
+    const previousApiKey = process.env.TNL_API_KEY;
+    process.env.TNL_API_KEY = 'environment-key-must-not-authorize-http';
     const server = await listen(createHttpServer());
     const address = server.address();
     assert.ok(address && typeof address !== 'string');
@@ -29,6 +31,8 @@ describe('MCP HTTP transport', () => {
     });
     const unauthorized = await fetch(`${baseUrl}/mcp`, { method: 'POST' });
     assert.equal(unauthorized.status, 401);
+    if (previousApiKey === undefined) delete process.env.TNL_API_KEY;
+    else process.env.TNL_API_KEY = previousApiKey;
   });
 
   it('completes an HTTP initialize and tool call against a TNL upstream', async () => {

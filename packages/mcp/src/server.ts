@@ -7,10 +7,34 @@ import {
   type TnlStory,
 } from '@theneuralledger/sdk';
 import * as z from 'zod/v4';
+import {
+  registerResearchMcp,
+  TNL_RESEARCH_TOOL_NAMES,
+  type TnlResearchRunner,
+  type TnlResearchToolName,
+} from './research.js';
 
 export interface TnlMcpServerOptions {
   client: TnlClient;
+  allowedTools?: ReadonlySet<TnlToolName>;
+  research?: TnlResearchRunner;
 }
+
+export const TNL_BASE_TOOL_NAMES = [
+  'tnl_latest_news',
+  'tnl_search_news',
+  'tnl_asset_intelligence',
+  'tnl_entity_intelligence',
+  'tnl_impact_path',
+  'tnl_explain_event',
+  'tnl_deep_research',
+  'tnl_service_status',
+] as const;
+
+export const TNL_TOOL_NAMES = [...TNL_BASE_TOOL_NAMES, ...TNL_RESEARCH_TOOL_NAMES] as const;
+
+export type TnlBaseToolName = (typeof TNL_BASE_TOOL_NAMES)[number];
+export type TnlToolName = TnlBaseToolName | TnlResearchToolName;
 
 const outputSchema = { data: z.unknown() };
 const readOnlyAnnotations = {
@@ -29,6 +53,7 @@ const since = z
 
 export function createTnlMcpServer(options: TnlMcpServerOptions): McpServer {
   const { client } = options;
+  const enabled = (tool: TnlBaseToolName): boolean => options.allowedTools?.has(tool) ?? true;
   const server = new McpServer(
     { name: 'tnl-intelligence', version: '0.1.0' },
     {
@@ -37,162 +62,174 @@ export function createTnlMcpServer(options: TnlMcpServerOptions): McpServer {
     },
   );
 
-  server.registerTool(
-    'tnl_latest_news',
-    {
-      title: 'Latest TNL intelligence',
-      description:
-        'Return recent evidence-backed news intelligence, optionally filtered by category or country.',
-      inputSchema: {
-        limit: pageSize,
-        category: z.string().min(1).optional(),
-        country: z.string().min(1).optional(),
-        publishedSince: since,
-      },
-      outputSchema,
-      annotations: readOnlyAnnotations,
-    },
-    async (args) => pageResult(await client.listNews(newsQuery(args)), 'Latest intelligence'),
-  );
-
-  server.registerTool(
-    'tnl_search_news',
-    {
-      title: 'Search TNL intelligence',
-      description:
-        'Search TNL stories and return structured evidence, impacted assets, entities, and impact paths.',
-      inputSchema: {
-        query: z.string().min(1),
-        limit: pageSize,
-        category: z.string().min(1).optional(),
-        country: z.string().min(1).optional(),
-        publishedSince: since,
-      },
-      outputSchema,
-      annotations: readOnlyAnnotations,
-    },
-    async ({ query, ...args }) =>
-      pageResult(await client.searchNews({ query, ...newsQuery(args) }), `Search: ${query}`),
-  );
-
-  server.registerTool(
-    'tnl_asset_intelligence',
-    {
-      title: 'Asset intelligence',
-      description:
-        'Return event intelligence linked to an asset ticker. This is not a live trading-price tool.',
-      inputSchema: {
-        ticker: z.string().min(1).max(24),
-        limit: pageSize,
-        publishedSince: since,
-      },
-      outputSchema,
-      annotations: readOnlyAnnotations,
-    },
-    async ({ ticker, ...args }) =>
-      pageResult(await client.getAssetStories(ticker, newsQuery(args)), `Asset: ${ticker}`),
-  );
-
-  server.registerTool(
-    'tnl_entity_intelligence',
-    {
-      title: 'Entity intelligence',
-      description: 'Return recent stories connected to a named TNL entity or entity id.',
-      inputSchema: {
-        entity: z.string().min(1),
-        limit: pageSize,
-        publishedSince: since,
-      },
-      outputSchema,
-      annotations: readOnlyAnnotations,
-    },
-    async ({ entity, ...args }) =>
-      pageResult(await client.getEntityStories(entity, newsQuery(args)), `Entity: ${entity}`),
-  );
-
-  server.registerTool(
-    'tnl_impact_path',
-    {
-      title: 'Impact-path intelligence',
-      description: 'Return stories associated with a causal or market impact path.',
-      inputSchema: {
-        impactPath: z.string().min(1),
-        limit: pageSize,
-        publishedSince: since,
-      },
-      outputSchema,
-      annotations: readOnlyAnnotations,
-    },
-    async ({ impactPath, ...args }) =>
-      pageResult(
-        await client.getImpactPathStories(impactPath, newsQuery(args)),
-        `Impact path: ${impactPath}`,
-      ),
-  );
-
-  server.registerTool(
-    'tnl_explain_event',
-    {
-      title: 'Explain an event',
-      description:
-        'Ask Ledger AI to explain a TNL event using its evidence, contradictions, affected assets, and likely impact paths.',
-      inputSchema: {
-        story: z.string().min(1).describe('TNL story id or slug'),
-        focus: z.string().min(1).optional(),
-      },
-      outputSchema,
-      annotations: readOnlyAnnotations,
-    },
-    async ({ story, focus }) => {
-      const item = await client.getNews(story, { include: ['sources', 'claims'] });
-      const response = await client.askAiTerminal({
-        question: `Explain TNL event ${item.id}${focus ? ` with focus on ${focus}` : ''}. Distinguish verified facts, uncertainty, contradictions, causal impact paths, and affected assets. Cite the underlying TNL evidence.`,
-      });
-      return aiResult(response);
-    },
-  );
-
-  server.registerTool(
-    'tnl_deep_research',
-    {
-      title: 'Deep research with Ledger AI',
-      description:
-        'Run a question through TNL Ledger AI research orchestration and return its answer with citations and context.',
-      inputSchema: { question: z.string().min(3).max(8_000) },
-      outputSchema,
-      annotations: readOnlyAnnotations,
-    },
-    async ({ question }) => aiResult(await client.askAiTerminal({ question })),
-  );
-
-  server.registerTool(
-    'tnl_service_status',
-    {
-      title: 'TNL service status',
-      description:
-        'Check API access, plan usage, market-context freshness, and current rate-limit headers.',
-      outputSchema,
-      annotations: readOnlyAnnotations,
-    },
-    async () => {
-      const [account, markets] = await Promise.all([client.getAccount(), client.getMarkets()]);
-      const data = {
-        ok: true,
-        plan: account.plan ?? null,
-        usage: account.usage ?? null,
-        marketContext: {
-          quoteCount: markets.data.length,
-          lastSyncAt: markets.lastSyncAt ?? null,
-          lastError: markets.lastError ?? null,
+  if (enabled('tnl_latest_news'))
+    server.registerTool(
+      'tnl_latest_news',
+      {
+        title: 'Latest TNL intelligence',
+        description:
+          'Return recent evidence-backed news intelligence, optionally filtered by category or country.',
+        inputSchema: {
+          limit: pageSize,
+          category: z.string().min(1).optional(),
+          country: z.string().min(1).optional(),
+          publishedSince: since,
         },
-        rateLimit: client.lastRateLimit,
-      };
-      return result(data, 'TNL API access is healthy.');
-    },
-  );
+        outputSchema,
+        annotations: readOnlyAnnotations,
+      },
+      async (args) => pageResult(await client.listNews(newsQuery(args)), 'Latest intelligence'),
+    );
+
+  if (enabled('tnl_search_news'))
+    server.registerTool(
+      'tnl_search_news',
+      {
+        title: 'Search TNL intelligence',
+        description:
+          'Search TNL stories and return structured evidence, impacted assets, entities, and impact paths.',
+        inputSchema: {
+          query: z.string().min(1),
+          limit: pageSize,
+          category: z.string().min(1).optional(),
+          country: z.string().min(1).optional(),
+          publishedSince: since,
+        },
+        outputSchema,
+        annotations: readOnlyAnnotations,
+      },
+      async ({ query, ...args }) =>
+        pageResult(await client.searchNews({ query, ...newsQuery(args) }), `Search: ${query}`),
+    );
+
+  if (enabled('tnl_asset_intelligence'))
+    server.registerTool(
+      'tnl_asset_intelligence',
+      {
+        title: 'Asset intelligence',
+        description:
+          'Return event intelligence linked to an asset ticker. This is not a live trading-price tool.',
+        inputSchema: {
+          ticker: z.string().min(1).max(24),
+          limit: pageSize,
+          publishedSince: since,
+        },
+        outputSchema,
+        annotations: readOnlyAnnotations,
+      },
+      async ({ ticker, ...args }) =>
+        pageResult(await client.getAssetStories(ticker, newsQuery(args)), `Asset: ${ticker}`),
+    );
+
+  if (enabled('tnl_entity_intelligence'))
+    server.registerTool(
+      'tnl_entity_intelligence',
+      {
+        title: 'Entity intelligence',
+        description: 'Return recent stories connected to a named TNL entity or entity id.',
+        inputSchema: {
+          entity: z.string().min(1),
+          limit: pageSize,
+          publishedSince: since,
+        },
+        outputSchema,
+        annotations: readOnlyAnnotations,
+      },
+      async ({ entity, ...args }) =>
+        pageResult(await client.getEntityStories(entity, newsQuery(args)), `Entity: ${entity}`),
+    );
+
+  if (enabled('tnl_impact_path'))
+    server.registerTool(
+      'tnl_impact_path',
+      {
+        title: 'Impact-path intelligence',
+        description: 'Return stories associated with a causal or market impact path.',
+        inputSchema: {
+          impactPath: z.string().min(1),
+          limit: pageSize,
+          publishedSince: since,
+        },
+        outputSchema,
+        annotations: readOnlyAnnotations,
+      },
+      async ({ impactPath, ...args }) =>
+        pageResult(
+          await client.getImpactPathStories(impactPath, newsQuery(args)),
+          `Impact path: ${impactPath}`,
+        ),
+    );
+
+  if (enabled('tnl_explain_event'))
+    server.registerTool(
+      'tnl_explain_event',
+      {
+        title: 'Explain an event',
+        description:
+          'Ask Ledger AI to explain a TNL event using its evidence, contradictions, affected assets, and likely impact paths.',
+        inputSchema: {
+          story: z.string().min(1).describe('TNL story id or slug'),
+          focus: z.string().min(1).optional(),
+        },
+        outputSchema,
+        annotations: readOnlyAnnotations,
+      },
+      async ({ story, focus }) => {
+        const item = await client.getNews(story, { include: ['sources', 'claims'] });
+        const response = await client.askAiTerminal({
+          question: `Explain TNL event ${item.id}${focus ? ` with focus on ${focus}` : ''}. Distinguish verified facts, uncertainty, contradictions, causal impact paths, and affected assets. Cite the underlying TNL evidence.`,
+        });
+        return aiResult(response);
+      },
+    );
+
+  if (enabled('tnl_deep_research'))
+    server.registerTool(
+      'tnl_deep_research',
+      {
+        title: 'Deep research with Ledger AI',
+        description:
+          'Run a question through TNL Ledger AI research orchestration and return its answer with citations and context.',
+        inputSchema: { question: z.string().min(3).max(8_000) },
+        outputSchema,
+        annotations: readOnlyAnnotations,
+      },
+      async ({ question }) => aiResult(await client.askAiTerminal({ question })),
+    );
+
+  if (enabled('tnl_service_status'))
+    server.registerTool(
+      'tnl_service_status',
+      {
+        title: 'TNL service status',
+        description:
+          'Check API access, plan usage, market-context freshness, and current rate-limit headers.',
+        outputSchema,
+        annotations: readOnlyAnnotations,
+      },
+      async () => {
+        const [account, markets] = await Promise.all([client.getAccount(), client.getMarkets()]);
+        const data = {
+          ok: true,
+          plan: account.plan ?? null,
+          usage: account.usage ?? null,
+          marketContext: {
+            quoteCount: markets.data.length,
+            lastSyncAt: markets.lastSyncAt ?? null,
+            lastError: markets.lastError ?? null,
+          },
+          rateLimit: client.lastRateLimit,
+        };
+        return result(data, 'TNL API access is healthy.');
+      },
+    );
 
   registerResources(server, client);
   registerPrompts(server);
+  if (options.research)
+    registerResearchMcp(server, options.research, {
+      ...(options.allowedTools ? { allowedTools: options.allowedTools } : {}),
+    });
   return server;
 }
 

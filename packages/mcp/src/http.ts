@@ -8,6 +8,7 @@ export interface HttpOptions {
   port?: number;
   apiKey?: string;
   baseUrl?: string;
+  allowEnvironmentApiKey?: boolean;
 }
 
 export function createHttpServer(options: HttpOptions = {}): Server {
@@ -25,7 +26,12 @@ export function createHttpServer(options: HttpOptions = {}): Server {
         jsonRpcError(response, 405, -32000, 'Method not allowed');
         return;
       }
-      const apiKey = bearerToken(request) || options.apiKey || process.env.TNL_API_KEY;
+      const allowEnvironmentApiKey =
+        options.allowEnvironmentApiKey ?? booleanFromEnv('TNL_MCP_ALLOW_ENV_API_KEY', false);
+      const apiKey =
+        bearerToken(request) ||
+        options.apiKey ||
+        (allowEnvironmentApiKey ? process.env.TNL_API_KEY : undefined);
       if (!apiKey) {
         jsonRpcError(response, 401, -32001, 'Bearer API key or TNL_API_KEY is required');
         return;
@@ -82,6 +88,14 @@ function numberFromEnv(name: string, fallback: number): number {
     throw new Error(`${name} must be an integer from 0 to 65535`);
   }
   return parsed;
+}
+
+function booleanFromEnv(name: string, fallback: boolean): boolean {
+  const value = process.env[name]?.trim().toLowerCase();
+  if (!value) return fallback;
+  if (['1', 'true', 'yes', 'on'].includes(value)) return true;
+  if (['0', 'false', 'no', 'off'].includes(value)) return false;
+  throw new Error(`${name} must be a boolean`);
 }
 
 function json(response: ServerResponse, status: number, body: unknown): void {

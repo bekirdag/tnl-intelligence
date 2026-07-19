@@ -31,12 +31,35 @@ Documentation = "https://github.com/bekirdag/tnl-intelligence#readme"
 Issues = "https://github.com/bekirdag/tnl-intelligence/issues"
 
 [project.optional-dependencies]
+quant-arrow = ["pyarrow>=18,<26"]
+quant-pandas = ["pandas>=2.2,<4"]
+quant-polars = ["polars>=1.20,<2"]
+quant-duckdb = ["duckdb>=1.1,<2"]
+quant-cli = ["PyYAML>=6,<7"]
+quant = [
+  "duckdb>=1.1,<2",
+  "pandas>=2.2,<4",
+  "polars>=1.20,<2",
+  "pyarrow>=18,<26",
+  "PyYAML>=6,<7",
+]
+notebooks = [
+  "ipykernel>=6.29,<8",
+  "nbclient>=0.10,<1",
+  "nbformat>=5.10,<6",
+]
 dev = [
   "build>=1.2",
   "mypy>=1.15",
+  "nbclient>=0.10,<1",
+  "nbformat>=5.10,<6",
   "pytest>=8.3",
   "ruff>=0.11",
+  "types-PyYAML>=6.0",
 ]
+
+[project.scripts]
+tnl-quant = "tnl_intelligence.quant.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/tnl_intelligence"]
@@ -44,6 +67,7 @@ packages = ["src/tnl_intelligence"]
 [tool.ruff]
 target-version = "py310"
 line-length = 100
+exclude = ["src/tnl_intelligence/quant/example_assets"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
@@ -53,6 +77,10 @@ python_version = "3.10"
 strict = true
 packages = ["tnl_intelligence"]
 mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = ["IPython", "IPython.*", "numpy", "numpy.*"]
+follow_imports = "skip"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

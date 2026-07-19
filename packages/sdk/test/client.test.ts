@@ -47,6 +47,42 @@ describe('TnlClient', () => {
     assert.doesNotMatch(JSON.stringify(client), /secret-key/);
   });
 
+  it('propagates a validated request id without allowing header injection', async () => {
+    let request: Request | undefined;
+    const client = new TnlClient({
+      apiKey: 'secret',
+      requestId: 'gateway-request-123',
+      retries: 0,
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return Response.json({
+          data: [],
+          page: {
+            page: 1,
+            page_size: 20,
+            offset: 0,
+            total_count: 0,
+            total_pages: 0,
+            has_more: false,
+            cursor: null,
+            next_cursor: null,
+          },
+        });
+      },
+    });
+    await client.listNews();
+    assert.equal(request?.headers.get('x-request-id'), 'gateway-request-123');
+    assert.throws(
+      () =>
+        new TnlClient({
+          apiKey: 'secret',
+          requestId: 'bad\r\nheader',
+          fetch: async () => Response.json({}),
+        }),
+      /requestId/,
+    );
+  });
+
   it('iterates cursor pages once', async () => {
     let call = 0;
     const client = new TnlClient({

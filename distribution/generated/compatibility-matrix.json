@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "versionPolicy": {
+    "generic": "MCP 2025-06-18 or newer",
+    "vscode": "Current stable MCP configuration schema",
+    "cursor": "Current stable mcp.json schema",
+    "mcpb": "Manifest 0.4",
+    "docker": "Docker Engine 24 or newer"
+  },
+  "profiles": [
+    {
+      "operatingSystem": "darwin",
+      "architecture": "x64",
+      "localTarball": "automated-config-and-package-check",
+      "mcpb": "clean-profile-smoke",
+      "docker": "linux-container-smoke",
+      "remoteHttp": "metadata-and-schema-check"
+    },
+    {
+      "operatingSystem": "darwin",
+      "architecture": "arm64",
+      "localTarball": "automated-config-and-package-check",
+      "mcpb": "clean-profile-smoke",
+      "docker": "linux-container-smoke",
+      "remoteHttp": "metadata-and-schema-check"
+    },
+    {
+      "operatingSystem": "linux",
+      "architecture": "x64",
+      "localTarball": "automated-config-and-package-check",
+      "mcpb": "format-validation",
+      "docker": "linux-container-smoke",
+      "remoteHttp": "metadata-and-schema-check"
+    },
+    {
+      "operatingSystem": "linux",
+      "architecture": "arm64",
+      "localTarball": "automated-config-and-package-check",
+      "mcpb": "format-validation",
+      "docker": "linux-container-smoke",
+      "remoteHttp": "metadata-and-schema-check"
+    },
+    {
+      "operatingSystem": "win32",
+      "architecture": "x64",
+      "localTarball": "automated-config-and-package-check",
+      "mcpb": "clean-profile-smoke",
+      "docker": "configuration-only",
+      "remoteHttp": "metadata-and-schema-check"
+    },
+    {
+      "operatingSystem": "win32",
+      "architecture": "arm64",
+      "localTarball": "automated-config-and-package-check",
+      "mcpb": "clean-profile-smoke",
+      "docker": "configuration-only",
+      "remoteHttp": "metadata-and-schema-check"
+    }
+  ],
+  "failureModes": [
+    "missing-secret",
+    "invalid-secret",
+    "offline-api",
+    "incompatible-runtime",
+    "stale-config",
+    "invalid-integrity"
+  ]
+}

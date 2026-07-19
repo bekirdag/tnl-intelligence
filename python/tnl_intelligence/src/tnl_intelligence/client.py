@@ -277,7 +277,13 @@ class AsyncTnlClient:
 def _decode(response: httpx.Response) -> dict[str, Any]:
     try:
         value = response.json()
-    except ValueError:
+    except ValueError as error:
+        if response.is_success:
+            raise TnlError(
+                "The Neural Ledger API returned malformed JSON",
+                status_code=response.status_code,
+                request_id=response.headers.get("x-request-id"),
+            ) from error
         value = {}
     if response.is_success:
         return value if isinstance(value, dict) else {"data": value}

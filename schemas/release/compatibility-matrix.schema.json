@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theneuralledger.com/schemas/release/compatibility-matrix-v1.json",
+  "title": "TNL Intelligence compatibility matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "policy",
+    "runtimes",
+    "contracts",
+    "hosts",
+    "pairwise",
+    "unsupported"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "policy": {
+      "type": "object",
+      "required": ["additive", "breaking", "deprecationWindowDays"],
+      "properties": {
+        "additive": { "type": "string" },
+        "breaking": { "type": "string" },
+        "deprecationWindowDays": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "runtimes": { "type": "array", "minItems": 5, "items": { "$ref": "#/$defs/support" } },
+    "contracts": { "type": "array", "minItems": 6, "items": { "$ref": "#/$defs/support" } },
+    "hosts": { "type": "array", "minItems": 5, "items": { "$ref": "#/$defs/support" } },
+    "pairwise": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["left", "right", "status", "evidence"],
+        "properties": {
+          "left": { "type": "string" },
+          "right": { "type": "string" },
+          "status": { "enum": ["tested", "contract-tested", "owner-canary"] },
+          "evidence": { "type": "string" }
+        }
+      }
+    },
+    "unsupported": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["combination", "reason"],
+        "properties": {
+          "combination": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "minimum", "currentTested", "status"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "minimum": { "type": "string", "minLength": 1 },
+        "currentTested": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["tested", "contract-tested", "owner-canary"] }
+      }
+    }
+  }
+}

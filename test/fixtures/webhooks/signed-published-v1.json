@@ -1,0 +1,33 @@
+{
+  "event": {
+    "id": "evt_fixture123456789",
+    "type": "intelligence.published",
+    "schemaVersion": "1.0",
+    "occurredAt": "2026-07-18T12:00:00.000Z",
+    "publishedAt": "2026-07-18T12:00:02.000Z",
+    "tenantId": "tenant-1",
+    "resource": { "id": "story-1", "revision": 1, "url": "https://theneuralledger.com/story-1" },
+    "data": {
+      "summary": "A synthetic event summary.",
+      "categories": ["Technology"],
+      "geographies": ["United States"],
+      "entities": ["Example Semiconductor"],
+      "assets": ["EXM"],
+      "impactPaths": ["supply-chain"],
+      "confidence": 0.82,
+      "language": "en",
+      "provenance": ["https://example.com/source"]
+    },
+    "metadata": { "producer": "tnl", "traceId": "trace-fixture-1" }
+  },
+  "rawBody": "{\"id\":\"evt_fixture123456789\",\"type\":\"intelligence.published\",\"schemaVersion\":\"1.0\",\"occurredAt\":\"2026-07-18T12:00:00.000Z\",\"publishedAt\":\"2026-07-18T12:00:02.000Z\",\"tenantId\":\"tenant-1\",\"resource\":{\"id\":\"story-1\",\"revision\":1,\"url\":\"https://theneuralledger.com/story-1\"},\"data\":{\"summary\":\"A synthetic event summary.\",\"categories\":[\"Technology\"],\"geographies\":[\"United States\"],\"entities\":[\"Example Semiconductor\"],\"assets\":[\"EXM\"],\"impactPaths\":[\"supply-chain\"],\"confidence\":0.82,\"language\":\"en\",\"provenance\":[\"https://example.com/source\"]},\"metadata\":{\"producer\":\"tnl\",\"traceId\":\"trace-fixture-1\"}}",
+  "testKeyBase64url": "BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwc",
+  "headers": {
+    "TNL-Webhook-Id": "dlv_abcdefghijklmnop",
+    "TNL-Webhook-Timestamp": "1784376002",
+    "TNL-Webhook-Key-Id": "key_current123",
+    "TNL-Webhook-Signature": "v1=5dbd4ad1b07c03f66ccec793674739e22f7d6f8566bbbbb9b51dc045dbe55716",
+    "TNL-Event-Type": "intelligence.published",
+    "TNL-Event-Version": "1.0"
+  }
+}

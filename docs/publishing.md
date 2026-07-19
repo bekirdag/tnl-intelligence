@@ -31,7 +31,24 @@ The registry name is `com.theneuralledger/intelligence`, so `theneuralledger.com
 
 ## Container
 
-The **Release container** workflow publishes `ghcr.io/bekirdag/tnl-intelligence`. Run it manually after validation. GitHub's package permissions control visibility; no credentials beyond `GITHUB_TOKEN` are embedded in the image.
+The **Release container** workflow publishes `ghcr.io/bekirdag/tnl-intelligence`.
+Run it manually only after the release commit is on `main`, the clean candidate
+passes aggregate qualification, and the matching version tag exists. GitHub's
+package permissions control visibility; no credentials beyond `GITHUB_TOKEN` are
+embedded in the image.
+
+For `0.1.0`:
+
+1. Dispatch `release-container.yml` with version `0.1.0` from the qualified
+   commit.
+2. Wait for the workflow to complete and record its run URL.
+3. Confirm GHCR exposes both `0.1.0` and `latest` for the same digest and make the
+   package public when necessary.
+4. Pull the versioned image and verify `/healthz` plus unauthenticated request
+   rejection before announcing the release.
+
+Rollback keeps immutable version evidence and moves or removes only `latest`
+until a validated patch image is available.
 
 ## Local Release Checks
 

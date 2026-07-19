@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theneuralledger.com/schemas/release/release-candidate-v1.json",
+  "title": "TNL Intelligence release candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "candidateId",
+    "generatedAt",
+    "source",
+    "packages",
+    "contracts",
+    "artifacts",
+    "fixtures",
+    "environment",
+    "featureFlags",
+    "migration",
+    "qualification",
+    "publication"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "candidateId": { "type": "string", "pattern": "^tnl-rc-[a-f0-9]{16}$" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit", "branch", "dirty", "sourceDigest"],
+      "properties": {
+        "repository": { "type": "string", "format": "uri" },
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "branch": { "type": "string", "minLength": 1 },
+        "dirty": { "type": "boolean" },
+        "sourceDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "packages": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "name", "version", "path"],
+        "properties": {
+          "kind": { "enum": ["npm", "python", "mcp-bundle", "container"] },
+          "name": { "type": "string", "minLength": 1 },
+          "version": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "contracts": {
+      "type": "array",
+      "minItems": 6,
+      "items": { "$ref": "#/$defs/fileDigest" }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "allOf": [
+          { "$ref": "#/$defs/fileDigest" },
+          {
+            "type": "object",
+            "required": ["tool", "kind"],
+            "properties": {
+              "tool": { "type": "string", "pattern": "^tool-(0[1-9]|10)$" },
+              "kind": {
+                "enum": [
+                  "package",
+                  "bundle",
+                  "container-evidence",
+                  "qualification-evidence",
+                  "benchmark",
+                  "browser-evidence",
+                  "supply-chain-evidence",
+                  "other"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/$defs/fileDigest" }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node", "npm", "python", "docker", "platform", "architecture"],
+      "properties": {
+        "node": { "type": "string", "minLength": 1 },
+        "npm": { "type": "string", "minLength": 1 },
+        "python": { "type": "string", "minLength": 1 },
+        "docker": { "type": "string", "minLength": 1 },
+        "platform": { "type": "string", "minLength": 1 },
+        "architecture": { "type": "string", "minLength": 1 }
+      }
+    },
+    "featureFlags": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "default", "publicationIsolation"],
+        "properties": {
+          "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" },
+          "default": { "type": ["string", "boolean", "integer"] },
+          "publicationIsolation": { "type": "boolean" }
+        }
+      }
+    },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identifier", "rollbackIdentifier", "rehearsalEvidence"],
+      "properties": {
+        "identifier": { "type": "string", "minLength": 1 },
+        "rollbackIdentifier": { "type": "string", "minLength": 1 },
+        "rehearsalEvidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "compatibilityMatrix", "evidenceIndex", "gates"],
+      "properties": {
+        "state": { "enum": ["pending", "passed", "failed"] },
+        "compatibilityMatrix": { "type": "string", "minLength": 1 },
+        "evidenceIndex": { "type": "string", "minLength": 1 },
+        "gates": {
+          "type": "array",
+          "minItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "state"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "state": { "enum": ["pending", "pass", "fail", "pending-owner"] }
+            }
+          }
+        }
+      }
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorized", "approval", "sideEffectAllowed"],
+      "properties": {
+        "authorized": { "const": false },
+        "approval": { "const": "pending-owner-approval" },
+        "sideEffectAllowed": { "const": false }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "fileDigest": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["path", "sha256", "size"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "size": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

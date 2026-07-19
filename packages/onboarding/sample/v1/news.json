@@ -1,0 +1,89 @@
+{
+  "data": [
+    {
+      "id": "sample-story-1",
+      "slug": "sample-semiconductor-controls",
+      "title": "Sample: semiconductor equipment controls expand",
+      "excerpt": "A synthetic policy event illustrates source-linked claims and downstream asset paths.",
+      "body": "This fictional sample shows how TNL connects a verified policy announcement to entities, assets, and causal impact paths. It is not current news or trading advice.",
+      "category": "Technology",
+      "country": "Global",
+      "author": "TNL Bot",
+      "publishedAt": "2026-07-15T08:00:00.000Z",
+      "updatedAt": "2026-07-15T08:30:00.000Z",
+      "revision": 2,
+      "verificationState": "verified",
+      "truthPosterior": 0.94,
+      "urgencyScore": 0.72,
+      "impactedAssets": ["NVDA", "ASML"],
+      "impactedSectors": ["Semiconductors", "Industrial equipment"],
+      "impactPaths": ["Export controls -> equipment demand -> production capacity"],
+      "entities": [
+        { "id": "sample-entity-1", "name": "Example Trade Authority", "type": "organization" }
+      ],
+      "sources": [
+        {
+          "id": "sample-source-1",
+          "name": "Synthetic Public Register",
+          "url": "https://example.com/tnl-sample/public-register",
+          "publishedAt": "2026-07-15T07:45:00.000Z",
+          "license": "CC0-1.0"
+        }
+      ],
+      "claims": [
+        {
+          "id": "sample-claim-1",
+          "text": "The fictional control list expands to two equipment categories.",
+          "status": "supported",
+          "sourceIds": ["sample-source-1"]
+        }
+      ],
+      "contradictions": []
+    },
+    {
+      "id": "sample-story-2",
+      "slug": "sample-shipping-disruption",
+      "title": "Sample: shipping corridor disruption raises delivery risk",
+      "excerpt": "A synthetic logistics event demonstrates uncertainty and revision handling.",
+      "body": "This fictional sample is intentionally uncertain. A later revision narrows the affected corridor and lowers the estimated duration.",
+      "category": "Supply Chain",
+      "country": "Global",
+      "author": "TNL Bot",
+      "publishedAt": "2026-07-16T11:00:00.000Z",
+      "updatedAt": "2026-07-16T12:15:00.000Z",
+      "revision": 2,
+      "verificationState": "partially_verified",
+      "truthPosterior": 0.71,
+      "urgencyScore": 0.64,
+      "impactedAssets": ["MAERSK-B.CO"],
+      "impactedSectors": ["Shipping", "Retail"],
+      "impactPaths": ["Route disruption -> delivery delays -> inventory pressure"],
+      "entities": [
+        { "id": "sample-entity-2", "name": "Example Port Operator", "type": "organization" }
+      ],
+      "sources": [
+        {
+          "id": "sample-source-2",
+          "name": "Synthetic Port Notice",
+          "url": "https://example.com/tnl-sample/port-notice",
+          "publishedAt": "2026-07-16T10:40:00.000Z",
+          "license": "CC0-1.0"
+        }
+      ],
+      "claims": [
+        {
+          "id": "sample-claim-2",
+          "text": "A fictional corridor is operating with restricted capacity.",
+          "status": "partially_supported",
+          "sourceIds": ["sample-source-2"]
+        }
+      ],
+      "contradictions": [
+        {
+          "id": "sample-contradiction-1",
+          "text": "A synthetic carrier update reports normal operations on a neighboring route."
+        }
+      ]
+    }
+  ]
+}

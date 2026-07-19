@@ -1,0 +1,1 @@
+{"containsProductionData":false,"containsThirdPartyArticleText":false,"dataset":"tnl-quant-synthetic","generatedAt":"2026-07-18T00:00:00Z","generator":"tnl_intelligence.quant.asset_builder","license":"CC0-1.0","scenarios":["revision","retraction","late arrival","ambiguous mapping","timezone offset"],"version":"1.0.0"}
