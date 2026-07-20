@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-tnl-intelligence",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "TNL Intelligence actions and signed instant triggers for n8n.",
   "license": "MIT",
   "homepage": "https://theneuralledger.com",
