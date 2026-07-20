@@ -1,7 +1,7 @@
 # TNL Distribution Publication Audit Plan
 
 Date: 2026-07-20
-Status: Complete
+Status: In progress — marketplace submissions remain
 Progress: [TNL Distribution Publication Audit Progress](tnl-distribution-publication-audit-progress.md)
 
 ## Objective
@@ -13,8 +13,8 @@ remaining channel.
 
 ## Boundaries
 
-- Do not create vendor accounts, accept new marketplace terms, change DNS, add
-  billing details, or grant third-party OAuth access implicitly.
+- Use the vendor accounts and marketplace terms the owner has already created or
+  accepted. Do not add billing details or grant unrelated third-party access.
 - Do not submit an artifact that is absent from the repository or has not passed
   its documented qualification gate.
 - Do not republish immutable npm or PyPI versions.
@@ -64,4 +64,7 @@ remaining channel.
   has a concrete failed-authentication record.
 - Every remaining channel names its exact owner, account, DNS, legal, artifact,
   or review gate.
-- The working tree is clean and the final commit is present on `origin/main`.
+- Every planned marketplace is recorded as built, account-ready, submitted,
+  under review, published, or blocked by one exact external prerequisite.
+- The plan is not complete while a planned submission is merely locally
+  qualified or while its account exists without an integration/listing.

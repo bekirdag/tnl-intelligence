@@ -23,7 +23,8 @@
     "build": "n8n-node build",
     "lint": "n8n-node lint",
     "test": "node --test test/*.test.cjs",
-    "prepublishOnly": "n8n-node prerelease"
+    "prepublishOnly": "n8n-node prerelease",
+    "release": "n8n-node release"
   },
   "files": ["dist", "README.md"],
   "n8n": {
