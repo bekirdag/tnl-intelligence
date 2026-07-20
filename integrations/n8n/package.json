@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-tnl-intelligence",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "TNL Intelligence actions and signed instant triggers for n8n.",
   "license": "MIT",
   "homepage": "https://theneuralledger.com",
@@ -12,7 +12,7 @@
   ],
   "author": {
     "name": "The Neural Ledger",
-    "email": "bekirdag@users.noreply.github.com"
+    "email": "synthomusmagnus@gmail.com"
   },
   "repository": {
     "type": "git",
