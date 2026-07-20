@@ -1,6 +1,7 @@
 # TNL Developer Distribution and Product Expansion Strategy
 
-Date: 2026-07-18
+Created: 2026-07-18
+Last verified: 2026-07-20
 
 ## Objective
 
@@ -18,15 +19,36 @@ TNL remains a read-only intelligence and evidence layer. None of these tools
 should place trades, present TNL as a source of execution-grade prices, or hide
 the original story sources.
 
+## Current Public Distribution
+
+The following artifacts were verified from their public registry or release
+pages on 2026-07-20. These are canonical package/listing URLs rather than search
+results or local build paths.
+
+| Service            | Public name and version                   | Canonical URL                                                                                                 | Status                                                                                                             |
+| ------------------ | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| npm                | `@theneuralledger/sdk@0.1.0`              | [npm package](https://www.npmjs.com/package/@theneuralledger/sdk)                                             | Public; GitHub OIDC trusted publishing configured                                                                  |
+| npm                | `@theneuralledger/research@0.1.0`         | [npm package](https://www.npmjs.com/package/@theneuralledger/research)                                        | Public; GitHub OIDC trusted publishing configured                                                                  |
+| npm                | `@theneuralledger/mcp@0.1.0`              | [npm package](https://www.npmjs.com/package/@theneuralledger/mcp)                                             | Public; declares `com.theneuralledger/intelligence` as `mcpName`                                                   |
+| npm                | `@theneuralledger/cli@0.1.0`              | [npm package](https://www.npmjs.com/package/@theneuralledger/cli)                                             | Public; GitHub OIDC trusted publishing configured                                                                  |
+| PyPI               | `tnl-intelligence==0.1.0`                 | [PyPI project](https://pypi.org/project/tnl-intelligence/0.1.0/)                                              | Public; wheel and source provenance verified                                                                       |
+| GitHub Releases    | `TNL Intelligence 0.1.0` / `v0.1.0`       | [release](https://github.com/bekirdag/tnl-intelligence/releases/tag/v0.1.0)                                   | Public with MCPB, client adapters, connector candidates, Python artifacts, SBOM, provenance, and rollback evidence |
+| GHCR               | `ghcr.io/bekirdag/tnl-intelligence:0.1.0` | [container package](https://github.com/bekirdag/tnl-intelligence/pkgs/container/tnl-intelligence)             | Public; `0.1.0` and `latest` tags verified                                                                         |
+| MCPB release asset | `tnl-intelligence-0.1.0.mcpb`             | [download](https://github.com/bekirdag/tnl-intelligence/releases/download/v0.1.0/tnl-intelligence-0.1.0.mcpb) | Public release asset; not a marketplace listing                                                                    |
+
+`n8n-nodes-tnl-intelligence-0.1.0.tgz` is currently a qualified GitHub
+Release candidate, not a public npm package or verified n8n Community Node. Do
+not represent release-only connector archives as marketplace publications.
+
 ## How the Existing Packages Expand Reach
 
-| Existing artifact                 | Audience reached                             | Why it helps adoption                                                                                                | Primary discovery path                                              |
-| --------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `@theneuralledger/sdk`            | Node.js and TypeScript developers            | Removes authentication, pagination, retry, error, and type-handling work from application integrations               | npm, GitHub, API documentation, code examples                       |
-| `@theneuralledger/mcp`            | AI assistants, agent builders, and IDE users | Makes source-linked TNL stories available as agent tools, resources, and prompts at the moment a user is researching | Official MCP Registry, AI connector directories, Cursor and VS Code |
-| `@theneuralledger/cli`            | Automation engineers and terminal users      | Supports scripts, scheduled jobs, local caching, and long-running ingestion without application code                 | npm, Homebrew later, GitHub releases, container images              |
-| `tnl-intelligence` Python package | Data scientists and quantitative researchers | Provides synchronous and asynchronous access in the Python, notebook, pandas, and backtesting ecosystem              | PyPI, notebooks, QuantConnect examples, data engineering connectors |
-| Container image                   | Platform and operations teams                | Makes the HTTP MCP server and daemon deployable without managing a Node.js toolchain                                 | GitHub Container Registry and Docker MCP Catalog                    |
+| Existing artifact                                                               | Audience reached                             | Why it helps adoption                                                                                                | Primary discovery path                                              |
+| ------------------------------------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [`@theneuralledger/sdk`](https://www.npmjs.com/package/@theneuralledger/sdk)    | Node.js and TypeScript developers            | Removes authentication, pagination, retry, error, and type-handling work from application integrations               | npm, GitHub, API documentation, code examples                       |
+| [`@theneuralledger/mcp`](https://www.npmjs.com/package/@theneuralledger/mcp)    | AI assistants, agent builders, and IDE users | Makes source-linked TNL stories available as agent tools, resources, and prompts at the moment a user is researching | Official MCP Registry, AI connector directories, Cursor and VS Code |
+| [`@theneuralledger/cli`](https://www.npmjs.com/package/@theneuralledger/cli)    | Automation engineers and terminal users      | Supports scripts, scheduled jobs, local caching, and long-running ingestion without application code                 | npm, Homebrew later, GitHub releases, container images              |
+| [`tnl-intelligence`](https://pypi.org/project/tnl-intelligence/) Python package | Data scientists and quantitative researchers | Provides synchronous and asynchronous access in the Python, notebook, pandas, and backtesting ecosystem              | PyPI, notebooks, QuantConnect examples, data engineering connectors |
+| Container image                                                                 | Platform and operations teams                | Makes the HTTP MCP server and daemon deployable without managing a Node.js toolchain                                 | GitHub Container Registry and Docker MCP Catalog                    |
 
 These packages create integration surface, but they will not create material
 reach by themselves. Each package needs a searchable listing, a working
@@ -151,8 +173,8 @@ Build these before adding more marketplace-specific clients.
 
 | Channel                                                                                                                                      | What to place there                                                            | Main audience                            | Priority | Account or review                                                   |
 | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------- | -------- | ------------------------------------------------------------------- |
-| [npm](https://www.npmjs.com/)                                                                                                                | SDK, MCP server, CLI, and later n8n nodes                                      | JavaScript and agent developers          | P0       | npm owner account; publishing is already prepared                   |
-| [PyPI](https://pypi.org/)                                                                                                                    | Python SDK and optional quant extras                                           | Python, data science, and quant users    | P0       | PyPI project/trusted publisher                                      |
+| [npm `@theneuralledger`](https://www.npmjs.com/org/theneuralledger)                                                                          | SDK, research, MCP server, CLI, and later n8n nodes                            | JavaScript and agent developers          | P0       | Four version `0.1.0` packages are public with trusted publishing    |
+| [PyPI `tnl-intelligence`](https://pypi.org/project/tnl-intelligence/)                                                                        | Python SDK and optional quant extras                                           | Python, data science, and quant users    | P0       | Version `0.1.0` is public through a trusted publisher               |
 | [GitHub](https://github.com/bekirdag/tnl-intelligence)                                                                                       | Source, releases, templates, examples, discussions, and issue support          | All technical evaluators                 | P0       | Existing repository                                                 |
 | [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) | Versioned remote MCP/daemon image                                              | Platform teams and self-hosters          | P0       | Existing GitHub owner                                               |
 | [Artifact Hub](https://artifacthub.io/docs/topics/repositories/)                                                                             | Verified container listing and, when built, a Helm chart                       | Cloud-native platform teams              | P2       | Artifact Hub account, TNL organization, and repository verification |
@@ -227,40 +249,61 @@ because marketplace forms and review rules change.
 
 ### Current Account State
 
-| Service         | State verified on this machine               | Action                                                                                                      |
-| --------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| GitHub          | Authenticated as `bekirdag`                  | Use this existing account and repository. Do not create another GitHub account.                             |
-| npm             | Account `bekirdag` exists; CLI login expired | Run `npm login` and confirm `npm whoami` returns `bekirdag` before creating the organization or publishing. |
-| PyPI            | Not verified                                 | Use an existing TNL-owned PyPI account if one exists; otherwise create a separate PyPI account.             |
-| All other sites | Not verified                                 | Follow the account decision table below. Do not assume a personal account should own a company listing.     |
+| Service         | State verified on 2026-07-20                         | Action                                                                                            |
+| --------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| GitHub          | Authenticated as `bekirdag`; repository admin        | Reuse this identity for source, Releases, GHCR, topics, and contribution pull requests.           |
+| npm             | Authenticated as `bekirdag`; `theneuralledger` owner | Four packages are public. Use the protected OIDC workflow for future versions.                    |
+| PyPI            | `tnl-intelligence` project is public through OIDC    | Use the protected trusted-publisher workflow for future versions.                                 |
+| GitHub Release  | `v0.1.0` is public                                   | Add only immutable, qualified assets to future semantic-version releases.                         |
+| GHCR            | `tnl-intelligence:0.1.0` and `latest` are public     | Use the existing container workflow for future versions.                                          |
+| All other sites | No reusable vendor session was verified              | Follow the account decision table. Do not assume a personal account should own a company listing. |
+
+### No-Additional-Account Execution Matrix
+
+This matrix distinguishes work that can be executed with the identities already
+available from work that still needs an owner-controlled decision or account.
+
+| Channel                                                                                                   | Can proceed without owner account help?                                     | Current result or exact gate                                                                                                                                                                                                                                               |
+| --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub repository topics                                                                                  | Yes                                                                         | Completed on 2026-07-20 with 18 accurate developer, MCP, API, automation, and research topics                                                                                                                                                                              |
+| GitHub Release and GHCR updates                                                                           | Yes, when a new qualified version exists                                    | Existing GitHub identity and workflows are sufficient; `v0.1.0` is already public                                                                                                                                                                                          |
+| Existing npm and PyPI package updates                                                                     | Yes, when a new qualified version exists                                    | Trusted publishing is configured; do not republish immutable `0.1.0` versions                                                                                                                                                                                              |
+| `n8n-nodes-tnl-intelligence` npm package                                                                  | No, not yet                                                                 | n8n requires GitHub provenance, while npm requires the package to exist before `npm trust github` can configure its trusted publisher. Complete a secure first-package bootstrap, add the supported `n8n-node release` workflow, then publish a provenance-bearing version |
+| Official MCP Registry                                                                                     | No                                                                          | The preserved `com.theneuralledger/intelligence` namespace requires the `theneuralledger.com` DNS private key and the `mcp-registry` GitHub environment                                                                                                                    |
+| VS Code MCP gallery                                                                                       | No direct submission                                                        | It follows successful Official MCP Registry publication automatically                                                                                                                                                                                                      |
+| APIs.guru                                                                                                 | Technically a GitHub pull request, but owner authorization remains required | Submission dedicates contributed definition metadata under CC0 and must point to a stable public canonical OpenAPI URL                                                                                                                                                     |
+| Docker MCP Catalog                                                                                        | Technically a GitHub contribution after adaptation                          | Existing generated Docker metadata must be converted to the current upstream schema, qualified, submitted, and reviewed                                                                                                                                                    |
+| Activepieces and Dify                                                                                     | No current publishable artifact                                             | Repository contains no platform-native Activepieces piece or Dify plugin package; GitHub authentication alone is insufficient                                                                                                                                              |
+| Render deploy button                                                                                      | Repository implementation needs no publisher account                        | A public `render.yaml` and clean live canary are still required before exposing the button                                                                                                                                                                                 |
+| Smithery, Glama, PulseMCP, Postman, Pipedream, Apify, Zapier, Cursor, OpenAI, and similar hosted catalogs | No                                                                          | Each still requires a provider login/OAuth grant, TNL-controlled email, hosted validation, terms acceptance, or marketplace review                                                                                                                                         |
 
 ### Account Decision Table
 
-| Platform                       | Account required                                                                      | Account to use or create                                                                                                      |
-| ------------------------------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| GitHub and GHCR                | GitHub                                                                                | Use the existing `bekirdag` GitHub account.                                                                                   |
-| npm                            | npm account and `theneuralledger` npm organization                                    | Use `bekirdag`; create the organization if it does not exist. Google and Microsoft accounts are not required.                 |
-| PyPI                           | Separate PyPI account                                                                 | Use a TNL-owned PyPI account or register one with a company-controlled email. GitHub, Google, and Microsoft are not required. |
-| Official MCP Registry          | Domain ownership for the current namespace                                            | No new marketplace account. Authenticate `theneuralledger.com` with DNS and a signing key.                                    |
-| Postman                        | Postman account                                                                       | Prefer **Continue with GitHub** using `bekirdag`, or use a company Google Workspace account if TNL already has one.           |
-| Docker MCP Catalog             | GitHub for the contribution; Docker account only for Desktop/Hub testing              | Use `bekirdag` for the pull request. If needed, create Docker with **Continue with GitHub**.                                  |
-| Smithery                       | Smithery account/API identity                                                         | Run `smithery auth login` and complete its browser login. Use the TNL owner identity.                                         |
-| Glama                          | GitHub OAuth with repository write/admin access                                       | Sign in with the existing `bekirdag` GitHub account.                                                                          |
-| PulseMCP                       | No separate publisher account is currently advertised                                 | Use the submission form only if the registry-fed listing does not appear; provide a TNL-controlled email if requested.        |
-| VS Code MCP gallery            | No separate Microsoft publisher account                                               | Publishing to the official MCP Registry supplies the gallery entry.                                                           |
-| Cursor Marketplace             | Cursor account                                                                        | Use an existing Cursor account, or create one using the existing GitHub identity. A Microsoft account is not required.        |
-| ChatGPT/Codex Plugin Directory | OpenAI Platform account and publishing organization                                   | Use an existing OpenAI login if it owns the correct organization; otherwise create a company-owned OpenAI account.            |
-| APIs.guru                      | GitHub                                                                                | Use `bekirdag` to submit a pull request.                                                                                      |
-| n8n Creator Portal             | n8n Creator account plus GitHub and npm                                               | Register a company-owned creator account; continue using `bekirdag` and the TNL npm organization for source and artifacts.    |
-| Pipedream                      | Pipedream and GitHub                                                                  | Create a Pipedream account with a TNL-controlled email and use `bekirdag` for the public registry pull request.               |
-| Apify Store                    | Apify account and organization                                                        | Create a TNL-owned Apify organization; add billing/payout identity only if the Actor is monetized.                            |
-| Dify Marketplace               | GitHub for submission; Dify environment for validation                                | Use `bekirdag` for the marketplace pull request and a TNL-owned Dify account for end-to-end plugin validation.                |
-| Activepieces                   | GitHub contribution; optional Activepieces Cloud validation account                   | Prefer a contribution from `bekirdag`; create a TNL-owned cloud account only when a live validation run is needed.            |
-| Artifact Hub                   | Artifact Hub account and organization                                                 | Create a TNL-owned organization when container or Helm metadata is ready, then verify repository ownership.                   |
-| Railway Template Marketplace   | Railway account and workspace                                                         | Create a TNL-owned Railway workspace when the deployment template passes a live canary, then publish it to the marketplace.   |
-| Render Deploy Button           | No publisher account required; Render account for validation                          | Add the public blueprint/button from GitHub and use a TNL-owned Render account only to verify the complete deployment.        |
-| Zapier                         | Zapier developer account                                                              | Use or create a TNL-owned Zapier account with a company-domain email. Google or Microsoft login is optional, not required.    |
-| Rich VS Code extension, later  | Microsoft account, Azure DevOps organization, and Visual Studio Marketplace publisher | Create these only after the extension has useful editor-native UI. They are not required for the MCP gallery.                 |
+| Platform                       | Account required                                                                      | Account to use or create                                                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| GitHub and GHCR                | GitHub                                                                                | Use the existing `bekirdag` GitHub account.                                                                                 |
+| npm                            | npm account and `theneuralledger` npm organization                                    | Existing: `bekirdag` owns the organization and four public packages. No new npm account is required.                        |
+| PyPI                           | Separate PyPI account                                                                 | Existing: `tnl-intelligence` is public through the configured GitHub trusted publisher. No new PyPI account is required.    |
+| Official MCP Registry          | Domain ownership for the current namespace                                            | No new marketplace account. Authenticate `theneuralledger.com` with DNS and a signing key.                                  |
+| Postman                        | Postman account                                                                       | Prefer **Continue with GitHub** using `bekirdag`, or use a company Google Workspace account if TNL already has one.         |
+| Docker MCP Catalog             | GitHub for the contribution; Docker account only for Desktop/Hub testing              | Use `bekirdag` for the pull request. If needed, create Docker with **Continue with GitHub**.                                |
+| Smithery                       | Smithery account/API identity                                                         | Run `smithery auth login` and complete its browser login. Use the TNL owner identity.                                       |
+| Glama                          | GitHub OAuth with repository write/admin access                                       | Sign in with the existing `bekirdag` GitHub account.                                                                        |
+| PulseMCP                       | No separate publisher account is currently advertised                                 | Use the submission form only if the registry-fed listing does not appear; provide a TNL-controlled email if requested.      |
+| VS Code MCP gallery            | No separate Microsoft publisher account                                               | Publishing to the official MCP Registry supplies the gallery entry.                                                         |
+| Cursor Marketplace             | Cursor account                                                                        | Use an existing Cursor account, or create one using the existing GitHub identity. A Microsoft account is not required.      |
+| ChatGPT/Codex Plugin Directory | OpenAI Platform account and publishing organization                                   | Use an existing OpenAI login if it owns the correct organization; otherwise create a company-owned OpenAI account.          |
+| APIs.guru                      | GitHub                                                                                | Use `bekirdag` to submit a pull request.                                                                                    |
+| n8n Creator Portal             | n8n Creator account plus GitHub and npm                                               | Register a company-owned creator account; continue using `bekirdag` and the TNL npm organization for source and artifacts.  |
+| Pipedream                      | Pipedream and GitHub                                                                  | Create a Pipedream account with a TNL-controlled email and use `bekirdag` for the public registry pull request.             |
+| Apify Store                    | Apify account and organization                                                        | Create a TNL-owned Apify organization; add billing/payout identity only if the Actor is monetized.                          |
+| Dify Marketplace               | GitHub for submission; Dify environment for validation                                | Use `bekirdag` for the marketplace pull request and a TNL-owned Dify account for end-to-end plugin validation.              |
+| Activepieces                   | GitHub contribution; optional Activepieces Cloud validation account                   | Prefer a contribution from `bekirdag`; create a TNL-owned cloud account only when a live validation run is needed.          |
+| Artifact Hub                   | Artifact Hub account and organization                                                 | Create a TNL-owned organization when container or Helm metadata is ready, then verify repository ownership.                 |
+| Railway Template Marketplace   | Railway account and workspace                                                         | Create a TNL-owned Railway workspace when the deployment template passes a live canary, then publish it to the marketplace. |
+| Render Deploy Button           | No publisher account required; Render account for validation                          | Add the public blueprint/button from GitHub and use a TNL-owned Render account only to verify the complete deployment.      |
+| Zapier                         | Zapier developer account                                                              | Use or create a TNL-owned Zapier account with a company-domain email. Google or Microsoft login is optional, not required.  |
+| Rich VS Code extension, later  | Microsoft account, Azure DevOps organization, and Visual Studio Marketplace publisher | Create these only after the extension has useful editor-native UI. They are not required for the MCP gallery.               |
 
 ### Shared Ownership and Security Setup
 
@@ -325,6 +368,11 @@ and [package visibility](https://docs.github.com/en/packages/learn-github-packag
 
 **Account:** use npm user `bekirdag`. npm has its own account system; a Google or
 Microsoft account is not required.
+
+**Current status:** complete for `@theneuralledger/sdk`,
+`@theneuralledger/research`, `@theneuralledger/mcp`, and
+`@theneuralledger/cli` version `0.1.0`. The remaining steps in this section are
+the repeatable runbook for future versions.
 
 #### Create or confirm the npm organization
 
@@ -426,6 +474,12 @@ The existing workflow uses Node 24 and `id-token: write`, satisfying the current
 
 **Account:** PyPI requires a separate PyPI identity. GitHub, npm, Google, and
 Microsoft logins do not replace it.
+
+**Current status:** complete for `tnl-intelligence==0.1.0`. The public wheel and
+source archive match the qualified artifacts, and PyPI provenance binds the
+release to `bekirdag/tnl-intelligence`, `release-python.yml`, branch `main`, and
+environment `pypi`. The remaining steps are the repeatable first-project/future
+release runbook.
 
 1. Open [PyPI registration](https://pypi.org/account/register/). If TNL already
    has a PyPI account, sign in instead and confirm the company controls its email
@@ -890,56 +944,66 @@ Reference: [OpenAI plugin submission guide](https://learn.chatgpt.com/docs/submi
 **Accounts:** use GitHub `bekirdag`, the TNL npm organization, and a separate n8n
 Creator Portal account. No Microsoft or Google account is required.
 
-Build this in a dedicated repository such as `tnl-n8n-nodes`, because n8n's
-scaffold, versioning, provenance workflow, and review lifecycle are independent
-from the core SDK monorepo.
+**Current status:** the exact candidate is `n8n-nodes-tnl-intelligence@0.1.0`
+under `integrations/n8n` in this repository. It passes strict n8n lint, build,
+metadata tests, and tarball inspection, but it is not published on npm and has
+not been submitted to the n8n Creator Portal.
 
 1. Open [n8n Creator Portal registration](https://creators.n8n.io/register).
    Create an account with a TNL-controlled email, verify it, enable available
    account security, and store recovery information.
-2. Create a public GitHub repository under `bekirdag` or a future TNL GitHub
-   organization. Make the ownership and support path explicit.
-3. Scaffold with the current n8n tool:
+2. Keep the existing public repository and exact unscoped package name. Its
+   `repository.directory` is `integrations/n8n`; do not create a duplicate
+   package or separate repository merely for submission.
+3. Preserve the `n8n-community-node-package` keyword, strict n8n metadata, no
+   runtime dependencies, TNL-managed credentials, signed trigger verification,
+   and the stable public API/webhook contracts.
+4. Add the supported `"release": "n8n-node release"` script and a dedicated
+   `.github/workflows/release-n8n.yml` workflow. It must use a GitHub-hosted
+   runner, Node 24, `id-token: write`, the protected `npm` environment, strict
+   lint, build, tests, and `npm run release` from `integrations/n8n`.
+5. For the one-time first publication, create a short-lived granular npm token
+   limited to this package/publication purpose, store it only as a protected
+   GitHub Actions secret, and publish from the dedicated workflow with npm
+   provenance. Revoke the bootstrap token immediately after the package exists.
+   Do not publish locally or bypass `n8n-node prerelease`; local publication lacks
+   the provenance n8n requires.
+6. Once the package exists, configure its trusted publisher from an authenticated
+   npm CLI session:
 
    ```bash
-   npm create @n8n/node
+   npm trust github n8n-nodes-tnl-intelligence \
+     --repo bekirdag/tnl-intelligence \
+     --file release-n8n.yml \
+     --env npm \
+     --allow-publish \
+     --yes
    ```
 
-4. Name the package `n8n-nodes-tnl` or a compliant scoped equivalent. Include the
-   `n8n-community-node-package` keyword and the required `n8n` package metadata.
-5. Implement credentials plus the agreed trigger/actions. The first verified
-   version should use the stable TNL API and webhook contracts rather than
-   private endpoints.
-6. Do not add runtime dependencies: current verified-community-node rules forbid
-   them. Use the n8n request helpers and generated scaffold patterns.
-7. Run `npm run lint`, `npm run dev`, unit tests, and a live workflow test for
-   every trigger/action. Document authentication and example workflows.
-8. Keep the scaffolded `.github/workflows/publish.yml`. Confirm the project uses
-   `@n8n/node-cli` version `0.23.0` or later.
-9. Bootstrap the npm package if necessary, then open its npm **Settings** >
-   **Trusted Publishers** > **Add a publisher** and configure:
+7. Confirm the resulting trusted-publisher fields:
 
-   | Field             | Value                                 |
-   | ----------------- | ------------------------------------- |
-   | Provider          | GitHub Actions                        |
-   | Repository owner  | `bekirdag` or the actual GitHub owner |
-   | Repository name   | `tnl-n8n-nodes` or the actual repo    |
-   | Workflow filename | `publish.yml`                         |
-   | Allowed action    | `npm publish`                         |
+   | Field             | Value              |
+   | ----------------- | ------------------ |
+   | Provider          | GitHub Actions     |
+   | Repository owner  | `bekirdag`         |
+   | Repository name   | `tnl-intelligence` |
+   | Workflow filename | `release-n8n.yml`  |
+   | Environment       | `npm`              |
+   | Allowed action    | `npm publish`      |
 
-10. Run `npm run release` according to the generated project instructions. Push
-    the version commit and tag so GitHub Actions publishes with provenance.
-11. Open the npm package page and verify version, README, provenance, repository,
-    license, keywords, node metadata, and absence of runtime dependencies.
-12. Sign in to the [n8n Creator Portal](https://creators.n8n.io/login), select
+8. Run the dedicated workflow for every subsequent version. Never reuse or
+   republish `0.1.0`; package versions are immutable.
+9. Open the npm package page and verify version, README, provenance, repository,
+   license, keywords, node metadata, and absence of runtime dependencies.
+10. Sign in to the [n8n Creator Portal](https://creators.n8n.io/login), select
     node submission/verification, enter the npm package and repository, and
     complete the technical, UX, documentation, and ownership fields.
-13. Submit for verification. n8n will fetch the npm artifact, so never replace or
+11. Submit for verification. n8n will fetch the npm artifact, so never replace or
     force-mutate the published version while review is in progress.
-14. After approval, install the node from n8n's node panel in a clean instance,
+12. After approval, install the node from n8n's node panel in a clean instance,
     authenticate with a bounded key, and run each visible trigger/action.
 
-As of 2026-07-18, n8n requires GitHub Actions provenance for verified submissions
+As of 2026-07-20, n8n requires GitHub Actions provenance for verified submissions
 and does not accept direct local publication for that review path. Reference:
 [n8n community-node publication](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
 
@@ -1514,7 +1578,8 @@ log before marking publication complete:
 
 ### Days 0-30
 
-1. Publish npm, PyPI, and container artifacts using the existing release runbook.
+1. **Completed 2026-07-20:** publish npm, PyPI, GitHub Release, and container
+   artifacts using the existing release runbook.
 2. Publish to the official MCP Registry and add the VS Code install link.
 3. Create the Postman public workspace and API explorer.
 4. Ship the remote MCP gateway authentication and operations baseline.
