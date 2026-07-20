@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-tnl-intelligence",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "TNL Intelligence actions and signed instant triggers for n8n.",
   "license": "MIT",
   "homepage": "https://theneuralledger.com",
@@ -16,8 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bekirdag/tnl-intelligence.git",
-    "directory": "integrations/n8n"
+    "url": "https://github.com/bekirdag/n8n-nodes-tnl-intelligence.git"
   },
   "scripts": {
     "build": "n8n-node build",
