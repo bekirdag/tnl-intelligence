@@ -92,8 +92,9 @@ Build these before adding more marketplace-specific clients.
      prompt examples for other MCP clients.
 
 3. **Automation connectors**
-   - Start with n8n and Pipedream because they map cleanly to npm code and public
-     component registries.
+   - Start with n8n, Pipedream, Apify, and Activepieces because they map cleanly
+     to the shared trigger/action contract and public component or execution
+     registries.
    - Add Zapier after the webhook trigger contract is stable.
    - Add Make after the first connectors confirm which triggers and actions are
      actually used.
@@ -148,47 +149,53 @@ Build these before adding more marketplace-specific clients.
 
 ### Package and API Discovery
 
-| Channel                                                                                                                                      | What to place there                                                            | Main audience                            | Priority | Account or review                                            |
-| -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------- | -------- | ------------------------------------------------------------ |
-| [npm](https://www.npmjs.com/)                                                                                                                | SDK, MCP server, CLI, and later n8n nodes                                      | JavaScript and agent developers          | P0       | npm owner account; publishing is already prepared            |
-| [PyPI](https://pypi.org/)                                                                                                                    | Python SDK and optional quant extras                                           | Python, data science, and quant users    | P0       | PyPI project/trusted publisher                               |
-| [GitHub](https://github.com/bekirdag/tnl-intelligence)                                                                                       | Source, releases, templates, examples, discussions, and issue support          | All technical evaluators                 | P0       | Existing repository                                          |
-| [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) | Versioned remote MCP/daemon image                                              | Platform teams and self-hosters          | P0       | Existing GitHub owner                                        |
-| [Postman Public API Network](https://www.postman.com/publish/)                                                                               | Public workspace, collection, examples, tests, and environment template        | API evaluators and integration teams     | P0       | Postman account and public workspace                         |
-| [APIs.guru OpenAPI Directory](https://github.com/APIs-guru/openapi-directory)                                                                | Standards-valid canonical OpenAPI definition                                   | API search engines and code generators   | P1       | GitHub pull request and validation                           |
-| [RapidAPI Hub](https://docs.rapidapi.com/docs/hub-listing-overview)                                                                          | Proxied API listing only if TNL wants separate marketplace billing and support | Developers searching for commercial APIs | P3       | Provider account, pricing, support, and auth decision        |
-| GitHub Topics and curated developer lists                                                                                                    | Repository metadata and concise project submission                             | Open-source discovery                    | P0       | Add accurate topics; curated lists may require pull requests |
+| Channel                                                                                                                                      | What to place there                                                            | Main audience                            | Priority | Account or review                                                   |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------- | -------- | ------------------------------------------------------------------- |
+| [npm](https://www.npmjs.com/)                                                                                                                | SDK, MCP server, CLI, and later n8n nodes                                      | JavaScript and agent developers          | P0       | npm owner account; publishing is already prepared                   |
+| [PyPI](https://pypi.org/)                                                                                                                    | Python SDK and optional quant extras                                           | Python, data science, and quant users    | P0       | PyPI project/trusted publisher                                      |
+| [GitHub](https://github.com/bekirdag/tnl-intelligence)                                                                                       | Source, releases, templates, examples, discussions, and issue support          | All technical evaluators                 | P0       | Existing repository                                                 |
+| [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) | Versioned remote MCP/daemon image                                              | Platform teams and self-hosters          | P0       | Existing GitHub owner                                               |
+| [Artifact Hub](https://artifacthub.io/docs/topics/repositories/)                                                                             | Verified container listing and, when built, a Helm chart                       | Cloud-native platform teams              | P2       | Artifact Hub account, TNL organization, and repository verification |
+| [Railway Template Marketplace](https://docs.railway.com/templates/publish-and-share)                                                         | One-click remote MCP gateway template backed by the public repository or image | Developers evaluating hosted deployment  | P2       | TNL-owned Railway workspace and published template                  |
+| [Render Deploy Button](https://render.com/docs/deploy-to-render)                                                                             | `render.yaml` blueprint and one-click deployment button                        | Developers who want managed self-hosting | P2       | No publisher account; use a TNL Render account for live validation  |
+| [Postman Public API Network](https://www.postman.com/publish/)                                                                               | Public workspace, collection, examples, tests, and environment template        | API evaluators and integration teams     | P0       | Postman account and public workspace                                |
+| [APIs.guru OpenAPI Directory](https://github.com/APIs-guru/openapi-directory)                                                                | Standards-valid canonical OpenAPI definition                                   | API search engines and code generators   | P1       | GitHub pull request and validation                                  |
+| [RapidAPI Hub](https://docs.rapidapi.com/docs/hub-listing-overview)                                                                          | Proxied API listing only if TNL wants separate marketplace billing and support | Developers searching for commercial APIs | P3       | Provider account, pricing, support, and auth decision               |
+| GitHub Topics and curated developer lists                                                                                                    | Repository metadata and concise project submission                             | Open-source discovery                    | P0       | Add accurate topics; curated lists may require pull requests        |
 
 ### MCP and AI Marketplaces
 
-| Channel                                                                                                                                     | What to build or submit                                                       | Main audience                            | Priority | Account or review                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------- | -------- | ---------------------------------------------------------------- |
-| [Official MCP Registry](https://modelcontextprotocol.io/registry/quickstart)                                                                | Existing `server.json` pointing to the published npm package                  | MCP clients and downstream catalogs      | P0       | GitHub auth/namespace verification; package must be public first |
-| [Docker MCP Catalog](https://docs.docker.com/ai/mcp-catalog-and-toolkit/catalog/)                                                           | Containerized MCP listing and catalog metadata                                | Docker Desktop and self-hosted MCP users | P0       | Contribution to the Docker MCP registry and verification         |
-| [Smithery](https://smithery.ai/docs/build)                                                                                                  | Hosted remote endpoint or MCPB/local server listing                           | Users seeking installable MCP tools      | P0       | Provider account and listing                                     |
-| [Glama MCP Directory](https://glama.ai/mcp/hosting)                                                                                         | GitHub repository and remote server metadata                                  | MCP discovery and tool-level search      | P1       | Repository submission                                            |
-| [PulseMCP](https://www.pulsemcp.com/submit)                                                                                                 | Public server metadata                                                        | MCP directory users                      | P1       | Manual submission                                                |
-| [MCPB](https://github.com/modelcontextprotocol/mcpb)                                                                                        | Signed/verified one-click local bundle                                        | Desktop AI users                         | P0       | Build and release artifact; client-specific review may apply     |
-| [VS Code MCP gallery](https://code.visualstudio.com/docs/agent-customization/mcp-servers)                                                   | Registry-backed server listing and one-click install link                     | VS Code agent users                      | P0       | Official MCP Registry publication                                |
-| [Cursor Marketplace](https://cursor.com/marketplace)                                                                                        | Plugin containing MCP, skills, rules, and commands                            | Developers using agentic IDE workflows   | P1       | Cursor plugin submission/review                                  |
-| [Anthropic Connectors Directory](https://support.anthropic.com/en/articles/11596036-anthropic-connectors-directory-faq)                     | Public remote MCP connector with account linking and support/privacy material | Claude users                             | P1       | Submission and security/product review                           |
-| [ChatGPT and Codex Plugin Directory](https://help.openai.com/en/articles/20001256)                                                          | Plugin containing the TNL MCP app and reusable intelligence skills            | ChatGPT and Codex users                  | P1       | OpenAI developer account and review                              |
-| [OpenAI Apps SDK](https://help.openai.com/en/articles/12515353)                                                                             | Rich MCP-backed timeline, evidence, and asset-impact UI inside the plugin     | Users who need visual, cited research    | P1       | App/plugin submission and review                                 |
-| [Microsoft 365 Copilot federated connectors](https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/submit-federated-connector) | Read-only remote MCP search/fetch connector                                   | Enterprise Microsoft users               | P2       | Public HTTPS service and Microsoft review                        |
-| [Microsoft 365 Copilot Agent Store](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-agent-store)                            | TNL research/monitoring agent after connector approval                        | Business analysts and enterprise teams   | P2       | Tenant/developer account and store governance                    |
+| Channel                                                                                                                                     | What to build or submit                                                        | Main audience                            | Priority | Account or review                                                               |
+| ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------- | -------- | ------------------------------------------------------------------------------- |
+| [Official MCP Registry](https://modelcontextprotocol.io/registry/quickstart)                                                                | Existing `server.json` pointing to the published npm package                   | MCP clients and downstream catalogs      | P0       | GitHub auth/namespace verification; package must be public first                |
+| [Docker MCP Catalog](https://docs.docker.com/ai/mcp-catalog-and-toolkit/catalog/)                                                           | Containerized MCP listing and catalog metadata                                 | Docker Desktop and self-hosted MCP users | P0       | Contribution to the Docker MCP registry and verification                        |
+| [Smithery](https://smithery.ai/docs/build)                                                                                                  | Hosted remote endpoint or MCPB/local server listing                            | Users seeking installable MCP tools      | P0       | Provider account and listing                                                    |
+| [Glama MCP Directory](https://glama.ai/mcp/hosting)                                                                                         | GitHub repository and remote server metadata                                   | MCP discovery and tool-level search      | P1       | Repository submission                                                           |
+| [PulseMCP](https://www.pulsemcp.com/submit)                                                                                                 | Public server metadata                                                         | MCP directory users                      | P1       | Manual submission                                                               |
+| [MCPB](https://github.com/modelcontextprotocol/mcpb)                                                                                        | Signed/verified one-click local bundle                                         | Desktop AI users                         | P0       | Build and release artifact; client-specific review may apply                    |
+| [VS Code MCP gallery](https://code.visualstudio.com/docs/agent-customization/mcp-servers)                                                   | Registry-backed server listing and one-click install link                      | VS Code agent users                      | P0       | Official MCP Registry publication                                               |
+| [Cursor Marketplace](https://cursor.com/marketplace)                                                                                        | Plugin containing MCP, skills, rules, and commands                             | Developers using agentic IDE workflows   | P1       | Cursor plugin submission/review                                                 |
+| [Anthropic Connectors Directory](https://support.anthropic.com/en/articles/11596036-anthropic-connectors-directory-faq)                     | Public remote MCP connector with account linking and support/privacy material  | Claude users                             | P1       | Submission and security/product review                                          |
+| [ChatGPT and Codex Plugin Directory](https://help.openai.com/en/articles/20001256)                                                          | Plugin containing the TNL MCP app and reusable intelligence skills             | ChatGPT and Codex users                  | P1       | OpenAI developer account and review                                             |
+| [OpenAI Apps SDK](https://help.openai.com/en/articles/12515353)                                                                             | Rich MCP-backed timeline, evidence, and asset-impact UI inside the plugin      | Users who need visual, cited research    | P1       | App/plugin submission and review                                                |
+| [Dify Marketplace](https://docs.dify.ai/en/develop-plugin/publishing/marketplace-listing/release-to-dify-marketplace)                       | TNL tool plugin exposing cited search, story retrieval, and briefing workflows | Dify workflow and agent builders         | P1       | Existing GitHub account, Dify validation environment, and reviewed pull request |
+| [Microsoft 365 Copilot federated connectors](https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/submit-federated-connector) | Read-only remote MCP search/fetch connector                                    | Enterprise Microsoft users               | P2       | Public HTTPS service and Microsoft review                                       |
+| [Microsoft 365 Copilot Agent Store](https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-agent-store)                            | TNL research/monitoring agent after connector approval                         | Business analysts and enterprise teams   | P2       | Tenant/developer account and store governance                                   |
 
 ### Automation and Data Tool Libraries
 
-| Channel                                                                                                                   | What to build                                                                | Main audience                          | Priority | Account or review                                                |
-| ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------- | -------- | ---------------------------------------------------------------- |
-| [n8n community nodes](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/)                     | `n8n-nodes-tnl` trigger and actions                                          | Self-hosted automation users           | P1       | npm package; verification for n8n Cloud visibility               |
-| [Pipedream component registry](https://pipedream.com/docs/components)                                                     | Story event source plus search/get/brief actions                             | Developers building event workflows    | P1       | Pipedream account and component contribution/review              |
-| [Zapier public integrations](https://docs.zapier.com/integrations/quickstart/private-vs-public-integrations)              | Public TNL app using webhooks and API actions                                | Broad no-code business audience        | P1       | Zapier developer account, users, testing, and publication review |
-| [Make Apps Marketplace](https://developers.make.com/custom-apps-documentation/apps-marketplace/how-does-it-work)          | Public community app using the same trigger/action contract                  | Visual automation users                | P2       | Make developer account and marketplace review                    |
-| [dlt verified sources](https://dlthub.com/docs/dlt-ecosystem/verified-sources)                                            | Incremental Python source with schema and state handling                     | Python data engineers                  | P2       | Open-source contribution/review                                  |
-| [Airbyte Connector Catalog](https://github.com/airbytehq/airbyte/blob/master/docs/integrations/README.md)                 | Source connector with incremental sync and schema discovery                  | Data platform and warehouse teams      | P2       | Connector contribution, tests, and catalog review                |
-| [Grafana Plugin Catalog](https://grafana.com/developers/plugin-tools/publish-a-plugin/publish-a-plugin)                   | TNL data source or app plugin                                                | Monitoring and risk teams              | P2       | Signed plugin and Grafana review                                 |
-| [GitHub Marketplace](https://docs.github.com/en/actions/how-tos/create-and-publish-actions/publish-in-github-marketplace) | Separate “TNL Intelligence Gate” action for scheduled/PR/release risk briefs | Software and release engineering teams | P2       | Separate public action repository with root `action.yml`         |
+| Channel                                                                                                                   | What to build                                                                | Main audience                          | Priority | Account or review                                                  |
+| ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------- | -------- | ------------------------------------------------------------------ |
+| [n8n community nodes](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/)                     | `n8n-nodes-tnl` trigger and actions                                          | Self-hosted automation users           | P1       | npm package; verification for n8n Cloud visibility                 |
+| [Pipedream component registry](https://pipedream.com/docs/components)                                                     | Story event source plus search/get/brief actions                             | Developers building event workflows    | P1       | Pipedream account and component contribution/review                |
+| [Apify Store](https://docs.apify.com/actors/publishing)                                                                   | TNL Intelligence Actor with public search, cited-brief, and monitoring tasks | Automation and AI-agent users          | P1       | TNL-owned Apify account/organization and Store publication         |
+| [Activepieces](https://www.activepieces.com/docs/build-pieces/sharing-pieces/overview)                                    | TNL piece using the shared trigger/action contract                           | Open-source automation users           | P1       | Prefer GitHub contribution; cloud account only for live validation |
+| [Zapier public integrations](https://docs.zapier.com/integrations/quickstart/private-vs-public-integrations)              | Public TNL app using webhooks and API actions                                | Broad no-code business audience        | P1       | Zapier developer account, users, testing, and publication review   |
+| [Make Apps Marketplace](https://developers.make.com/custom-apps-documentation/apps-marketplace/how-does-it-work)          | Public community app using the same trigger/action contract                  | Visual automation users                | P2       | Make developer account and marketplace review                      |
+| [dlt verified sources](https://dlthub.com/docs/dlt-ecosystem/verified-sources)                                            | Incremental Python source with schema and state handling                     | Python data engineers                  | P2       | Open-source contribution/review                                    |
+| [Airbyte Connector Catalog](https://github.com/airbytehq/airbyte/blob/master/docs/integrations/README.md)                 | Source connector with incremental sync and schema discovery                  | Data platform and warehouse teams      | P2       | Connector contribution, tests, and catalog review                  |
+| [Grafana Plugin Catalog](https://grafana.com/developers/plugin-tools/publish-a-plugin/publish-a-plugin)                   | TNL data source or app plugin                                                | Monitoring and risk teams              | P2       | Signed plugin and Grafana review                                   |
+| [GitHub Marketplace](https://docs.github.com/en/actions/how-tos/create-and-publish-actions/publish-in-github-marketplace) | Separate “TNL Intelligence Gate” action for scheduled/PR/release risk briefs | Software and release engineering teams | P2       | Separate public action repository with root `action.yml`           |
 
 ### Developer and Analyst Extensions
 
@@ -246,6 +253,12 @@ because marketplace forms and review rules change.
 | APIs.guru                      | GitHub                                                                                | Use `bekirdag` to submit a pull request.                                                                                      |
 | n8n Creator Portal             | n8n Creator account plus GitHub and npm                                               | Register a company-owned creator account; continue using `bekirdag` and the TNL npm organization for source and artifacts.    |
 | Pipedream                      | Pipedream and GitHub                                                                  | Create a Pipedream account with a TNL-controlled email and use `bekirdag` for the public registry pull request.               |
+| Apify Store                    | Apify account and organization                                                        | Create a TNL-owned Apify organization; add billing/payout identity only if the Actor is monetized.                            |
+| Dify Marketplace               | GitHub for submission; Dify environment for validation                                | Use `bekirdag` for the marketplace pull request and a TNL-owned Dify account for end-to-end plugin validation.                |
+| Activepieces                   | GitHub contribution; optional Activepieces Cloud validation account                   | Prefer a contribution from `bekirdag`; create a TNL-owned cloud account only when a live validation run is needed.            |
+| Artifact Hub                   | Artifact Hub account and organization                                                 | Create a TNL-owned organization when container or Helm metadata is ready, then verify repository ownership.                   |
+| Railway Template Marketplace   | Railway account and workspace                                                         | Create a TNL-owned Railway workspace when the deployment template passes a live canary, then publish it to the marketplace.   |
+| Render Deploy Button           | No publisher account required; Render account for validation                          | Add the public blueprint/button from GitHub and use a TNL-owned Render account only to verify the complete deployment.        |
 | Zapier                         | Zapier developer account                                                              | Use or create a TNL-owned Zapier account with a company-domain email. Google or Microsoft login is optional, not required.    |
 | Rich VS Code extension, later  | Microsoft account, Azure DevOps organization, and Visual Studio Marketplace publisher | Create these only after the extension has useful editor-native UI. They are not required for the MCP gallery.                 |
 
@@ -258,7 +271,8 @@ Complete these steps once before creating new marketplace accounts:
    team password manager. Never place them in this repository, an issue, a pull
    request, a Postman environment, or marketplace listing text.
 3. Enable two-factor authentication on GitHub, npm, PyPI, OpenAI, Postman,
-   Docker, Cursor, n8n, Pipedream, and Zapier when offered.
+   Docker, Cursor, n8n, Pipedream, Apify, Dify, Activepieces, Artifact Hub,
+   Railway, Render, and Zapier when offered.
 4. Add one backup company owner after the listing works. Do not make an agency,
    contractor, or personal email the only owner.
 5. Record the account email, organization/workspace name, public listing URL,
@@ -340,6 +354,7 @@ npm trusted publishers are configured from an existing package's settings. For
 each package, first open its expected page:
 
 - [`@theneuralledger/sdk`](https://www.npmjs.com/package/@theneuralledger/sdk)
+- [`@theneuralledger/research`](https://www.npmjs.com/package/@theneuralledger/research)
 - [`@theneuralledger/mcp`](https://www.npmjs.com/package/@theneuralledger/mcp)
 - [`@theneuralledger/cli`](https://www.npmjs.com/package/@theneuralledger/cli)
 
@@ -361,9 +376,10 @@ first release, perform the first owner-controlled publication once:
    requests it; do not save the code in shell history or the repository.
 
    ```bash
-   npm publish --workspace @theneuralledger/sdk --access public
-   npm publish --workspace @theneuralledger/mcp --access public
-   npm publish --workspace @theneuralledger/cli --access public
+   npm publish --workspace @theneuralledger/sdk --access public --provenance=false
+   npm publish --workspace @theneuralledger/research --access public --provenance=false
+   npm publish --workspace @theneuralledger/mcp --access public --provenance=false
+   npm publish --workspace @theneuralledger/cli --access public --provenance=false
    ```
 
 4. Do not repeat a partial publication blindly. Check `npm view <package>
@@ -373,7 +389,7 @@ version` after each command and continue with only the missing packages.
 
 1. Open each package page, select **Settings**, find **Trusted Publisher**, and
    select **GitHub Actions**.
-2. Enter these exact values for all three packages:
+2. Enter these exact values for all four packages:
 
    | Field                | Value              |
    | -------------------- | ------------------ |
@@ -397,6 +413,7 @@ version` after each command and continue with only the missing packages.
 
    ```bash
    npm view @theneuralledger/sdk version dist.integrity
+   npm view @theneuralledger/research version dist.integrity
    npm view @theneuralledger/mcp version dist.integrity
    npm view @theneuralledger/cli version dist.integrity
    npx -y @theneuralledger/cli@0.1.0 --help
@@ -1016,6 +1033,412 @@ identity.
 Reference: [Zapier public integration process](https://docs.zapier.com/integrations/publish/public-integration)
 and [publishing requirements](https://docs.zapier.com/integrations/publish/integration-publishing-requirements).
 
+### 17. Publish a TNL Intelligence Actor on Apify
+
+**Accounts:** create a personal Apify login and a TNL-owned Apify organization.
+Apify supports email/password, Google, and GitHub sign-in; use the existing
+company-controlled GitHub identity or company email. A Microsoft account is not
+required.
+
+**Readiness:** the Actor adapter is a separate product artifact and is not in this
+repository yet. Do not publish an Actor that merely wraps an undocumented script.
+It must call the public TNL API through the normalized connector contract and
+preserve citations, story revisions, and source URLs.
+
+1. Open [Apify sign-up](https://console.apify.com/sign-up), create the owner login,
+   verify the email, and enable two-factor authentication under **Settings** >
+   **Login & Privacy**.
+2. In Apify Console, select **Settings** > **Organizations** > **My
+   organizations** > **Create a new organization**. Enter `The Neural Ledger` as
+   the organization name, reserve a stable public username, and use the TNL
+   company email for notifications.
+3. Switch into the organization from the account menu in the top-left corner.
+   Confirm the organization, rather than the personal account, will own builds,
+   runs, billing, and any future payouts. Add a backup owner and require 2FA for
+   members.
+4. Create the Actor in a dedicated public repository or an isolated directory in
+   this repository. Define `.actor/actor.json`, an input schema, a dataset schema,
+   a README, a license, support links, and deterministic examples.
+5. Expose the same six stable operations documented in
+   [`automation-connectors.md`](./automation-connectors.md):
+   `search_intelligence`, `get_intelligence`, `list_recent_changes`,
+   `get_exposure`, `run_research`, and `get_weekly_edition`. A mode selector is
+   preferable to six unrelated Actors.
+6. Define `TNL_API_KEY` as an Actor input with `"isSecret": true`. Never put a
+   key in source, a default input, an environment value visible on the Actor page,
+   a public task, a dataset, or a run log. Validate missing and revoked keys.
+7. Make the dataset schema retain the canonical item ID, revision, publication
+   and update times, source URL, citations, entities/assets, and research status.
+   Do not scrape or republish TNL pages when the API already supplies the data.
+8. Use the current [Apify CLI](https://docs.apify.com/cli) or Console integration
+   to build and push the Actor. With the CLI, authenticate and push from the Actor
+   project:
+
+   ```bash
+   apify login
+   apify push
+   ```
+
+9. Run clean tests for each mode with a bounded TNL key. Verify input validation,
+   pagination, rate limits, timeout and retry behavior, empty results, revoked
+   credentials, citations, and dataset output. Confirm logs contain no key or
+   story body that the output contract did not intend to publish.
+10. On the Actor page, open **Publication** > **Display information**. Add the TNL
+    Bot artwork, `TNL Intelligence` name, concise description, categories, README,
+    support URL, privacy URL, and SEO title/description. Review source visibility:
+    source files and non-secret environment values are public by default.
+11. Save, select **Publish to Store**, then search the
+    [Apify Store](https://apify.com/store) for the Actor from a signed-out browser.
+    Run it as a new user and inspect the public dataset and documentation.
+12. Create saved tasks for real search intents: "Most consequential developments
+    this week," "Monitor news affecting an asset," and "Create a cited
+    geopolitical risk brief." Each task needs a complete input, input schema, and
+    dataset schema view.
+13. Open each task's **Publication** tab, select only the safe inputs to display,
+    complete its display information and dataset schema, and publish it. Secret
+    schema fields are masked, but still verify every public landing page manually.
+14. Start with a free bounded Actor. Enable an Apify pricing model only after cost
+    limits, abuse protection, support ownership, payout identity, and several
+    weeks of successful runs are established.
+15. For every update, test a development build, publish an immutable version,
+    rerun all public tasks, and verify the Store page before promoting the version
+    as the default.
+
+References: [organization setup](https://docs.apify.com/account/collaboration/organization),
+[Actor publication](https://docs.apify.com/actors/publishing/publish),
+[secret inputs](https://docs.apify.com/actors/development/actor-definition/input-schema/secret-input),
+and [public Actor tasks](https://docs.apify.com/actors/publishing/publish-task).
+
+### 18. Submit the TNL Tool Plugin to Dify Marketplace
+
+**Accounts:** Dify Marketplace publication uses a GitHub pull request; there is
+no separate Marketplace publisher account. Use GitHub `bekirdag`. Create a
+TNL-owned [Dify Cloud](https://cloud.dify.ai/signin) workspace only for live
+validation, or validate against a maintained self-hosted Dify instance. Google or
+Microsoft identity is not required for the GitHub submission.
+
+**Readiness:** build a Dify **tool plugin**, not a model provider or a data-source
+plugin. The package must be useful without private TNL infrastructure and must not
+claim marketplace availability until Dify merges the submission.
+
+1. Create a dedicated plugin directory or repository owned by TNL. Install the
+   current Dify CLI and confirm it is available:
+
+   ```bash
+   dify version
+   ```
+
+2. Implement one TNL tool provider with the six normalized operation IDs listed
+   in the Apify runbook. Use a masked provider credential for `TNL_API_KEY` and
+   validate it without echoing it in errors, traces, or tool output.
+3. Keep the plugin read-only. Give every input a useful description and bounded
+   schema; return stable IDs, revisions, timestamps, source URLs, citations, and
+   structured research status rather than a presentation-only text blob.
+4. Complete `manifest.yaml`, provider/tool YAML files, `_assets/`, an English
+   `README.md`, license/support links, and a non-empty `PRIVACY.md`. Set the
+   manifest author to the real GitHub owner, use a new semantic version, and use
+   the current SDK/runtime versions required by Dify's submission checks.
+5. In `PRIVACY.md`, state exactly which search terms, prompts, names, asset
+   identifiers, and API credentials the plugin sends to the TNL API; whether TNL
+   stores them; applicable retention/deletion controls; and the public privacy
+   contact. Third-party API transmission counts even if the plugin itself has no
+   database.
+6. Test through Dify remote debugging, then package from the directory above the
+   plugin project:
+
+   ```bash
+   dify plugin package ./tnl_intelligence
+   ```
+
+7. In the validation workspace, select **Plugins** > **Install Plugin** > **Via
+   Local File**, upload `tnl_intelligence.difypkg`, review its permissions, and
+   install it.
+8. Build a workflow or agent that exercises every tool. Test a valid key, missing
+   key, revoked key, no-result query, pagination, timeouts, citations, long-running
+   research, and output rendering. Remove the plugin and repeat the installation
+   from the final package.
+9. Open [langgenius/dify-plugins](https://github.com/langgenius/dify-plugins),
+   search for an existing TNL plugin, and update it instead of creating a
+   duplicate if one exists.
+10. Fork the repository to `bekirdag`, create a branch, and place the final
+    `.difypkg` under the directory structure required by the current repository,
+    normally `<author>/<plugin-name>/`.
+11. Open a pull request against `langgenius/dify-plugins:main` using the current
+    PR template. Include the plugin purpose, tool list, test evidence, API
+    ownership, privacy/support links, screenshots where requested, and the exact
+    package version.
+12. Address automated checks and reviewer comments promptly. Dify currently marks
+    unresolved review threads stale after 14 days and closes them after 30 days.
+13. After merge, wait for automatic Marketplace publication. Install the public
+    plugin in a clean Dify workspace and rerun authentication, all tools, source
+    links, citations, and privacy/support links before announcing it.
+14. Every update requires a version bump, a rebuilt and locally retested
+    `.difypkg`, and a new Marketplace pull request. Avoid breaking tool names or
+    schemas for existing workflows.
+
+References: [Dify publishing overview](https://docs.dify.ai/en/develop-plugin/publishing/marketplace-listing/release-overview),
+[Marketplace submission](https://docs.dify.ai/en/develop-plugin/publishing/marketplace-listing/release-to-dify-marketplace),
+[local package validation](https://docs.dify.ai/en/develop-plugin/publishing/marketplace-listing/release-by-file),
+and [privacy requirements](https://docs.dify.ai/en/develop-plugin/publishing/standards/privacy-protection-guidelines).
+
+### 19. Contribute the TNL Piece to Activepieces
+
+**Accounts:** the preferred public path is a pull request to Activepieces, so the
+existing GitHub `bekirdag` account is sufficient. No Microsoft or Google account
+is required. An [Activepieces Cloud](https://cloud.activepieces.com/sign-up)
+account is optional and should be created with a TNL-controlled email only for a
+live hosted validation run.
+
+**Readiness:** use the contribution path for broad built-in discovery. Do not use
+the public-npm custom-piece route as the primary listing when the piece can meet
+the main repository's quality bar.
+
+1. Fork [activepieces/activepieces](https://github.com/activepieces/activepieces)
+   to `bekirdag`, clone the fork outside this repository, and create a feature
+   branch. Follow the current contributor guide if its Node/npm prerequisites
+   differ from the documented Node 18+ and npm 9+ baseline.
+2. Initialize the development environment and create a community piece:
+
+   ```bash
+   node tools/setup-dev.js
+   npm run cli pieces create
+   ```
+
+3. Use `tnl-intelligence` as the piece folder/name, select **community**, and use
+   the package name requested by the current main-repository convention. Add the
+   TNL Bot icon, public support URL, privacy policy, and `bekirdag` to `authors`.
+4. Define API-key authentication with `PieceAuth.SecretText`, including a bounded
+   validation request. Never implement the key as ordinary `Property.ShortText`
+   or include it in sample data and thrown errors.
+5. Implement actions for the six normalized connector operations. Use Activepieces
+   HTTP helpers, stable internal action names, typed inputs, pagination fields,
+   structured outputs, and shared error normalization.
+6. Add a signed webhook trigger for new, updated, retracted, impact-change, and
+   weekly-edition events after the public subscription endpoint is stable. Verify
+   raw signatures before parsing, deduplicate `eventId:revision`, and remove the
+   remote subscription in `onDisable`.
+7. Add `tnl-intelligence` to `AP_DEV_PIECES`, start the development environment,
+   and test the piece in the flow builder:
+
+   ```bash
+   AP_DEV_PIECES=tnl-intelligence npm start
+   ```
+
+8. Test valid/missing/revoked credentials, every action, pagination, no results,
+   timeouts, rate limits, citation/source output, trigger enable/delivery/replay/
+   disable, and flow upgrades. Ensure samples contain public synthetic data only.
+9. Build the final piece and run all repository-required lint, format, test, and
+   affected-project commands:
+
+   ```bash
+   npm run build-piece tnl-intelligence
+   npx turbo run build --filter=@activepieces/piece-tnl-intelligence
+   ```
+
+10. Inspect the generated package for credentials, local paths, internal URLs,
+    oversized assets, and missing license/support metadata.
+11. Push the branch and open a pull request to the upstream Activepieces main
+    branch. Explain the API ownership, authentication, actions/triggers, privacy,
+    tests, sample flows, source-attribution handling, and support commitment.
+12. Address maintainer review and keep the branch current. After merge,
+    Activepieces' automation packages the piece and makes it available; do not
+    separately publish or overwrite that official package.
+13. Find `The Neural Ledger` in a clean Activepieces instance or optional Cloud
+    project, connect a bounded key, and run each public action and trigger before
+    adding the listing URL to TNL documentation.
+14. Submit fixes through the same upstream pull-request flow and preserve stable
+    action/trigger names so existing flows continue to load.
+
+References: [piece development setup](https://www.activepieces.com/docs/build-pieces/building-pieces/development-setup),
+[piece definition](https://www.activepieces.com/docs/build-pieces/building-pieces/piece-definition),
+[authentication](https://www.activepieces.com/docs/build-pieces/piece-reference/authentication),
+and [contribution flow](https://www.activepieces.com/docs/build-pieces/sharing-pieces/contribute).
+
+### 20. Register the Container or Helm Chart on Artifact Hub
+
+**Account:** create an Artifact Hub user with a TNL-controlled company email and
+then create a TNL organization. No Google or Microsoft account is required.
+
+**Activation gate:** do not create this account until a public, immutable,
+multi-architecture image with complete OCI metadata or an installable Helm chart
+passes clean deployment, vulnerability, provenance, and rollback checks. Artifact
+Hub indexes metadata; it does not host or proxy the artifact.
+
+1. Open [Artifact Hub](https://artifacthub.io/), select **Sign up**, use the TNL
+   company email, verify it, enable 2FA, and store the recovery codes. Artifact Hub
+   does not currently let users change account email, so do not use a temporary
+   or contractor address.
+2. Sign in, open the top-right **Control Panel**, select **Organizations**, and
+   create an organization with the stable name/alias `theneuralledger`. Add a
+   backup company member before publication.
+3. Confirm the image is public and includes the supported OCI annotations or
+   labels for title, description, license, source, documentation, version, and
+   revision. Publish immutable semantic-version tags; treat `latest` as mutable.
+4. In **Control Panel** > **Repositories**, search for the image URL first. If it
+   is already present, claim ownership rather than adding a duplicate.
+5. Select **Add repository**, choose **Container images**, assign it to the TNL
+   organization, and enter the tagless OCI URL:
+
+   ```text
+   oci://ghcr.io/bekirdag/tnl-intelligence
+   ```
+
+6. Select no more than ten tags. Mark semantic-version/digest-stable tags
+   immutable and `latest` mutable. Save the repository and copy the repository ID
+   shown on its card.
+7. Create `artifacthub-repo.yml` with that `repositoryID` and TNL owner contact.
+   The owner email must match the Artifact Hub account when ownership claiming is
+   needed. Do not put registry credentials in this file.
+8. Push the metadata file to the same OCI repository using the reserved
+   `artifacthub.io` tag and the media types from Artifact Hub's current guide:
+
+   ```bash
+   oras push ghcr.io/bekirdag/tnl-intelligence:artifacthub.io \
+     --config /dev/null:application/vnd.cncf.artifacthub.config.v1+yaml \
+     artifacthub-repo.yml:application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml
+   ```
+
+9. Use a short-lived GitHub token with the minimum package-write scope for this
+   push; provide it through `oras login`/stdin or CI secret storage and revoke it
+   after manual use. Never put it in the command history or metadata file.
+10. Wait for the next Artifact Hub processing cycle. Verify the package page,
+    selected tags, install command, README, license, source/support links, security
+    report, and **Verified Publisher** badge.
+11. If a Helm chart is later created, publish it to a chart repository or OCI path
+    and add it as a separate **Helm charts** repository. An OCI chart URL must be
+    `oci://registry/namespace/chart-name`, and its versions must use semantic
+    version tags.
+12. For an OCI Helm chart, push `artifacthub-repo.yml` to the chart repository's
+    `artifacthub.io` tag. For an HTTP chart repository, serve it beside
+    `index.yaml`. Run `helm lint`, template validation, install, upgrade, rollback,
+    and uninstall tests before listing it.
+13. Request **Official** status through Artifact Hub's current GitHub issue
+    template only after Verified Publisher is active, all official packages have
+    README files, and the organization demonstrably owns TNL.
+14. For every release, publish the artifact first, verify its digest and metadata,
+    then allow Artifact Hub to index it. Never mutate an immutable tag to repair a
+    listing; issue a new version.
+
+References: [repository management](https://artifacthub.io/docs/topics/repositories/),
+[container-image repositories](https://artifacthub.io/docs/topics/repositories/container-images/),
+and [Helm repositories](https://artifacthub.io/docs/topics/repositories/helm-charts/).
+
+### 21. Publish a Railway Deployment Template
+
+**Account:** create a TNL-owned Railway account and workspace. Railway supports
+GitHub sign-in and email login; use GitHub `bekirdag` so the public repository can
+be selected directly. Google and Microsoft accounts are not required.
+
+**Activation gate:** the current hosted gateway requires owner-supplied OAuth
+issuer/introspection, access, capability, quota, disable, audit, and health
+services. Do not advertise this as a one-click deployment until those dependencies
+have documented public onboarding and a clean template canary succeeds.
+
+1. Open [Railway login](https://railway.com/login), select **Continue with
+   GitHub** or **Log in using email**, verify the account, and enable available
+   security controls.
+2. Create a `The Neural Ledger` workspace, move billing ownership to the company,
+   and add a backup owner. Give Railway access only to the public
+   `bekirdag/tnl-intelligence` repository if GitHub access is requested.
+3. Prepare a release-pinned gateway source or image. If building from the
+   repository, use `Dockerfile.gateway`; never deploy from an unreviewed branch.
+4. Translate every required setting in
+   [`gateway-operations.md`](./gateway-operations.md) into a documented template
+   variable. Provide safe defaults only for non-secret settings such as
+   `TNL_GATEWAY_MODE=production`; leave client secrets and service tokens without
+   values and mark them as required user inputs.
+5. Open **Workspace Settings** > **Templates** > **New Template**. Select **Add
+   New**, choose the public GitHub repository or the release-pinned Docker image,
+   and configure the gateway service.
+6. Set the Dockerfile/root/start configuration, public networking, port, resource
+   limits, and `/readyz` health check. `/healthz` is liveness only and does not
+   prove that identity/control dependencies are ready.
+7. Add concise help text for every variable, including the expected HTTPS URL,
+   issuer/audience relationship, and whether it is a secret. Do not include a
+   shared TNL API key, OAuth client secret, production endpoint token, or sample
+   credential in the template.
+8. Select **Create Template**, then deploy it into a fresh canary project using
+   non-production dependencies and bounded credentials. Test protected-resource
+   discovery, missing/invalid token rejection, wrong audience, readiness, a
+   permitted read-only tool, a denied tool, restart, and rollback.
+9. Delete the canary and deploy the template again from its public URL in a clean
+   workspace. Confirm that a new user can understand every required input and
+   that deployment fails closed when a dependency or secret is missing.
+10. Return to **Workspace Settings** > **Templates**, select **Publish**, and
+    complete the marketplace form with product name, TNL Bot icon, description,
+    categories, source/docs/support/privacy links, license, variable guidance,
+    and the tested release version.
+11. Add a demo project only if it uses synthetic/public data and contains no
+    reusable credential. Publish, copy the public Template URL, and verify the
+    listing and deployment from a non-owner account.
+12. Add Railway's generated **Deploy on Railway** button to the deployment
+    documentation only after the public template passes that clean deployment.
+13. For updates, pin and canary the new release first, update the template, repeat
+    the clean-workspace deployment, and retain a documented rollback target.
+14. Apply for template verification/partnership only after the official TNL-owned
+    template has stable usage and support; never claim verification before
+    Railway grants it.
+
+References: [create a template](https://docs.railway.com/templates/create),
+[publish and share](https://docs.railway.com/templates/publish-and-share), and
+[template best practices](https://docs.railway.com/templates/best-practices).
+
+### 22. Add and Validate a Render Deploy Button
+
+**Account:** no Render publisher or marketplace account is required. Create a
+TNL-owned Render account only to validate the public Blueprint. Use the existing
+GitHub identity or a company email; Google or Microsoft accounts are not required.
+
+**Activation gate:** use the same gateway dependency and canary gate as Railway.
+The button must not appear until a new Render account can deploy a working,
+fail-closed gateway from the public repository.
+
+1. Open [Render registration](https://dashboard.render.com/register), create the
+   validation account, verify it, enable available security controls, and create a
+   `The Neural Ledger` workspace/team if the current plan supports one.
+2. Connect GitHub and grant Render access only to the public
+   `bekirdag/tnl-intelligence` repository. A public repository is sufficient for
+   end users; they do not need repository write access.
+3. Add a root `render.yaml` Blueprint that builds `Dockerfile.gateway`, defines a
+   web service, uses the documented port and `/readyz` health check, and sets
+   `autoDeployTrigger: off` so upstream commits do not redeploy every user's
+   installation.
+4. Declare all non-secret gateway variables and descriptions in the Blueprint.
+   Use `sync: false` for every client secret, service token, and other user-supplied
+   secret. Do not include real values, shared defaults, internal hostnames, or
+   production credentials.
+5. Validate the Blueprint with the current Render CLI/API or the published
+   SchemaStore schema. Correct warnings before creating a live service.
+6. Commit the Blueprint, open the Render Dashboard, select **New** > **Blueprint**,
+   connect the repository, choose the tested branch and Blueprint path, and review
+   every proposed resource and variable.
+7. Enter non-production canary secrets in the Dashboard, select **Deploy
+   Blueprint**, and wait for `/readyz` to pass. Test the same discovery,
+   authorization, allowed/denied tool, restart, and rollback cases used for
+   Railway.
+8. Delete the canary and repeat from a clean Render workspace. Confirm users are
+   prompted for all `sync: false` values and no secret appears in the Blueprint,
+   build log, runtime log, generated service URL, or diagnostics.
+9. Add the explicit repository form of the button to the deployment README:
+
+   ```markdown
+   [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/bekirdag/tnl-intelligence)
+   ```
+
+10. Open the button in a signed-out browser, sign in with a separate validation
+    account, review the planned services, and complete one final deployment. The
+    explicit `repo` parameter is required because browsers may omit referrer data.
+11. Record the deployed release, test date, region, health result, and rollback
+    result in the publication log. Link the button only from docs that explain the
+    required identity/control-plane dependencies and expected operating cost.
+12. For every Blueprint change, validate the schema and redeploy from a clean
+    account before merging the button-facing release. Keep automatic deployment
+    disabled for user-created instances.
+
+References: [Deploy to Render button](https://render.com/docs/deploy-to-render),
+[Blueprint deployment](https://render.com/docs/infrastructure-as-code), and the
+[Blueprint specification](https://render.com/docs/blueprint-spec).
+
 ### Deferred Accounts: Create Only When the Product Exists
 
 Do not create these accounts during the first launch wave. Use this table as the
@@ -1031,6 +1454,8 @@ activation checklist when the corresponding artifact passes its readiness gate.
 | Chrome Web Store               | The browser side panel is complete and privacy-reviewed             | Create a Google account owned by TNL, enroll it as a Chrome Web Store developer, pay any current one-time registration fee, complete identity verification, upload the signed package, fill privacy/data-use disclosures, and submit for review through the [Chrome Web Store dashboard](https://chrome.google.com/webstore/devconsole/).                                                     |
 | Google Workspace Marketplace   | The Sheets add-on and OAuth scopes are stable                       | A Google Workspace/Cloud account is required. Create the Google Cloud project under TNL's organization, configure OAuth consent and verification, then publish through the [Google Workspace Marketplace SDK](https://developers.google.com/workspace/marketplace/how-to-publish).                                                                                                            |
 | QuantConnect                   | Point-in-time history, mappings, licensing, and delivery pass QA    | Create a TNL vendor account through [QuantConnect dataset vendors](https://www.quantconnect.com/docs/v2/cloud-platform/datasets/vendors) and begin review only with a maintained LEAN integration and sample history.                                                                                                                                                                         |
+| Artifact Hub                   | The public container metadata or Helm chart passes clean deployment | Create a TNL-owned [Artifact Hub](https://artifacthub.io/) organization, register the repository, add `artifacthub-repo.yml`, verify publisher ownership, and request official status only after the listing is stable.                                                                                                                                                                       |
+| Railway and Render             | One-click gateway templates pass live canaries and secret review    | Create a TNL-owned [Railway](https://railway.com/) workspace to publish the marketplace template. A Render publisher account is not required, but validate the public `render.yaml` deployment from a TNL-owned Render account before adding its button.                                                                                                                                      |
 | Enterprise data marketplaces   | Legal terms, redistribution rights, SLA, support, and billing exist | Create provider accounts under the company legal entity for Snowflake, Databricks, and AWS. Do not use personal cloud accounts or start review before regional delivery and licensing are settled.                                                                                                                                                                                            |
 
 #### Rich VS Code extension publication sequence
@@ -1103,7 +1528,10 @@ log before marking publication complete:
 2. Release n8n nodes and Pipedream components.
 3. Release the Cursor plugin and shared research skill pack.
 4. Build the MCP Apps visual components and submit the ChatGPT/Codex plugin.
-5. Release the first quant toolkit features and notebook templates.
+5. Publish the TNL Intelligence Actor and its public Apify tasks.
+6. Submit the TNL tool plugin to Dify Marketplace and the TNL piece to
+   Activepieces.
+7. Release the first quant toolkit features and notebook templates.
 
 ### Days 61-90
 
@@ -1116,6 +1544,8 @@ log before marking publication complete:
    meet marketplace requirements.
 5. Start dlt/Airbyte connectors when at least one design partner needs warehouse
    synchronization.
+6. Publish the verified container or Helm metadata to Artifact Hub and release
+   Railway/Render one-click deployment templates after live canaries pass.
 
 ## Marketplace Submission Package
 
@@ -1196,11 +1626,14 @@ The first launch wave requires owner-controlled accounts or approvals for:
 4. A Postman public workspace.
 5. OAuth client registration and public legal/support URLs for the remote MCP.
 6. Cursor and ChatGPT/Codex plugin submissions.
+7. Apify organization creation and Actor publication.
+8. Dify marketplace submission and an Activepieces validation/contribution flow.
 
-Accounts for Zapier, Anthropic, Microsoft, Chrome, Google Workspace, QuantConnect,
-and enterprise data marketplaces are not needed until the corresponding build is
-ready for review. Do not create all accounts in advance; each unused listing adds
-security, support, and maintenance obligations.
+Accounts for Artifact Hub, Railway, Render validation, Zapier, Anthropic,
+Microsoft, Chrome, Google Workspace, QuantConnect, and enterprise data
+marketplaces are not needed until the corresponding build is ready for review.
+Do not create all accounts in advance; each unused listing adds security,
+support, and maintenance obligations.
 
 ## Decision Summary
 

@@ -5,9 +5,18 @@ Package and registry publication requires owner-controlled accounts and trusted-
 ## npm
 
 1. Create or confirm the public npm organization/scope `@theneuralledger`.
-2. In npm, create trusted publishers for `@theneuralledger/sdk`, `@theneuralledger/mcp`, and `@theneuralledger/cli` using GitHub repository `bekirdag/tnl-intelligence`, workflow `release-npm.yml`, and environment `npm`.
-3. Create the protected GitHub environment `npm` and require an owner approval.
-4. Run the **Release npm packages** workflow manually with confirmation `0.1.0`. It validates and publishes SDK, MCP, then CLI with provenance.
+2. If version `0.1.0` does not exist yet, qualify the tagged source and publish
+   `@theneuralledger/sdk`, `@theneuralledger/research`,
+   `@theneuralledger/mcp`, then `@theneuralledger/cli` once from an
+   owner-authenticated terminal with `--access public --provenance=false`.
+   Trusted publishing cannot be attached until each package record exists.
+3. In npm, create a trusted publisher separately for all four packages using
+   GitHub repository `bekirdag/tnl-intelligence`, workflow `release-npm.yml`,
+   environment `npm`, and allowed action `npm publish`.
+4. Create the protected GitHub environment `npm` and require an owner approval.
+5. For later versions, run the **Release npm packages** workflow manually with
+   the exact package version. It validates and publishes SDK, Research, MCP,
+   then CLI with provenance.
 
 ## PyPI
 
