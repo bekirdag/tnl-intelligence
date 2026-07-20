@@ -34,6 +34,11 @@ jobs:
           trap cleanup EXIT
 
           docker pull "$image"
+          manifest="$(docker manifest inspect "$image")"
+          jq -e '.manifests | any(.platform.os == "linux" and .platform.architecture == "amd64")' \
+            <<<"$manifest" >/dev/null
+          jq -e '.manifests | any(.platform.os == "linux" and .platform.architecture == "arm64")' \
+            <<<"$manifest" >/dev/null
           digest="$(docker image inspect "$image" --format '{{ index .RepoDigests 0 }}')"
           test -n "$digest"
           test "$(docker image inspect "$image" --format '{{ .Config.User }}')" = "node"
@@ -63,5 +68,5 @@ jobs:
           test "$status" = "401"
 
           printf 'Verified %s\n' "$digest"
-          printf '### Published container verification\n\n- `%s`\n- `/healthz`: pass\n- unauthenticated `/mcp`: `401`\n' \
+          printf '### Published container verification\n\n- `%s`\n- platforms: `linux/amd64`, `linux/arm64`\n- `/healthz`: pass\n- unauthenticated `/mcp`: `401`\n' \
             "$digest" >>"$GITHUB_STEP_SUMMARY"
