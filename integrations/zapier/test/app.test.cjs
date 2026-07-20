@@ -40,4 +40,25 @@ describe('Zapier integration', () => {
     assert.equal(secret.required, true);
     assert.equal(key.required, true);
   });
+
+  it('omits null optional query parameters from API requests', async () => {
+    let requestOptions;
+    const z = {
+      request: async (options) => {
+        requestOptions = options;
+        return {
+          status: 200,
+          data: { data: [], page: { next_cursor: null }, lastSyncAt: '2026-07-20T00:00:00.000Z' },
+          throwForStatus() {},
+        };
+      },
+    };
+
+    await App.creates.search_intelligence.operation.perform(z, {
+      authData: { api_key: 'test-key', api_url: 'https://example.com' },
+      inputData: { query: 'Turkey', page_size: 2 },
+    });
+
+    assert.deepEqual(requestOptions.params, { q: 'Turkey', page_size: 2 });
+  });
 });

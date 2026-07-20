@@ -9,7 +9,7 @@ const EVENT_TYPES = new Set([
 ]);
 
 const clean = (value) =>
-  Object.fromEntries(Object.entries(value).filter(([, item]) => item !== undefined && item !== ''));
+  Object.fromEntries(Object.entries(value).filter(([, item]) => item != null && item !== ''));
 
 const clientFor = async (z, bundle) => ({
   execute: async ({ operation, input }) => {
