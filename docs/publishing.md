@@ -20,10 +20,21 @@ Package and registry publication requires owner-controlled accounts and trusted-
 
 ## PyPI
 
-1. Create a pending trusted publisher for project `tnl-intelligence` in PyPI.
-2. Use owner `bekirdag`, repository `tnl-intelligence`, workflow `release-python.yml`, and environment `pypi`.
-3. Create and protect the GitHub environment `pypi`.
-4. Run the **Release Python package** workflow with confirmation `0.1.0`.
+Version `0.1.0` is public at
+[`pypi.org/project/tnl-intelligence`](https://pypi.org/project/tnl-intelligence/).
+The active trusted publisher uses owner `bekirdag`, repository
+`tnl-intelligence`, workflow `release-python.yml`, and protected environment
+`pypi`. No PyPI API token is stored.
+
+For later versions:
+
+1. Update the package version and qualify the exact release source with Ruff,
+   strict mypy, pytest, wheel/sdist build, `twine check`, and clean installation.
+2. Push the qualified release commit to `main`.
+3. Run the **Release Python package** workflow with the exact package version and
+   approve the protected `pypi` environment.
+4. Verify PyPI hashes, provenance, metadata, SDK import, and `tnl-quant` from a
+   new no-cache environment.
 
 ## MCP Registry
 

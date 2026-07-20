@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-20
 
-**Status:** In progress
+**Status:** Complete
 
 **Plan:** [TNL Intelligence PyPI Publication Plan](./tnl-pypi-publication-plan.md)
 
@@ -13,9 +13,9 @@
 | PyPI owner setup              | Complete | Owner reports verified email, 2FA, and pending publisher configured |
 | GitHub `pypi` environment     | Complete | Protected environment requires review by `bekirdag`                 |
 | Tagged artifact qualification | Complete | Python 3.13 checks and both artifacts pass                          |
-| OIDC publication              | Pending  | Dispatch after artifact qualification                               |
-| Public verification           | Pending  | Verify metadata, attestations, install, import, and CLI             |
-| Evidence commit               | Pending  | Record immutable registry and workflow evidence                     |
+| OIDC publication              | Complete | GitHub run `29725950820` published both artifacts                   |
+| Public verification           | Complete | Metadata, attestations, install, import, and CLI verified           |
+| Evidence commit               | Complete | Immutable registry and workflow evidence recorded                   |
 
 ## Evidence
 
@@ -54,7 +54,29 @@
 - A fresh Python 3.13 environment installed the qualified wheel with
   `quant-cli`, passed `pip check`, imported `TnlClient`, `AsyncTnlClient`, and
   `verify_webhook`, and ran `tnl-quant --help` successfully.
+- Workflow fix and initial qualification evidence were pushed in commit
+  `46530b087a1a957cc634ffb20caafb628b2b9e47`.
+- [GitHub Actions run `29725950820`](https://github.com/bekirdag/tnl-intelligence/actions/runs/29725950820)
+  completed successfully in 59 seconds after protected-environment approval.
+- [`tnl-intelligence==0.1.0`](https://pypi.org/project/tnl-intelligence/0.1.0/)
+  is public, requires Python `>=3.10`, declares `httpx>=0.27,<1` as its only
+  base dependency, and exposes the expected optional extras and project URLs.
+- PyPI SHA-256 values exactly match the locally qualified artifacts:
+
+  | Artifact                                  | PyPI SHA-256                                                       |
+  | ----------------------------------------- | ------------------------------------------------------------------ |
+  | `tnl_intelligence-0.1.0-py3-none-any.whl` | `78c702026cc145936e8daa7b81e089b44d3eb5792ff4697890d6ee67c916e561` |
+  | `tnl_intelligence-0.1.0.tar.gz`           | `2f37001ec9dca59a409f2d0a78f18276f0027b74fe6630c7847eae904ba0ed4b` |
+
+- Both PyPI files expose provenance records identifying GitHub repository
+  `bekirdag/tnl-intelligence` and workflow `release-python.yml`; the signed
+  certificate binds commit `46530b087a1a957cc634ffb20caafb628b2b9e47`, branch
+  `main`, environment `pypi`, and workflow run `29725950820`.
+- A new no-cache Python 3.13 environment installed
+  `tnl-intelligence[quant-cli]==0.1.0` from `https://pypi.org/simple`, verified
+  the wheel SHA-256, passed `pip check`, imported the SDK, and ran
+  `tnl-quant --version` and `tnl-quant --help` successfully.
 
 ## Blockers
 
-None. The release workflow fix must be committed and pushed before dispatch.
+None.

@@ -2,7 +2,7 @@
 
 **Plan date:** 2026-07-20
 
-**Status:** In progress
+**Status:** Complete
 
 **Progress:** [tnl-pypi-publication-progress.md](./tnl-pypi-publication-progress.md)
 
