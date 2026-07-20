@@ -6,22 +6,22 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
 
 ## Workstream Progress
 
-| Workstream                             | Status       | Evidence or next gate                                                                                   |
-| -------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
-| Public registry reconciliation         | Complete     | Four npm packages and `tnl-intelligence==0.1.0` verified from their public registries                   |
-| GitHub Release and GHCR reconciliation | Complete     | Public `v0.1.0` release and container package verified                                                  |
-| Autonomous publication boundary        | In progress  | Created accounts are now available; marketplace and deployment state is being re-audited                |
-| Repository-owned discovery publication | Complete     | Added and publicly verified 18 accurate GitHub topics                                                   |
-| Official MCP Registry                  | Published    | `com.theneuralledger/intelligence@0.1.0` is active                                                      |
-| Postman                                | Published    | Public workspace and 25-request collection verified                                                     |
-| Glama                                  | Under review | Repository submitted on 2026-07-20                                                                      |
-| n8n community node                     | Under review | `0.1.2` is public with SLSA provenance; ownership passed and automated Creator Portal review is running |
-| OpenAI plugin                          | Built        | Candidate passes validation; submission is blocked on owner identity verification                       |
-| Zapier integration                     | Private beta | App `244155` version `1.0.1` is deployed; public review is gated by required live-user usage            |
-| Pipedream app/components               | Requested    | Public app request `PipedreamHQ/pipedream#21430` is open pending an assigned app slug/directory         |
-| Cursor plugin                          | Under review | Publisher application submitted; marketplace approval is pending                                        |
-| Smithery                               | Blocked      | Release exists; public server-card path is blocked by the root-owned live nginx allowlist               |
-| Distribution strategy update           | In progress  | Correcting qualified-versus-published language and recording external evidence                          |
+| Workstream                             | Status         | Evidence or next gate                                                                                            |
+| -------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Public registry reconciliation         | Complete       | Four npm packages and `tnl-intelligence==0.1.0` verified from their public registries                            |
+| GitHub Release and GHCR reconciliation | Complete       | Public `v0.1.0` release and container package verified                                                           |
+| Autonomous publication boundary        | In progress    | Created accounts are now available; marketplace and deployment state is being re-audited                         |
+| Repository-owned discovery publication | Complete       | Added and publicly verified 18 accurate GitHub topics                                                            |
+| Official MCP Registry                  | Published      | `com.theneuralledger/intelligence@0.1.0` is active                                                               |
+| Postman                                | Published      | Public workspace and 25-request collection verified                                                              |
+| Glama                                  | Under review   | Repository submitted on 2026-07-20                                                                               |
+| n8n community node                     | Awaiting video | `0.1.4` is public with SLSA provenance; automated review passed and manual review awaits the required demo video |
+| OpenAI plugin                          | Built          | Candidate passes validation; submission is blocked on owner identity verification                                |
+| Zapier integration                     | Private beta   | App `244155` version `1.0.1` is deployed; public review is gated by required live-user usage                     |
+| Pipedream app/components               | Requested      | Public app request `PipedreamHQ/pipedream#21430` is open pending an assigned app slug/directory                  |
+| Cursor plugin                          | Under review   | Publisher application submitted; marketplace approval is pending                                                 |
+| Smithery                               | Blocked        | Release exists; public server-card path is blocked by the root-owned live nginx allowlist                        |
+| Distribution strategy update           | In progress    | Correcting qualified-versus-published language and recording external evidence                                   |
 
 ## Verified Public Baseline
 
@@ -34,9 +34,11 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
 
 ## Current External Gates
 
-- n8n: `n8n-nodes-tnl-intelligence@0.1.2` is published with provenance and the
-  Creator Portal submission passed ownership verification. Automated review is
-  in progress; manual review follows if the automated checks pass.
+- n8n: `n8n-nodes-tnl-intelligence@0.1.4` is published from the dedicated
+  `bekirdag/n8n-nodes-tnl-intelligence` repository with SLSA provenance. The
+  Creator Portal automated review is complete. Manual review cannot be
+  submitted until an uncut demo video shows installation, credential testing,
+  common operations, and one AI-agent tool invocation.
 - Smithery: the production service contains a static MCP server card, but the
   root-owned live nginx allowlist has not yet been updated to proxy
   `/.well-known/mcp/server-card.json`; Smithery scanning remains paused until
@@ -46,8 +48,9 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
 - Pipedream: the public app request is open at
   `https://github.com/PipedreamHQ/pipedream/issues/21430`; component submission
   depends on Pipedream assigning the canonical app slug/directory.
-- Cursor: the publisher application was submitted and is awaiting marketplace
-  approval.
+- Cursor: the publisher application was submitted on 2026-07-21 with the public
+  plugin repository and designated TNL logo. The portal returned **Thanks for
+  applying**; marketplace approval is pending.
 - Zapier: app `244155` version `1.0.1` is privately deployed with all publication
   forms complete. Public review remains gated by live-operation evidence and
   Zapier's minimum of three users with live Zaps. TNL's Keycloak `VERIFY_EMAIL`
@@ -67,12 +70,21 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
 - The distribution guide has no dependency-graph edges; it is documentation-only.
 - Direct n8n package tests passed, strict n8n lint passed, and the TypeScript
   build passed.
-- GitHub Actions run `29784486908` published
-  `n8n-nodes-tnl-intelligence@0.1.2` with SLSA provenance from commit `2fb7e0c`.
-- npm registry metadata confirms `0.1.2` as `latest`, the controlled author
-  email, and the provenance attestation URL.
-- The n8n Creator Portal accepted the package ownership token and started its
-  automated review.
+- GitHub Actions run `29785976751` published
+  `n8n-nodes-tnl-intelligence@0.1.4` with SLSA provenance from dedicated-repo
+  commit `de0f266`; monorepo commit `ecf6492` carries the same credential-test
+  fix.
+- npm registry metadata confirms `0.1.4`, the dedicated repository, controlled
+  author email, and the SLSA provenance attestation URL.
+- The n8n Creator Portal accepted ownership, passed automated review, and now
+  shows **Manual Review — Awaiting Video**.
+- Cursor returned **Thanks for applying** after submission with organization
+  `The Neural Ledger`, namespace `theneuralledger`, public repository, website,
+  contact, description, and the designated logo added in commit `1a55271`.
+- OpenAI organization settings still show both Individual and Business
+  verification as **Start**. Current official submission guidance requires one
+  of those identity-verification flows before a public plugin can be submitted.
+- Pipedream issue `PipedreamHQ/pipedream#21430` remains open with no comments.
 - `npm pack --dry-run --json` in `integrations/n8n` produced an
   18-entry, 96,748-byte candidate.
 - The OpenAI candidate passes the current plugin manifest validator.
