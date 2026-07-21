@@ -14,7 +14,7 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
 | Repository-owned discovery publication | Complete        | Added and publicly verified 18 accurate GitHub topics                                                            |
 | Official MCP Registry                  | Published       | `com.theneuralledger/intelligence@0.1.0` is active                                                               |
 | Postman                                | Published       | Public workspace and 25-request collection verified                                                              |
-| Glama                                  | Published       | Public listing is live; Google publisher account created, but GitHub ownership claim and ingestion repair remain |
+| Glama                                  | Claimed         | Public listing is live and verified-maintainer ownership is confirmed; Glama's repository sync remains stuck     |
 | n8n community node                     | Awaiting video  | `0.1.4` is public with SLSA provenance; automated review passed and manual review awaits the required demo video |
 | OpenAI plugin                          | Built           | Candidate passes validation; submission is blocked on owner identity verification                                |
 | Zapier integration                     | Private beta    | App `244155` version `1.0.1` is deployed; public review is gated by required live-user usage                     |
@@ -41,11 +41,14 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
   submitted until an uncut demo video shows installation, credential testing,
   common operations, and one AI-agent tool invocation.
 - Glama: the public listing is live at
-  `https://glama.ai/mcp/servers/bekirdag/tnl-intelligence`. A Glama publisher
-  account was created with the available Google identity, but claiming the
-  listing requires a GitHub web login as repository owner. Until claimed, Glama
-  reports the public README as missing, has not inspected the six tools, and
-  disables installation even though the repository and raw README return `200`.
+  `https://glama.ai/mcp/servers/bekirdag/tnl-intelligence`. The existing
+  `bekir@piyote.com` account owns the listing, Glama displays its verified-
+  maintainer badge, and the server admin panel is available. A manual repository
+  sync was started on 2026-07-21, but Glama remains stuck at **Sync in Progress**
+  with no commit data. It therefore still reports the README as missing, has not
+  inspected the six tools, and disables installation even though the repository
+  and raw README both return `200`. A repair request containing that evidence was
+  sent to `support@glama.ai` from the publisher mailbox on 2026-07-21.
 - Smithery: the production service contains a static MCP server card, but the
   root-owned live nginx allowlist has not yet been updated to proxy
   `/.well-known/mcp/server-card.json`; Smithery scanning remains paused until
@@ -95,16 +98,13 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
    After this succeeds, the agent can verify the route, resume the Smithery
    scan, and run the clean-account install/tool test.
 
-2. **Glama ownership:** sign in to GitHub as `bekirdag` in the in-app browser.
-   The Glama claim dialog is ready; the agent can finish claiming and repairing
-   the listing after GitHub authentication exists.
-3. **OpenAI identity:** complete individual or business verification for **The
+2. **OpenAI identity:** complete individual or business verification for **The
    Neural Ledger** organization. The agent can then create and complete the MCP
    plugin draft.
-4. **n8n video:** record the portal-prescribed uncut demo (five minutes or less)
+3. **n8n video:** record the portal-prescribed uncut demo (five minutes or less)
    using a working TNL credential. The agent can upload the finished file/link
    and submit manual review.
-5. **Zapier usage:** provide three genuine users with live TNL Zaps and a working
+4. **Zapier usage:** provide three genuine users with live TNL Zaps and a working
    reviewer credential. The agent must not attest that the publication
    requirements are met before this evidence exists.
 
@@ -128,9 +128,12 @@ registry ingestion respectively.
   author email, and the SLSA provenance attestation URL.
 - The n8n Creator Portal accepted ownership, passed automated review, and now
   shows **Manual Review — Awaiting Video**.
-- The Glama review/indexing step completed and the listing is publicly
-  reachable. Google sign-in created a usable publisher account; the remaining
-  claim flow specifically requires GitHub authentication.
+- The Glama listing is publicly reachable, owned by the existing
+  `bekir@piyote.com` account, and marked with Glama's verified-maintainer badge.
+  The admin panel accepted a manual repository sync, but the job remained in
+  progress with no commit data; GitHub and raw `main/README.md` both returned
+  `200`, isolating the remaining defect to Glama ingestion. Gmail confirmed the
+  repair request to `support@glama.ai` was sent.
 - Cursor returned **Thanks for applying** after submission with organization
   `The Neural Ledger`, namespace `theneuralledger`, public repository, website,
   contact, description, and the designated logo added in commit `1a55271`.
