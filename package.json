@@ -89,7 +89,7 @@
     "qualify:release": "node scripts/run-release-qualification.mjs --lane=release"
   },
   "devDependencies": {
-    "@types/node": "^22.15.0",
+    "@types/node": "^26.1.1",
     "ajv": "^8.18.0",
     "ajv-formats": "^3.0.1",
     "openapi-typescript": "^7.13.0",
