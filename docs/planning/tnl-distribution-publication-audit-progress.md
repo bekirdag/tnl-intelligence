@@ -20,7 +20,7 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
 | Zapier integration                     | Private beta    | App `244155` version `1.0.1` is deployed; public review is gated by required live-user usage                     |
 | Pipedream app/components               | Requested       | Public app request `PipedreamHQ/pipedream#21430` is open pending an assigned app slug/directory                  |
 | Cursor plugin                          | Under review    | Publisher application submitted; marketplace approval is pending                                                 |
-| Smithery                               | Blocked         | Release exists; public server-card path is blocked by the root-owned live nginx allowlist                        |
+| Smithery                               | Published       | Release `2ad569ce-2c09-4bfc-bc3f-bbe93681edf0` deployed; public listing exposes all six OAuth tools              |
 | PulseMCP                               | Await ingestion | Official-registry entry is not visible yet; PulseMCP documents weekly processing                                 |
 | Distribution strategy update           | In progress     | Correcting qualified-versus-published language and recording external evidence                                   |
 
@@ -49,10 +49,14 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
   inspected the six tools, and disables installation even though the repository
   and raw README both return `200`. A repair request containing that evidence was
   sent to `support@glama.ai` from the publisher mailbox on 2026-07-21.
-- Smithery: the production service contains a static MCP server card, but the
-  root-owned live nginx allowlist has not yet been updated to proxy
-  `/.well-known/mcp/server-card.json`; Smithery scanning remains paused until
-  that route returns `200` publicly.
+- Smithery: the root-owned nginx candidate was installed and reloaded after a
+  successful configuration test. The public server card now returns `200` with
+  all six tools. Fresh external release
+  `2ad569ce-2c09-4bfc-bc3f-bbe93681edf0` completed Smithery discovery, metadata
+  generation, and deployment. The public listing is visible at
+  `https://smithery.ai/servers/theneuralledger/tnl-intelligence`, exposes all six
+  tools, and includes the canonical description, homepage, and repository. The
+  server also appears in Smithery CLI search with its canonical connection URL.
 - OpenAI: the app candidate is built and validated, but **Create plugin → With
   MCP** is blocked before draft creation by OpenAI's legal
   identity-verification flow.
@@ -81,30 +85,13 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
 
 ## Minimal Owner Actions
 
-1. **Smithery root deploy:** the exact reviewed nginx candidate from commit
-   `ed7c919` is already uploaded to Wodomini as
-   `~/tnl-mcp.conf.candidate` (SHA-256
-   `d5f5c079cdd42be938eb1ddecbfb0bd2a1f057beee100ae619d16f3eaefc0b2b`).
-   Run:
-
-   ```bash
-   ssh wodomini
-   sudo cp -a /etc/nginx/sites-available/tnl-mcp.conf /etc/nginx/sites-available/tnl-mcp.conf.bak-smithery-20260721
-   sudo install -o root -g root -m 0644 ~/tnl-mcp.conf.candidate /etc/nginx/sites-available/tnl-mcp.conf
-   sudo nginx -t
-   sudo systemctl reload nginx
-   ```
-
-   After this succeeds, the agent can verify the route, resume the Smithery
-   scan, and run the clean-account install/tool test.
-
-2. **OpenAI identity:** complete individual or business verification for **The
+1. **OpenAI identity:** complete individual or business verification for **The
    Neural Ledger** organization. The agent can then create and complete the MCP
    plugin draft.
-3. **n8n video:** record the portal-prescribed uncut demo (five minutes or less)
+2. **n8n video:** record the portal-prescribed uncut demo (five minutes or less)
    using a working TNL credential. The agent can upload the finished file/link
    and submit manual review.
-4. **Zapier usage:** provide three genuine users with live TNL Zaps and a working
+3. **Zapier usage:** provide three genuine users with live TNL Zaps and a working
    reviewer credential. The agent must not attest that the publication
    requirements are met before this evidence exists.
 
@@ -141,9 +128,14 @@ registry ingestion respectively.
   after selecting **Create plugin → With MCP**, confirming verification blocks
   draft creation as well as submission.
 - Pipedream issue `PipedreamHQ/pipedream#21430` remains open with no comments.
-- The public MCP hosts return the expected `401` authentication challenge, while
-  the Smithery server-card URL still returns `404`; the Smithery registry URL
-  also returns **404: Server Not Found or Removed**.
+- The public MCP hosts return the expected `401` authentication challenge and
+  the server-card URL returns `200` with six tools. Smithery release
+  `2ad569ce-2c09-4bfc-bc3f-bbe93681edf0` completed successfully; its public
+  server page returns `200`, the hosted MCP endpoint returns the expected Bearer
+  challenge, and protected-resource metadata returns `200`. The portal lists all
+  six tools, public visibility, homepage, repository, and a 65/100 profile score;
+  Smithery CLI search returns `theneuralledger/tnl-intelligence` with its public
+  connection URL.
 - Postman's public workspace returns `200`; the official MCP Registry search
   returns `com.theneuralledger/intelligence@0.1.0`; all four npm packages,
   `n8n-nodes-tnl-intelligence@0.1.4`, PyPI `tnl-intelligence==0.1.0`, GitHub
