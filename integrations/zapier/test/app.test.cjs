@@ -4,13 +4,12 @@ const App = require('../index');
 
 describe('Zapier integration', () => {
   it('matches the current platform runtime and declares auth, search, actions, and REST Hook', async () => {
-    assert.equal(App.version, '0.1.0');
+    assert.equal(App.version, '1.0.3');
     assert.match(App.platformVersion, /^19\./);
     assert.equal(App.authentication.type, 'custom');
     assert.equal(Object.keys(App.searches).length, 1);
     assert.deepEqual(Object.keys(App.creates).sort(), [
       'get_exposure',
-      'get_research_result',
       'get_weekly_edition',
       'list_recent_changes',
       'run_research',
@@ -39,6 +38,7 @@ describe('Zapier integration', () => {
     assert.equal(secret.type, 'password');
     assert.equal(secret.required, true);
     assert.equal(key.required, true);
+    assert.equal(App.authentication.connectionLabel, 'TNL Intelligence {{connection_name}}');
   });
 
   it('omits null optional query parameters from API requests', async () => {

@@ -4,13 +4,17 @@ const test = async (z, bundle) => {
     headers: { authorization: `Bearer ${bundle.authData.api_key}` },
   });
   response.throwForStatus();
-  return response.data;
+  const account = response.data && typeof response.data === 'object' ? response.data : {};
+  return {
+    ...account,
+    connection_name: account.email || account.username || account.name || account.id || 'Account',
+  };
 };
 
 module.exports = {
   type: 'custom',
   test,
-  connectionLabel: 'TNL Intelligence {{key.name}}',
+  connectionLabel: 'TNL Intelligence {{connection_name}}',
   fields: [
     {
       key: 'api_key',

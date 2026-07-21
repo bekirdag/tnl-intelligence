@@ -33,6 +33,21 @@ Plan: [TNL Distribution Publication Audit Plan](tnl-distribution-publication-aud
   Python, security, provenance, and rollback artifacts.
 - GHCR: `ghcr.io/bekirdag/tnl-intelligence:0.1.0` and `:latest`.
 
+## Post-Audit Publication Updates
+
+- On 2026-07-21, Zapier private version `1.0.3` was deployed after all 28 CLI
+  checks passed without warnings. Production-server canaries pass for the
+  connector's searches, actions, research workflows, and triggers using the
+  connected account recorded in `ACCOUNTS.md`.
+- On 2026-07-21, the Docker MCP Catalog entry was validated, built, exercised
+  through Docker Desktop MCP Toolkit, and submitted as
+  [docker/mcp-registry#4503](https://github.com/docker/mcp-registry/pull/4503).
+  Docker dynamically discovered all six read-only tools and a live
+  `tnl_research_what_changed` invocation passed.
+- Docker's remaining submission input is a dedicated reviewer API key shared
+  through its private credential form; do not place that credential in the pull
+  request or repository.
+
 ## Current External Gates
 
 - n8n: `n8n-nodes-tnl-intelligence@0.1.4` is published from the dedicated

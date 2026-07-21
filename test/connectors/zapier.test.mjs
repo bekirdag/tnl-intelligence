@@ -67,7 +67,7 @@ describe('Zapier connector behavior', () => {
     assert.equal(requests.at(-1).method, 'DELETE');
   });
 
-  it('executes recent-change and research-result actions and exposes a weekly trigger', async () => {
+  it('executes recent-change and synchronous MCP research actions and exposes a weekly trigger', async () => {
     const requests = [];
     const z = zapier(requests, page());
     const changes = await App.creates.list_recent_changes.operation.perform(z, {
@@ -77,15 +77,20 @@ describe('Zapier connector behavior', () => {
     assert.equal(changes.items[0].id, 'story-zapier');
     assert.equal(requests[0].params.updated_since, '2026-07-17T00:00:00.000Z');
 
-    const resultId = 'result_zapierfixture';
-    const result = await App.creates.get_research_result.operation.perform(
-      zapier(requests, { data: { resultId, completionReason: 'complete' } }),
-      {
-        authData: { api_key: 'fixture-key' },
-        inputData: { result_ref: resultId },
+    const researchRequests = [];
+    const result = await App.creates.run_research.operation.perform(zapierMcp(researchRequests), {
+      authData: { api_key: 'fixture-key' },
+      inputData: {
+        workflow: 'what-changed',
+        question: 'What changed?',
+        depth: 'brief',
       },
-    );
-    assert.equal(result.resultId, resultId);
+    });
+    assert.equal(result.tool, 'tnl_research_what_changed');
+    assert.equal(researchRequests[0].body.method, 'initialize');
+    assert.equal(researchRequests[1].body.method, 'notifications/initialized');
+    assert.equal(researchRequests[2].body.params.name, 'tnl_research_what_changed');
+    assert.equal(researchRequests.at(-1).method, 'DELETE');
     assert.equal(App.triggers.weekly_edition.operation.sample.type, 'digest.weekly_published');
   });
 });
@@ -97,6 +102,37 @@ function zapier(requests, responseData) {
       return {
         status: options.method === 'DELETE' ? 204 : 200,
         data: options.method === 'DELETE' ? undefined : responseData,
+        throwForStatus() {},
+      };
+    },
+  };
+}
+
+function zapierMcp(requests) {
+  return {
+    request: async (options) => {
+      requests.push(options);
+      const method = options.body?.method;
+      const data =
+        method === 'initialize'
+          ? { jsonrpc: '2.0', id: 'zapier-initialize', result: { protocolVersion: '2025-06-18' } }
+          : method === 'tools/call'
+            ? {
+                jsonrpc: '2.0',
+                id: 'zapier-tools-call',
+                result: {
+                  structuredContent: {
+                    tool: options.body.params.name,
+                    summary: 'Fixture research result',
+                  },
+                },
+              }
+            : undefined;
+      return {
+        status:
+          options.method === 'DELETE' ? 204 : method === 'notifications/initialized' ? 202 : 200,
+        data,
+        headers: method === 'initialize' ? { 'mcp-session-id': 'session-fixture' } : {},
         throwForStatus() {},
       };
     },

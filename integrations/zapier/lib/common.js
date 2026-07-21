@@ -164,34 +164,122 @@ const api = async (z, bundle, path, params = {}) =>
   });
 
 const research = async (z, bundle, task) => {
-  const payload = record(
-    await jsonRequest(z, {
-      method: 'POST',
-      url: endpoint(
-        bundle.authData.research_url || 'https://research.theneuralledger.com',
-        '/api/research/runs',
-      ),
-      headers: authorization(bundle),
-      body: { task },
-    }),
-  );
-  if (!payload.data) throw new Error('The research response is invalid');
-  return payload.data;
+  const tools = {
+    what_changed: 'tnl_research_what_changed',
+    source_comparison: 'tnl_research_compare_sources',
+    event_validation: 'tnl_research_validate_event',
+    asset_entity_exposure: 'tnl_research_asset_exposure',
+    geopolitical_operational_risk: 'tnl_research_operational_risk',
+    weekly_consequential: 'tnl_research_weekly_consequential',
+  };
+  const tool = tools[task.taskType];
+  if (!tool) throw new Error('Research workflow is invalid');
+  const common = {
+    from: task.timeWindow?.from,
+    to: task.timeWindow?.to,
+    limit: task.budget?.maxSources,
+  };
+  const argumentsByType = {
+    what_changed: { query: task.question, ...common },
+    source_comparison: { query: task.question, ...common },
+    event_validation: { event: task.question, ...common },
+    asset_entity_exposure: { assetName: task.question, ...common },
+    geopolitical_operational_risk: { query: task.question, ...common },
+    weekly_consequential: {
+      query: task.question,
+      weekStart: task.timeWindow?.from,
+      limit: task.budget?.maxSources,
+    },
+  };
+  return mcpToolCall(z, bundle, tool, clean(argumentsByType[task.taskType]));
 };
 
-const researchResult = async (z, bundle, resultId) => {
-  const payload = record(
-    await jsonRequest(z, {
-      method: 'GET',
-      url: endpoint(
-        bundle.authData.research_url || 'https://research.theneuralledger.com',
-        `/api/research/runs/${encodeURIComponent(resultId)}`,
-      ),
-      headers: authorization(bundle),
-    }),
-  );
-  if (!payload.data) throw new Error('The research response is invalid');
-  return payload.data;
+const mcpToolCall = async (z, bundle, name, args) => {
+  const url = bundle.authData.mcp_url || 'https://mcp.theneuralledger.com/mcp';
+  const baseHeaders = {
+    authorization: `Bearer ${required(bundle.authData.api_key, 'API key')}`,
+    accept: 'application/json, text/event-stream',
+    'content-type': 'application/json',
+    'mcp-protocol-version': '2025-06-18',
+  };
+  const initialize = await mcpRequest(z, url, baseHeaders, {
+    jsonrpc: '2.0',
+    id: 'zapier-initialize',
+    method: 'initialize',
+    params: {
+      protocolVersion: '2025-06-18',
+      capabilities: {},
+      clientInfo: { name: 'tnl-intelligence-zapier', version: '1.0.3' },
+    },
+  });
+  const sessionId = responseHeader(initialize.response, 'mcp-session-id');
+  const headers = sessionId ? { ...baseHeaders, 'mcp-session-id': sessionId } : baseHeaders;
+  try {
+    await mcpRequest(z, url, headers, {
+      jsonrpc: '2.0',
+      method: 'notifications/initialized',
+    });
+    const call = await mcpRequest(z, url, headers, {
+      jsonrpc: '2.0',
+      id: 'zapier-tools-call',
+      method: 'tools/call',
+      params: { name, arguments: args },
+    });
+    const result = record(call.payload.result);
+    if (result.isError) throw new Error(mcpText(result) || 'TNL research tool failed');
+    if (result.structuredContent) return result.structuredContent;
+    const text = mcpText(result);
+    if (!text) throw new Error('The research response is invalid');
+    try {
+      return JSON.parse(text);
+    } catch {
+      return { summary: text };
+    }
+  } finally {
+    if (sessionId) {
+      try {
+        const response = await z.request({ method: 'DELETE', url, headers });
+        response.throwForStatus();
+      } catch {
+        // Session cleanup is best-effort; the server also expires abandoned sessions.
+      }
+    }
+  }
+};
+
+const mcpRequest = async (z, url, headers, body) => {
+  const response = await z.request({ method: 'POST', url, headers, body });
+  response.throwForStatus();
+  const payload = mcpPayload(response.data);
+  if (payload.error) throw new Error(payload.error.message || 'TNL MCP request failed');
+  return { response, payload };
+};
+
+const mcpPayload = (value) => {
+  if (value && typeof value === 'object') return value;
+  const text = String(value || '');
+  const data = text
+    .split(/\r?\n/)
+    .filter((line) => line.startsWith('data:'))
+    .map((line) => line.slice(5).trim())
+    .find(Boolean);
+  if (!data) return {};
+  try {
+    return JSON.parse(data);
+  } catch {
+    return {};
+  }
+};
+
+const mcpText = (result) =>
+  Array.isArray(result.content)
+    ? result.content.find((item) => item?.type === 'text' && typeof item.text === 'string')?.text
+    : null;
+
+const responseHeader = (response, name) => {
+  if (typeof response.headers?.get === 'function') return response.headers.get(name);
+  const entry = Object.entries(response.headers || {}).find(([key]) => key.toLowerCase() === name);
+  return typeof entry?.[1] === 'string' ? entry[1] : null;
 };
 
 const jsonRequest = async (z, options) => {
@@ -309,7 +397,7 @@ const authorization = (bundle) => ({
   authorization: `Bearer ${required(bundle.authData.api_key, 'API key')}`,
   accept: 'application/json',
   'content-type': 'application/json',
-  'user-agent': 'tnl-intelligence-zapier/0.1.0',
+  'user-agent': 'tnl-intelligence-zapier/1.0.1',
 });
 
 const header = (headers, name) => {

@@ -1,6 +1,5 @@
 const authentication = require('./authentication');
 const getExposure = require('./creates/get-exposure');
-const getResearchResult = require('./creates/get-research-result');
 const getWeeklyEdition = require('./creates/get-weekly-edition');
 const listRecentChanges = require('./creates/list-recent-changes');
 const runResearch = require('./creates/run-research');
@@ -34,7 +33,6 @@ const App = {
     [getExposure.key]: getExposure,
     [listRecentChanges.key]: listRecentChanges,
     [runResearch.key]: runResearch,
-    [getResearchResult.key]: getResearchResult,
     [getWeeklyEdition.key]: getWeeklyEdition,
   },
 };
