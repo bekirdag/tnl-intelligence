@@ -26,19 +26,20 @@ Status: Draft complete except owner-controlled submission gates
 - [x] Initial release notes saved and the non-adult-content selection set to No.
 - [x] Optional reusable Skills upload skipped; the application is MCP-backed
   and the six production tools are already scanned.
+- [x] Immediate-access OAuth reviewer credentials saved in the private portal
+  draft. No password is recorded in repository documentation.
 
 ## Remaining portal sections
 
 - [ ] Replace the provisional web-only demo with a combined web, iOS, and
   Android recording, as required by the portal.
-- [ ] Add immediate-access, no-2FA OAuth test credentials for the entitled demo account.
 - [ ] Business owner reviews and personally accepts all seven legal/policy attestations.
 - [ ] Submit for OpenAI review.
 
 ## Current blocker
 
 OpenAI explicitly requires the demo to cover web, iOS, and Android, while the
-hosted recording currently covers web only. The submission also needs reusable
-OAuth reviewer credentials and owner acceptance of legal attestations. These
-steps require the account/device/business owner and cannot be truthfully
-completed through repository or browser automation alone.
+hosted recording currently covers web only. The remaining legal attestations
+also require the business owner's personal review and acceptance. These steps
+require the device/business owner and cannot be truthfully completed through
+repository or browser automation alone.
