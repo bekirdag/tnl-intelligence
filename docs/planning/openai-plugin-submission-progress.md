@@ -1,7 +1,7 @@
 # OpenAI Plugin Submission Progress
 
 Date: 2026-07-23
-Status: Draft configuration in progress
+Status: Draft complete except owner-controlled submission gates
 
 ## Completed
 
@@ -16,24 +16,29 @@ Status: Draft configuration in progress
   ending in commit `b4dc110`.
 - [x] MCP contract, authentication, Keycloak configuration, TypeScript, and
   production build checks passed before deployment.
-
-## In progress
-
-- [ ] Complete interactive OAuth consent for the portal's required **Scan Tools** step.
-- [ ] Confirm the scan discovers exactly six read-only TNL research tools.
+- [x] Interactive OAuth consent completed and the portal scan discovered all
+  six read-only TNL research tools.
+- [x] All 18 read-only, closed-world, and non-destructive annotation
+  justifications saved.
+- [x] Three starter prompts saved.
+- [x] Exactly five positive and three negative reviewer test cases saved.
+- [x] Global availability set to all supported countries.
+- [x] Initial release notes saved and the non-adult-content selection set to No.
+- [x] Optional reusable Skills upload skipped; the application is MCP-backed
+  and the six production tools are already scanned.
 
 ## Remaining portal sections
 
-- [ ] Review generated skills after the tool scan.
-- [ ] Add starter prompts from `integrations/openai/review/submission.json`.
-- [ ] Add exactly five positive and three negative test cases.
-- [ ] Complete global availability and release notes.
 - [ ] Replace the provisional web-only demo with a combined web, iOS, and
   Android recording, as required by the portal.
-- [ ] Review all attestations and submit for OpenAI review.
+- [ ] Add immediate-access, no-2FA OAuth test credentials for the entitled demo account.
+- [ ] Business owner reviews and personally accepts all seven legal/policy attestations.
+- [ ] Submit for OpenAI review.
 
 ## Current blocker
 
-The portal is waiting for the account owner to finish the external OAuth login
-or consent window. This is an interactive identity step and cannot be replaced
-with an API key or repository automation.
+OpenAI explicitly requires the demo to cover web, iOS, and Android, while the
+hosted recording currently covers web only. The submission also needs reusable
+OAuth reviewer credentials and owner acceptance of legal attestations. These
+steps require the account/device/business owner and cannot be truthfully
+completed through repository or browser automation alone.
