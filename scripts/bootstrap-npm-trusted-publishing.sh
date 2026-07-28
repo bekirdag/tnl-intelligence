@@ -11,7 +11,7 @@
 # Provenance is disabled for these first publishes because it requires a CI
 # runner with an OIDC token. Subsequent versions get provenance from the
 # workflow.
-set -euo pipefail
+set -uo pipefail
 
 cd "$(dirname "$0")/.."
 
@@ -25,6 +25,10 @@ ALL_PACKAGES=(sdk research events adapters connectors mcp cli)
 
 npm() { npx -y npm@11 "$@"; }
 
+# Tracked explicitly: the retry above means set -e cannot abort on a failed
+# publish, so without this the script would report success after failing.
+failures=0
+
 echo "==> Step 1: first publish of the new package names"
 for pkg in "${NEW_PACKAGES[@]}"; do
   name="$(node -p "require('./packages/${pkg}/package.json').name")"
@@ -33,13 +37,24 @@ for pkg in "${NEW_PACKAGES[@]}"; do
     echo "    ${name}@${version} already published, skipping"
     continue
   fi
-  read -r -p "    OTP for publishing ${name}: " otp
-  npm publish --workspace "${name}" --access public --provenance=false --otp="${otp}"
-  echo "    published ${name}@${version}"
+  # A web login (npm login --auth-type=web) already satisfies 2FA, so try the
+  # session first and only ask for a code if the registry actually demands one.
+  if npm publish --workspace "${name}" --access public --provenance=false; then
+    echo "    published ${name}@${version}"
+    continue
+  fi
+  echo "    registry asked for a one-time password"
+  read -r -p "    OTP for publishing ${name} (6 digits): " otp
+  if npm publish --workspace "${name}" --access public --provenance=false --otp="${otp}"; then
+    echo "    published ${name}@${version}"
+  else
+    echo "    FAILED to publish ${name}@${version}"
+    failures=$((failures + 1))
+  fi
 done
 
 echo
-echo "==> Step 2: attach this workflow as a trusted publisher"
+echo "==> Step 2: attach the release workflows as trusted publishers"
 for pkg in "${ALL_PACKAGES[@]}"; do
   name="$(node -p "require('./packages/${pkg}/package.json').name")"
   if npm trust list "${name}" 2>/dev/null | grep -q "${WORKFLOW}"; then
@@ -47,15 +62,32 @@ for pkg in "${ALL_PACKAGES[@]}"; do
     continue
   fi
   echo "    configuring ${name}"
-  npm trust github "${name}" \
+  if ! npm trust github "${name}" \
     --file "${WORKFLOW}" \
     --repo "${REPO}" \
     --env "${ENVIRONMENT}" \
     --allow-publish \
-    -y
+    -y; then
+    echo "    FAILED to configure ${name}"
+    failures=$((failures + 1))
+  fi
 done
 
+# release-n8n.yml has no environment: gate, so no --env here.
+if npm trust list n8n-nodes-tnl-intelligence 2>/dev/null | grep -q release-n8n.yml; then
+  echo "    n8n-nodes-tnl-intelligence already trusts release-n8n.yml, skipping"
+elif ! npm trust github n8n-nodes-tnl-intelligence \
+  --file release-n8n.yml \
+  --repo "${REPO}" \
+  --allow-publish \
+  -y; then
+  echo "    FAILED to configure n8n-nodes-tnl-intelligence"
+  failures=$((failures + 1))
+fi
+
 echo
+if [ "${failures}" -gt 0 ]; then
+  echo "${failures} step(s) failed. Nothing above should be treated as done."
+  exit 1
+fi
 echo "Done. Every package now publishes from GitHub Actions over OIDC."
-echo "Next: the workflow's NODE_AUTH_TOKEN can be removed and the NPM_TOKEN"
-echo "secret deleted."

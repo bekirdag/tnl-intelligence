@@ -17,8 +17,8 @@ jobs:
       run:
         working-directory: integrations/n8n
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org/
@@ -28,5 +28,6 @@ jobs:
       - run: npm run test
       - run: npm run release
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Publishes over OIDC via the trusted publisher on
+          # n8n-nodes-tnl-intelligence; see release-npm.yml.
           NPM_CONFIG_PROVENANCE: 'true'

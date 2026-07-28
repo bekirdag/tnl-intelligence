@@ -49,7 +49,10 @@ jobs:
       # and block every package behind it.
       - name: Publish workspace packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # No NODE_AUTH_TOKEN: every package here has this workflow registered
+          # as a trusted publisher, so npm authenticates with the OIDC token
+          # granted by id-token: write. A token in the environment would take
+          # precedence over OIDC and reintroduce the credential we removed.
           NPM_CONFIG_PROVENANCE: 'true'
         run: |
           set -euo pipefail
