@@ -28,7 +28,7 @@ jobs:
       # npm run validate ends with quant:check, which shells out to
       # ../../.venv/bin/python. Without a venv the release fails at exit 127
       # before reaching any publish step. Same setup as ci.yml.
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
           cache: pip
