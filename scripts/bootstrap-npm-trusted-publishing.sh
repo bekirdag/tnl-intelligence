@@ -57,8 +57,17 @@ echo
 echo "==> Step 2: attach the release workflows as trusted publishers"
 for pkg in "${ALL_PACKAGES[@]}"; do
   name="$(node -p "require('./packages/${pkg}/package.json').name")"
-  if npm trust list "${name}" 2>/dev/null | grep -q "${WORKFLOW}"; then
-    echo "    ${name} already trusts ${WORKFLOW}, skipping"
+  # npm trust list needs 2FA, and the first call in a session fails until the
+  # browser auth completes. Discarding its exit code made a failed lookup look
+  # like "nothing configured", so the script tried to add a publisher that was
+  # already there and got a 409. Separate the two cases.
+  if listing="$(npm trust list "${name}" 2>/dev/null)"; then
+    if printf '%s' "${listing}" | grep -q "${WORKFLOW}"; then
+      echo "    ${name} already trusts ${WORKFLOW}, skipping"
+      continue
+    fi
+  else
+    echo "    could not read trust config for ${name}; skipping rather than guessing"
     continue
   fi
   echo "    configuring ${name}"
@@ -67,22 +76,34 @@ for pkg in "${ALL_PACKAGES[@]}"; do
     --repo "${REPO}" \
     --env "${ENVIRONMENT}" \
     --allow-publish \
-    -y; then
-    echo "    FAILED to configure ${name}"
-    failures=$((failures + 1))
+    -y 2>&1 | tee /tmp/trust-${pkg}.log; then
+    if grep -q "code E409" "/tmp/trust-${pkg}.log"; then
+      echo "    ${name} already has a trusted publisher, leaving it alone"
+    else
+      echo "    FAILED to configure ${name}"
+      failures=$((failures + 1))
+    fi
   fi
 done
 
-# release-n8n.yml has no environment: gate, so no --env here.
-if npm trust list n8n-nodes-tnl-intelligence 2>/dev/null | grep -q release-n8n.yml; then
-  echo "    n8n-nodes-tnl-intelligence already trusts release-n8n.yml, skipping"
-elif ! npm trust github n8n-nodes-tnl-intelligence \
-  --file release-n8n.yml \
-  --repo "${REPO}" \
-  --allow-publish \
-  -y; then
-  echo "    FAILED to configure n8n-nodes-tnl-intelligence"
-  failures=$((failures + 1))
+# n8n-nodes-tnl-intelligence is owned by the tnlintelligence npm account, not
+# by bekirdag, so this login gets a 403 and cannot configure it. Whoever holds
+# that account has to run the command below, or add bekirdag as a package owner
+# first. release-n8n.yml has no environment: gate, so no --env.
+echo
+echo "==> n8n community node (owned by the tnlintelligence npm account)"
+n8n_owner="$(npm owner ls n8n-nodes-tnl-intelligence 2>/dev/null | head -1 | awk '{print $1}')"
+me="$(npm whoami 2>/dev/null)"
+if [ "${n8n_owner}" = "${me}" ]; then
+  npm trust github n8n-nodes-tnl-intelligence \
+    --file release-n8n.yml --repo "${REPO}" --allow-publish -y \
+    || { echo "    FAILED"; failures=$((failures + 1)); }
+else
+  echo "    owned by '${n8n_owner}', you are '${me}' - skipping."
+  echo "    Log in as that account and run:"
+  echo "      npx -y npm@11 trust github n8n-nodes-tnl-intelligence \\"
+  echo "        --file release-n8n.yml --repo ${REPO} --allow-publish -y"
+  echo "    Until then release-n8n.yml cannot publish without a token."
 fi
 
 echo
