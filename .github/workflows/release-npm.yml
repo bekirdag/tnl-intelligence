@@ -10,6 +10,8 @@ on:
 
 permissions:
   contents: read
+  # Required for npm provenance: the OIDC token is what links the published
+  # tarball back to this workflow run.
   id-token: write
 
 jobs:
@@ -27,7 +29,33 @@ jobs:
       - run: npm ci
       - run: npm run validate
       - run: npm run pack:check
-      - run: npm publish --workspace @theneuralledger/sdk --provenance --access public
-      - run: npm publish --workspace @theneuralledger/research --provenance --access public
-      - run: npm publish --workspace @theneuralledger/mcp --provenance --access public
-      - run: npm publish --workspace @theneuralledger/cli --provenance --access public
+
+      # Publish order is the dependency order: connectors depends on adapters,
+      # events, research and sdk, adapters depends on research, and mcp and cli
+      # depend on sdk.
+      #
+      # Versions already on the registry are skipped rather than published. The
+      # workspace releases as a set but its packages sit at mixed states, and
+      # republishing an existing version is a hard error that would abort the run
+      # and block every package behind it.
+      - name: Publish workspace packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: 'true'
+        run: |
+          set -euo pipefail
+          published=0
+          skipped=0
+          for pkg in sdk research events adapters connectors mcp cli; do
+            name="$(node -p "require('./packages/${pkg}/package.json').name")"
+            version="$(node -p "require('./packages/${pkg}/package.json').version")"
+            if npm view "${name}@${version}" version >/dev/null 2>&1; then
+              echo "skip    ${name}@${version} (already on the registry)"
+              skipped=$((skipped + 1))
+              continue
+            fi
+            echo "publish ${name}@${version}"
+            npm publish --workspace "${name}" --provenance --access public
+            published=$((published + 1))
+          done
+          echo "published=${published} skipped=${skipped}" >>"$GITHUB_STEP_SUMMARY"
