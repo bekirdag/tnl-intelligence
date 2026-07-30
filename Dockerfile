@@ -23,7 +23,10 @@ COPY packages/artifacts/package.json ./packages/artifacts/package.json
 COPY packages/gateway/package.json ./packages/gateway/package.json
 COPY packages/onboarding/package.json ./packages/onboarding/package.json
 COPY packages/cli/package.json ./packages/cli/package.json
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev \
+    && npm cache clean --force \
+    && rm -rf /usr/local/lib/node_modules/npm \
+    && rm -f /usr/local/bin/npm /usr/local/bin/npx
 COPY --from=build /app/packages/sdk/dist ./packages/sdk/dist
 COPY --from=build /app/packages/research/dist ./packages/research/dist
 COPY --from=build /app/packages/research/public ./packages/research/public

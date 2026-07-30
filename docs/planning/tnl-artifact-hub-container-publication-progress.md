@@ -1,21 +1,21 @@
 # TNL Artifact Hub Container Publication Progress
 
 Date: 2026-07-30
-Status: In progress — `0.1.1` published; independent canary correction in progress
+Status: In progress — hardened `0.1.2` candidate validated locally
 Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-publication-plan.md)
 
 ## Workstream Progress
 
-| Workstream                      | Status            | Evidence or next gate                                                                                                      |
-| ------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| Public image inspection         | Complete          | `0.1.0` index and both platform configs inspected                                                                          |
-| Architecture gate               | Complete          | `linux/amd64` and `linux/arm64` present                                                                                    |
-| Provenance baseline             | Complete          | Per-platform attestation manifests present                                                                                 |
-| Artifact Hub metadata gate      | Failed on `0.1.0` | Required README/created/description annotations or labels are absent                                                       |
-| Release workflow update         | Complete          | OCI/Artifact Hub labels and index annotations, SBOM, and explicit provenance added; all static checks pass                 |
-| New immutable image             | Published         | `0.1.1` release workflow passed; registry digest `sha256:df460e38b64bbd08d71245403bac1beadf607779a0a373dc59288a818e4b6529` |
-| Artifact Hub account/repository | Pending           | Create only after the new image passes                                                                                     |
-| Verified publisher              | Pending           | Requires Artifact Hub repository ID and OCI metadata artifact                                                              |
+| Workstream                      | Status             | Evidence or next gate                                                                                                                 |
+| ------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Public image inspection         | Complete           | `0.1.0` index and both platform configs inspected                                                                                     |
+| Architecture gate               | Complete           | `linux/amd64` and `linux/arm64` present                                                                                               |
+| Provenance baseline             | Complete           | Per-platform attestation manifests present                                                                                            |
+| Artifact Hub metadata gate      | Failed on `0.1.0`  | Required README/created/description annotations or labels are absent                                                                  |
+| Release workflow update         | Complete           | OCI/Artifact Hub labels and index annotations, SBOM, and explicit provenance added; all static checks pass                            |
+| New immutable image             | Hardening required | `0.1.1` metadata/runtime canary passed but vulnerability scan found one critical and six high findings; clean `0.1.2` candidate ready |
+| Artifact Hub account/repository | Pending            | Create only after the new image passes                                                                                                |
+| Verified publisher              | Pending            | Requires Artifact Hub repository ID and OCI metadata artifact                                                                         |
 
 ## Baseline Evidence
 
@@ -58,9 +58,20 @@ Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-p
   `docker manifest inspect` omitted index annotations that are present in the
   raw OCI index. The canary now reads the canonical raw index through
   `docker buildx imagetools inspect --raw`.
+- Corrected verification run
+  [`30546748528`](https://github.com/bekirdag/tnl-intelligence/actions/runs/30546748528)
+  passed the metadata, architecture, runtime, health, and authentication gates.
+- Grype `0.112.0` found one critical and six high vulnerabilities in `0.1.1`.
+  Six were packages bundled only with the unused npm CLI in the runtime base
+  image. The remaining finding was `fast-uri` `3.1.3`, fixed in `3.1.4`.
+- The hardened local candidate removes npm/npx from the runtime image and locks
+  `fast-uri` `3.1.4`. A clean Docker build, non-root read-only startup,
+  `/healthz`, unauthenticated MCP rejection, and npm/npx absence all pass.
+- A Grype scan of the hardened local candidate reports four medium findings and
+  zero high or critical findings. The durable published-image canary now pins
+  Grype by digest and fails on any high or critical vulnerability.
 
 ## Current Blocker
 
 Artifact Hub account creation and repository registration are intentionally
-blocked until a new immutable image includes the required metadata and passes
-the existing published-container canary.
+blocked until the hardened `0.1.2` image passes the published-container canary.

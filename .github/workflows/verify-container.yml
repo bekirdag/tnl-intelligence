@@ -56,6 +56,13 @@ jobs:
             '.[0].Config.Labels["io.artifacthub.package.readme-url"] // empty' \
             <<<"$image_config")"
 
+          docker run --rm \
+            --volume /var/run/docker.sock:/var/run/docker.sock \
+            anchore/grype@sha256:391bfda62888fb4e98ff5c4c81598f7431a3c1eac3f8519d69d1ff00df247c1d \
+            "docker:$image" \
+            --fail-on high \
+            --output table
+
           docker run -d \
             --name "$container" \
             --read-only \
@@ -83,5 +90,5 @@ jobs:
           printf 'Verified %s\n' "$digest"
           # Markdown backticks in the step summary are literals.
           # shellcheck disable=SC2016
-          printf '### Published container verification\n\n- `%s`\n- platforms: `linux/amd64`, `linux/arm64`\n- Artifact Hub metadata: pass\n- `/healthz`: pass\n- unauthenticated `/mcp`: `401`\n' \
+          printf '### Published container verification\n\n- `%s`\n- platforms: `linux/amd64`, `linux/arm64`\n- Artifact Hub metadata: pass\n- vulnerability gate: no high or critical findings\n- `/healthz`: pass\n- unauthenticated `/mcp`: `401`\n' \
             "$digest" >>"$GITHUB_STEP_SUMMARY"
