@@ -133,7 +133,10 @@ if (!n8n.TNL_WEBHOOK_EVENT_TYPES.includes('digest.weekly_published')) throw new 
 if (pipedreamResultAction.key !== 'tnl_intelligence-get-research-result') throw new Error('Pipedream result action mismatch');
 if (pipedreamSource.key !== 'tnl_intelligence-new-or-updated-intelligence') throw new Error('Pipedream source mismatch');
 if (pipedreamWeeklySource.props.eventTypes.default[0] !== 'digest.weekly_published') throw new Error('Pipedream weekly event mismatch');
-if (Object.keys(zapier.creates).length !== 6 || Object.keys(zapier.searches).length !== 1) throw new Error('Zapier operation catalog mismatch');
+// The published Zapier app exposes five creates: get_research_result was
+// deliberately dropped in "Fix and qualify Zapier research integration", but
+// this expectation was never updated with it.
+if (Object.keys(zapier.creates).length !== 5 || Object.keys(zapier.searches).length !== 1) throw new Error('Zapier operation catalog mismatch');
 if (Object.keys(zapier.triggers).length !== 2) throw new Error('Zapier trigger mismatch');
 if (zapier.triggers.weekly_edition.operation.sample.type !== 'digest.weekly_published') throw new Error('Zapier weekly event mismatch');
 console.log('clean connector consumer passed');
