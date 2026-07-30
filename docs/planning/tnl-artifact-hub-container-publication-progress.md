@@ -1,21 +1,21 @@
 # TNL Artifact Hub Container Publication Progress
 
 Date: 2026-07-30
-Status: In progress — image gate audited; metadata release required
+Status: In progress — `0.1.1` published; independent canary correction in progress
 Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-publication-plan.md)
 
 ## Workstream Progress
 
-| Workstream                      | Status            | Evidence or next gate                                                                                  |
-| ------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------ |
-| Public image inspection         | Complete          | `0.1.0` index and both platform configs inspected                                                      |
-| Architecture gate               | Complete          | `linux/amd64` and `linux/arm64` present                                                                |
-| Provenance baseline             | Complete          | Per-platform attestation manifests present                                                             |
-| Artifact Hub metadata gate      | Failed on `0.1.0` | Required README/created/description annotations or labels are absent                                   |
-| Release workflow update         | Complete          | OCI/Artifact Hub labels and index annotations, SBOM, and explicit provenance added; all static checks pass |
-| New immutable image             | Pending           | Publish and verify a patch tag                                                                         |
-| Artifact Hub account/repository | Pending           | Create only after the new image passes                                                                 |
-| Verified publisher              | Pending           | Requires Artifact Hub repository ID and OCI metadata artifact                                          |
+| Workstream                      | Status            | Evidence or next gate                                                                                                      |
+| ------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Public image inspection         | Complete          | `0.1.0` index and both platform configs inspected                                                                          |
+| Architecture gate               | Complete          | `linux/amd64` and `linux/arm64` present                                                                                    |
+| Provenance baseline             | Complete          | Per-platform attestation manifests present                                                                                 |
+| Artifact Hub metadata gate      | Failed on `0.1.0` | Required README/created/description annotations or labels are absent                                                       |
+| Release workflow update         | Complete          | OCI/Artifact Hub labels and index annotations, SBOM, and explicit provenance added; all static checks pass                 |
+| New immutable image             | Published         | `0.1.1` release workflow passed; registry digest `sha256:df460e38b64bbd08d71245403bac1beadf607779a0a373dc59288a818e4b6529` |
+| Artifact Hub account/repository | Pending           | Create only after the new image passes                                                                                     |
+| Verified publisher              | Pending           | Requires Artifact Hub repository ID and OCI metadata artifact                                                              |
 
 ## Baseline Evidence
 
@@ -48,6 +48,16 @@ Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-p
 - The published-container workflow now fails unless the multi-architecture
   index exposes the required Artifact Hub annotations and the pulled image
   exposes the corresponding config labels.
+- Release run
+  [`30545984732`](https://github.com/bekirdag/tnl-intelligence/actions/runs/30545984732)
+  published `0.1.1` successfully from commit `0ca1be1`.
+- Registry inspection confirms that `0.1.1` has the required index annotations,
+  image config labels, both target architectures, and per-platform attestation
+  manifests.
+- The first verification run exposed a canary implementation issue:
+  `docker manifest inspect` omitted index annotations that are present in the
+  raw OCI index. The canary now reads the canonical raw index through
+  `docker buildx imagetools inspect --raw`.
 
 ## Current Blocker
 

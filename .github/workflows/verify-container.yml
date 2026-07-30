@@ -34,7 +34,7 @@ jobs:
           trap cleanup EXIT
 
           docker pull "$image"
-          manifest="$(docker manifest inspect "$image")"
+          manifest="$(docker buildx imagetools inspect --raw "$image")"
           jq -e '.manifests | any(.platform.os == "linux" and .platform.architecture == "amd64")' \
             <<<"$manifest" >/dev/null
           jq -e '.manifests | any(.platform.os == "linux" and .platform.architecture == "arm64")' \
