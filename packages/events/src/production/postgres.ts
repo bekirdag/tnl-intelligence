@@ -438,7 +438,13 @@ export class PostgresOutboxStore implements OutboxStore {
        VALUES ($1,$2,$3::jsonb,$4,$5)
        ON CONFLICT (unique_key) DO NOTHING
        RETURNING id`,
-      [record.id, record.uniqueKey, JSON.stringify(record.event), record.state, record.createdAt],
+      [
+        record.id,
+        encodeUniqueKey(record.uniqueKey),
+        JSON.stringify(record.event),
+        record.state,
+        record.createdAt,
+      ],
     );
     return result.rows.length > 0;
   }
@@ -489,10 +495,23 @@ export class PostgresOutboxStore implements OutboxStore {
   }
 }
 
+/**
+ * The producer's uniqueness key is `tenant\0resource\0revision\0type`, and a
+ * PostgreSQL `text` column cannot hold a NUL byte. Encoding preserves the exact
+ * key bytes, so the uniqueness guarantee is unchanged and reads round-trip.
+ */
+export function encodeUniqueKey(value: string): string {
+  return Buffer.from(value, 'utf8').toString('base64url');
+}
+
+export function decodeUniqueKey(value: string): string {
+  return Buffer.from(value, 'base64url').toString('utf8');
+}
+
 function toOutbox(row: OutboxRow): OutboxRecord {
   return {
     id: row.id,
-    uniqueKey: row.unique_key,
+    uniqueKey: decodeUniqueKey(row.unique_key),
     event: row.event,
     state: row.state as OutboxRecord['state'],
     createdAt: Number(row.created_at),

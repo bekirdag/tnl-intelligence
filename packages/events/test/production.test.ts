@@ -18,6 +18,11 @@ import {
   type WrappedDataKey,
   type WrappedKeyStore,
 } from '../src/production/kms.js';
+import {
+  decodeUniqueKey,
+  encodeUniqueKey,
+  PostgresOutboxStore,
+} from '../src/production/postgres.js';
 import { SubscriptionError } from '../src/subscriptions.js';
 
 const configPath = fileURLToPath(
@@ -277,5 +282,36 @@ describe('production identity and tenant authorization', () => {
 
   it('exposes a member directory adapter that reads the TNL key table', () => {
     assert.equal(typeof MysqlMemberKeyDirectory.connect, 'function');
+  });
+});
+
+describe('durable outbox uniqueness key', () => {
+  it('stores the producer key without a NUL byte and reads it back unchanged', async () => {
+    const statements: Array<{ text: string; values: readonly unknown[] }> = [];
+    const pool = {
+      async query(text: string, values: readonly unknown[] = []) {
+        statements.push({ text, values });
+        return { rows: [{ id: 'out_1' }] };
+      },
+      async transaction() {
+        throw new Error('unused in this test');
+      },
+      async close() {},
+    };
+    const store = new PostgresOutboxStore(pool as never);
+    const uniqueKey = ['tnl_public', 'story_1', '3', 'intelligence.published'].join('\u0000');
+    const appended = await store.appendUnique({
+      id: 'out_1',
+      uniqueKey,
+      event: { id: 'evt_1' } as never,
+      state: 'pending',
+      createdAt: 1,
+    });
+    assert.equal(appended, true);
+    const stored = statements[0]?.values[1] as string;
+    // A PostgreSQL text column rejects NUL, which is why the key is encoded.
+    assert.ok(!stored.includes('\u0000'), 'the stored key carries no NUL byte');
+    assert.equal(decodeUniqueKey(stored), uniqueKey);
+    assert.equal(encodeUniqueKey(uniqueKey), stored);
   });
 });
