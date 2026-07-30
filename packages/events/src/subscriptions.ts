@@ -157,13 +157,19 @@ export class SubscriptionService {
     )
       throw new SubscriptionError('invalid_event_types', 400);
     const secret = input.secret ? suppliedSecret(input.secret) : randomBytes(32);
+    let filters: SubscriptionFilters;
+    try {
+      filters = normalizeFilters(input.filters);
+    } catch {
+      throw new SubscriptionError('invalid_filters', 400);
+    }
     const record: SubscriptionRecord = {
       id: `sub_${randomUUID().replaceAll('-', '')}`,
       ownerId: actor.ownerId,
       tenantId: actor.tenantId,
       endpoint: endpoint.url,
       eventTypes,
-      filters: normalizeFilters(input.filters),
+      filters,
       state: 'pending',
       activeKey: {
         id: `key_${randomBytes(10).toString('base64url')}`,

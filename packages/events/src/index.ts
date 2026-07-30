@@ -6,6 +6,7 @@ export * from './endpoint.js';
 export * from './filters.js';
 export * from './metrics.js';
 export * from './outbox.js';
+export * from './production/index.js';
 export * from './queue.js';
 export * from './receiver.js';
 export * from './server.js';

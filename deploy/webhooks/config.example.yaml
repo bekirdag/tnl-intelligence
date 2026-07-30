@@ -1,6 +1,25 @@
+# Production configuration for the TNL webhook service.
+#
+# Only non-secret settings belong in this file. Secrets are supplied through the
+# environment variables named below, which systemd loads from a root-owned
+# EnvironmentFile, so the configuration can be deployed with the release.
+#
+# Start the service with:
+#   TNL_WEBHOOK_CONFIG=/etc/tnl-webhooks/config.yaml node dist/production-bin.js
+
 service:
+  bind_host: 127.0.0.1
+  bind_port: 7322
+  # The TNL publish transaction only writes outbox rows, so neither of these
+  # flags can block article publication when they are turned off.
   producer_enabled: false
-  dispatcher_enabled: false
+  dispatcher_enabled: true
+  relay_enabled: true
+  # Hosted automation platforms never call /verify, so the signed challenge runs
+  # during creation and activates the subscription when the endpoint answers 2xx.
+  auto_verify_on_create: true
+  worker_interval_ms: 1000
+  worker_batch: 100
   request_timeout_ms: 10000
   maximum_attempts: 8
   base_delay_ms: 5000
@@ -9,15 +28,42 @@ service:
   detailed_history_days: 30
   dead_letter_days: 14
   audit_days: 180
+  outbox_days: 7
+
+database:
+  # PostgreSQL connection string, e.g. postgres://tnl_webhooks@127.0.0.1/tnl_webhooks
+  url_env: TNL_WEBHOOK_DATABASE_URL
+  max_connections: 8
+
+kms:
+  provider: local-keyring
+  # Versioned wrapping keys delivered out of band; never stored in the database.
+  keyring_path_env: TNL_WEBHOOK_KEYRING_PATH
+
+identity:
+  default_tenant_id: tnl_public
+  requests_per_minute: 120
+  operator_role: tnl-webhook-operator
+  operator_subjects: []
+  denied_plans: []
+  tenant_overrides: {}
+  mysql_host: 127.0.0.1
+  mysql_port: 3306
+  mysql_user: theneuralledger
+  mysql_database: theneuralledger
+  mysql_password_env: TNL_WEBHOOK_MYSQL_PASSWORD
+  keycloak_jwks_url: https://auth.theneuralledger.com/realms/theneuralledger-prod/protocol/openid-connect/certs
+  keycloak_issuers: [https://auth.theneuralledger.com/realms/theneuralledger-prod]
+  keycloak_audiences: []
 
 adapters:
-  outbox: required-durable-transactional
-  queue: required-durable-tenant-fair
-  subscriptions: required-durable
-  deliveries: required-durable
-  secret_protector: required-kms
-  identity: required-authenticated
-  replay_authorization: required-operator-role
+  outbox: postgres-transactional
+  queue: postgres-tenant-fair
+  subscriptions: postgres
+  deliveries: postgres
+  secret_protector: kms-envelope
+  identity: tnl-api-key-and-keycloak
+  replay_authorization: operator-role
 
 egress:
   require_https: true

@@ -14,11 +14,16 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./production": {
+      "types": "./dist/production/index.d.ts",
+      "import": "./dist/production/index.js"
     }
   },
   "bin": {
     "tnl-webhook-receiver": "./dist/receiver-bin.js",
-    "tnl-webhook-service": "./dist/service-bin.js"
+    "tnl-webhook-service": "./dist/service-bin.js",
+    "tnl-webhook-service-production": "./dist/production-bin.js"
   },
   "files": [
     "LICENSE",

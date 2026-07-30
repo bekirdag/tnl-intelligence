@@ -1,0 +1,65 @@
+# Hardened systemd unit for the TNL production webhook service.
+#
+# Install:
+#   sudo useradd --system --home /srv/tnl-webhooks --shell /usr/sbin/nologin tnlhooks
+#   sudo cp deploy/webhooks/tnl-webhooks.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now tnl-webhooks
+#
+# /etc/tnl-webhooks/env carries only secrets (database URL, MySQL password,
+# keyring path) and is root-owned with group read for tnlhooks.
+
+[Unit]
+Description=The Neural Ledger production webhook delivery service
+Documentation=https://developers.theneuralledger.com/guides/webhooks
+After=network-online.target postgresql.service mysql.service
+Wants=network-online.target
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=tnlhooks
+Group=tnlhooks
+WorkingDirectory=/srv/tnl-webhooks/current
+Environment=NODE_ENV=production
+Environment=TNL_WEBHOOK_CONFIG=/etc/tnl-webhooks/config.yaml
+EnvironmentFile=/etc/tnl-webhooks/env
+ExecStart=/usr/bin/node /srv/tnl-webhooks/current/dist/production-bin.js
+Restart=always
+RestartSec=5s
+TimeoutStopSec=30s
+KillSignal=SIGTERM
+
+# The service holds signing-key material, so it runs with no privileges it does
+# not need and no write access anywhere outside its own runtime directory.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectProc=invisible
+LockPersonality=true
+MemoryDenyWriteExecute=true
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+CapabilityBoundingSet=
+AmbientCapabilities=
+UMask=0077
+RuntimeDirectory=tnl-webhooks
+StateDirectory=tnl-webhooks
+LimitNOFILE=65536
+MemoryMax=768M
+TasksMax=256
+
+[Install]
+WantedBy=multi-user.target

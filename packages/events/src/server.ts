@@ -9,6 +9,7 @@ import type { WebhookMetrics } from './metrics.js';
 import {
   SubscriptionError,
   type SubscriptionActor,
+  type SubscriptionMetadata,
   type SubscriptionService,
 } from './subscriptions.js';
 
@@ -37,6 +38,20 @@ export function createWebhookControlServer(options: {
   metrics: WebhookMetrics;
   now?: () => number;
   ready?: () => Promise<boolean>;
+  /** Optional dependency-level readiness reported by `/readyz`. */
+  readiness?: () => Promise<{
+    ready: boolean;
+    dependencies: Readonly<Record<string, 'pass' | 'fail'>>;
+  }>;
+  /**
+   * Runs after a subscription is created. Production uses it to complete the
+   * signed challenge so hosted automation platforms, which never call
+   * `/verify`, still end up with an active subscription.
+   */
+  afterCreate?: (
+    actor: SubscriptionActor,
+    subscriptionId: string,
+  ) => Promise<SubscriptionMetadata | undefined>;
 }): Server {
   const now = options.now ?? Date.now;
   return createServer(
@@ -51,6 +66,15 @@ export function createWebhookControlServer(options: {
           return;
         }
         if (request.method === 'GET' && url.pathname === '/readyz') {
+          if (options.readiness) {
+            const report = await options.readiness();
+            json(response, report.ready ? 200 : 503, {
+              ready: report.ready,
+              service: 'tnl-webhooks',
+              dependencies: report.dependencies,
+            });
+            return;
+          }
           const ready = (await options.ready?.()) ?? true;
           json(response, ready ? 200 : 503, { ready });
           return;
@@ -78,9 +102,14 @@ export function createWebhookControlServer(options: {
               endpoint: string(body.endpoint),
               eventTypes: strings(body.eventTypes) as WebhookEventType[],
               ...(filters ? { filters } : {}),
-              ...(body.secret === undefined ? {} : { secret: string(body.secret) }),
+              ...(body.secret === undefined || body.secret === null
+                ? {}
+                : { secret: string(body.secret) }),
             });
-            json(response, 201, { data: issued });
+            const activated = await options.afterCreate?.(actor, issued.subscription.id);
+            json(response, 201, {
+              data: activated ? { ...issued, subscription: activated } : issued,
+            });
             return;
           }
         }
