@@ -1,7 +1,7 @@
 # TNL Artifact Hub Container Publication Progress
 
 Date: 2026-07-30
-Status: In progress — hardened `0.1.2` candidate validated locally
+Status: In progress — `0.1.2` qualified; account email verification pending
 Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-publication-plan.md)
 
 ## Workstream Progress
@@ -13,8 +13,8 @@ Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-p
 | Provenance baseline             | Complete           | Per-platform attestation manifests present                                                                                            |
 | Artifact Hub metadata gate      | Failed on `0.1.0`  | Required README/created/description annotations or labels are absent                                                                  |
 | Release workflow update         | Complete           | OCI/Artifact Hub labels and index annotations, SBOM, and explicit provenance added; all static checks pass                            |
-| New immutable image             | Hardening required | `0.1.1` metadata/runtime canary passed but vulnerability scan found one critical and six high findings; clean `0.1.2` candidate ready |
-| Artifact Hub account/repository | Pending            | Create only after the new image passes                                                                                                |
+| New immutable image             | Complete           | `0.1.2` published and independently verified at digest `sha256:bcd63ce34d50f694fb9ae6add066dcccd0054b5a24f7dd36e55463a17af1efe3` |
+| Artifact Hub account/repository | Verification pending | Account `theneuralledger` created with `tnladmin@theneuralledger.com`; email verification link sent |
 | Verified publisher              | Pending            | Requires Artifact Hub repository ID and OCI metadata artifact                                                                         |
 
 ## Baseline Evidence
@@ -70,8 +70,21 @@ Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-p
 - A Grype scan of the hardened local candidate reports four medium findings and
   zero high or critical findings. The durable published-image canary now pins
   Grype by digest and fails on any high or critical vulnerability.
+- Release run
+  [`30547595411`](https://github.com/bekirdag/tnl-intelligence/actions/runs/30547595411)
+  published `0.1.2` from commit `6d10e66`.
+- Published-container run
+  [`30548042520`](https://github.com/bekirdag/tnl-intelligence/actions/runs/30548042520)
+  passed architecture, metadata, high/critical vulnerability, non-root,
+  read-only runtime, health, and authentication gates.
+- Public OCI index digest:
+  `sha256:bcd63ce34d50f694fb9ae6add066dcccd0054b5a24f7dd36e55463a17af1efe3`.
+- No existing TNL package or matching GHCR repository was found in Artifact Hub.
+- Artifact Hub accepted the `theneuralledger` signup using
+  `tnladmin@theneuralledger.com` and sent the required verification link.
 
 ## Current Blocker
 
-Artifact Hub account creation and repository registration are intentionally
-blocked until the hardened `0.1.2` image passes the published-container canary.
+Repository registration is blocked only by the account verification link sent
+to `tnladmin@theneuralledger.com`, which routes to `info@wodo.io`. That routed
+mailbox is not available through the connected Gmail or Outlook sessions.
