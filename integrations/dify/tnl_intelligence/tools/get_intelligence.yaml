@@ -1,0 +1,38 @@
+identity:
+  name: get_intelligence
+  author: bekirdag
+  label:
+    en_US: Get Intelligence
+description:
+  human:
+    en_US: Retrieve one stable TNL intelligence item by ID or slug.
+  llm: Retrieve one source-linked TNL story, including stable identity, revision metadata, timestamps, citations, claims, and canonical URL.
+parameters:
+  - name: id
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Story ID or Slug
+    human_description:
+      en_US: Stable TNL story ID or public title slug.
+    llm_description: The exact TNL story ID or slug returned by another TNL tool.
+  - name: include_body
+    type: boolean
+    required: false
+    default: false
+    form: llm
+    label:
+      en_US: Include Body
+    human_description:
+      en_US: Include the full story body when available.
+    llm_description: Set true only when the full article body is needed.
+output_schema:
+  properties:
+    result:
+      type: object
+      description: One source-linked TNL story and its revision metadata.
+extra:
+  python:
+    source: tools/get_intelligence.py
+

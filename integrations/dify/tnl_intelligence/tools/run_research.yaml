@@ -1,0 +1,86 @@
+identity:
+  name: run_research
+  author: bekirdag
+  label:
+    en_US: Run Research
+description:
+  human:
+    en_US: Run one evidence-first, read-only TNL research workflow.
+  llm: Run an enumerated TNL research workflow and return its structured verification state, confidence, claims, citations, sources, and as-of boundary.
+parameters:
+  - name: workflow
+    type: select
+    required: true
+    form: llm
+    label:
+      en_US: Workflow
+    human_description:
+      en_US: Evidence-first research workflow to run.
+    llm_description: Choose the workflow that best matches the research question.
+    options:
+      - value: what-changed
+        label:
+          en_US: What Changed
+      - value: compare-sources
+        label:
+          en_US: Compare Sources
+      - value: validate-event
+        label:
+          en_US: Validate Event
+      - value: asset-exposure
+        label:
+          en_US: Asset Exposure
+      - value: operational-risk
+        label:
+          en_US: Operational Risk
+      - value: weekly-consequential
+        label:
+          en_US: Weekly Consequential
+  - name: question
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Research Question
+    human_description:
+      en_US: Question, event, or asset to investigate.
+    llm_description: A specific research question with enough context to identify the subject.
+  - name: from
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: From
+    human_description:
+      en_US: Optional inclusive ISO 8601 start time.
+    llm_description: Optional inclusive ISO 8601 start of the evidence window.
+  - name: to
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: To
+    human_description:
+      en_US: Optional inclusive ISO 8601 end time.
+    llm_description: Optional inclusive ISO 8601 end of the evidence window.
+  - name: limit
+    type: number
+    required: false
+    default: 20
+    min: 1
+    max: 100
+    form: llm
+    label:
+      en_US: Evidence Limit
+    human_description:
+      en_US: Maximum source records, from 1 to 100.
+    llm_description: Maximum number of evidence records the workflow may consider.
+output_schema:
+  properties:
+    result:
+      type: object
+      description: Structured TNL research result with evidence and citations.
+extra:
+  python:
+    source: tools/run_research.py
+

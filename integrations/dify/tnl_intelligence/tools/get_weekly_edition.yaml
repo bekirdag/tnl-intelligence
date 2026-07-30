@@ -1,0 +1,58 @@
+identity:
+  name: get_weekly_edition
+  author: bekirdag
+  label:
+    en_US: Get Weekly Edition
+description:
+  human:
+    en_US: Generate a cited weekly consequential-development edition.
+  llm: Generate a structured, cited summary of the most consequential developments in the seven-day period ending at the requested time.
+parameters:
+  - name: week_ending
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Week Ending
+    human_description:
+      en_US: Optional ISO 8601 end time. Defaults to the current time.
+    llm_description: Optional ISO 8601 end of the seven-day research window.
+  - name: category
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Category
+    human_description:
+      en_US: Optional TNL category focus.
+    llm_description: Optional category to prioritize.
+  - name: geography
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Geography
+    human_description:
+      en_US: Optional country or region focus.
+    llm_description: Optional geography to prioritize.
+  - name: limit
+    type: number
+    required: false
+    default: 20
+    min: 1
+    max: 100
+    form: llm
+    label:
+      en_US: Evidence Limit
+    human_description:
+      en_US: Maximum source records, from 1 to 100.
+    llm_description: Maximum number of evidence records the workflow may consider.
+output_schema:
+  properties:
+    result:
+      type: object
+      description: Structured weekly edition with claims, verification, and citations.
+extra:
+  python:
+    source: tools/get_weekly_edition.py
+

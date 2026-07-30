@@ -1,0 +1,30 @@
+identity:
+  author: bekirdag
+  name: tnl_intelligence
+  label:
+    en_US: The Neural Ledger
+  description:
+    en_US: Source-linked intelligence and evidence-first research from The Neural Ledger.
+  icon: icon.png
+credentials_for_provider:
+  tnl_api_key:
+    type: secret-input
+    required: true
+    label:
+      en_US: TNL API Key
+    placeholder:
+      en_US: Enter a TNL API key
+    help:
+      en_US: Create or manage a key in the TNL member area.
+    url: https://theneuralledger.com/member
+tools:
+  - tools/search_intelligence.yaml
+  - tools/get_intelligence.yaml
+  - tools/list_recent_changes.yaml
+  - tools/get_exposure.yaml
+  - tools/run_research.yaml
+  - tools/get_weekly_edition.yaml
+extra:
+  python:
+    source: provider/tnl_intelligence.py
+

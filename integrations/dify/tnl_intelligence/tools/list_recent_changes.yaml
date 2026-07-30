@@ -1,0 +1,49 @@
+identity:
+  name: list_recent_changes
+  author: bekirdag
+  label:
+    en_US: List Recent Changes
+description:
+  human:
+    en_US: List intelligence published, revised, or retracted since a timestamp.
+  llm: List TNL stories changed since an explicit ISO 8601 timestamp, newest first, with sources, claims, revisions, and cursor pagination.
+parameters:
+  - name: since
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Changed Since
+    human_description:
+      en_US: Inclusive ISO 8601 date or timestamp.
+    llm_description: Return stories updated at or after this ISO 8601 timestamp.
+  - name: page_size
+    type: number
+    required: false
+    default: 20
+    min: 1
+    max: 100
+    form: llm
+    label:
+      en_US: Page Size
+    human_description:
+      en_US: Number of stories to return, from 1 to 100.
+    llm_description: Maximum number of changed stories to return. Defaults to 20.
+  - name: cursor
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Cursor
+    human_description:
+      en_US: Opaque next-page cursor returned by an earlier call.
+    llm_description: Use the exact next cursor from an earlier result to continue pagination.
+output_schema:
+  properties:
+    result:
+      type: object
+      description: Changed TNL stories and page metadata.
+extra:
+  python:
+    source: tools/list_recent_changes.py
+

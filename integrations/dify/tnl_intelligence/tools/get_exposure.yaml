@@ -1,0 +1,68 @@
+identity:
+  name: get_exposure
+  author: bekirdag
+  label:
+    en_US: Get Exposure
+description:
+  human:
+    en_US: Retrieve source-linked stories for an entity, asset, or impact path.
+  llm: Retrieve structured TNL exposure evidence for a fixed entity, asset, or impact-path identifier.
+parameters:
+  - name: kind
+    type: select
+    required: true
+    form: llm
+    label:
+      en_US: Exposure Kind
+    human_description:
+      en_US: Type of exposure lookup.
+    llm_description: Select entity, asset, or impact_path.
+    options:
+      - value: entity
+        label:
+          en_US: Entity
+      - value: asset
+        label:
+          en_US: Asset
+      - value: impact_path
+        label:
+          en_US: Impact Path
+  - name: value
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Identifier
+    human_description:
+      en_US: Entity label, asset ticker, or impact-path ID or label.
+    llm_description: Exact entity, ticker, or impact path to retrieve exposure for.
+  - name: page_size
+    type: number
+    required: false
+    default: 20
+    min: 1
+    max: 100
+    form: llm
+    label:
+      en_US: Page Size
+    human_description:
+      en_US: Number of stories to return, from 1 to 100.
+    llm_description: Maximum number of source-linked stories to return.
+  - name: cursor
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Cursor
+    human_description:
+      en_US: Opaque next-page cursor returned by an earlier call.
+    llm_description: Use the exact next cursor from an earlier result to continue pagination.
+output_schema:
+  properties:
+    result:
+      type: object
+      description: Source-linked exposure stories and page metadata.
+extra:
+  python:
+    source: tools/get_exposure.py
+

@@ -1,0 +1,59 @@
+identity:
+  name: search_intelligence
+  author: bekirdag
+  label:
+    en_US: Search Intelligence
+description:
+  human:
+    en_US: Search source-linked TNL intelligence with bounded cursor pagination.
+  llm: Search source-linked intelligence. Returns structured stories, revisions, timestamps, canonical URLs, sources, claims, and page metadata.
+parameters:
+  - name: query
+    type: string
+    required: true
+    form: llm
+    label:
+      en_US: Query
+    human_description:
+      en_US: Search terms, up to 1,000 characters.
+    llm_description: The topic, organization, event, person, asset, or development to search for.
+  - name: page_size
+    type: number
+    required: false
+    default: 20
+    min: 1
+    max: 100
+    form: llm
+    label:
+      en_US: Page Size
+    human_description:
+      en_US: Number of stories to return, from 1 to 100.
+    llm_description: Maximum number of stories to return. Defaults to 20 and cannot exceed 100.
+  - name: cursor
+    type: string
+    required: false
+    form: llm
+    label:
+      en_US: Cursor
+    human_description:
+      en_US: Opaque next-page cursor returned by an earlier call.
+    llm_description: Use the exact next cursor from an earlier result to continue pagination.
+  - name: include_body
+    type: boolean
+    required: false
+    default: false
+    form: llm
+    label:
+      en_US: Include Body
+    human_description:
+      en_US: Include the full story body when available.
+    llm_description: Set true only when the full article body is needed.
+output_schema:
+  properties:
+    result:
+      type: object
+      description: TNL search response with source-linked stories and page metadata.
+extra:
+  python:
+    source: tools/search_intelligence.py
+
