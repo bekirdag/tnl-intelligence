@@ -49,11 +49,17 @@ identity:
   tenant_overrides: {}
   mysql_host: 127.0.0.1
   mysql_port: 3306
-  mysql_user: theneuralledger
+  # Dedicated principal with column-level SELECT on member_api_keys only.
+  mysql_user: tnl_webhooks
   mysql_database: theneuralledger
   mysql_password_env: TNL_WEBHOOK_MYSQL_PASSWORD
-  keycloak_jwks_url: https://auth.theneuralledger.com/realms/theneuralledger-prod/protocol/openid-connect/certs
-  keycloak_issuers: [https://auth.theneuralledger.com/realms/theneuralledger-prod]
+  # The realm is reachable on the SealUnit hostname from inside the host; the
+  # first-party auth.theneuralledger.com name is NAT-hairpinned and times out,
+  # which is why the JWKS host and the accepted issuers differ.
+  keycloak_jwks_url: https://sso.sealunit.com/realms/theneuralledger-prod/protocol/openid-connect/certs
+  keycloak_issuers:
+    - https://sso.sealunit.com/realms/theneuralledger-prod
+    - https://auth.theneuralledger.com/realms/theneuralledger-prod
   keycloak_audiences: []
 
 adapters:

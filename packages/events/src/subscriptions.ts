@@ -196,7 +196,10 @@ export class SubscriptionService {
     id: string,
   ): Promise<{ endpoint: string; keyId: string; secret: Buffer }> {
     const record = await owned(this.#store, actor, id);
-    if (record.state !== 'pending') throw new SubscriptionError('invalid_state', 409);
+    // Paused subscriptions may re-run the challenge, which is how an operator
+    // resumes an endpoint that was paused after sustained delivery failures.
+    if (record.state !== 'pending' && record.state !== 'paused')
+      throw new SubscriptionError('invalid_state', 409);
     return {
       endpoint: record.endpoint,
       keyId: record.activeKey.id,

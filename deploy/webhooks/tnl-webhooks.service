@@ -44,7 +44,8 @@ ProtectKernelModules=true
 ProtectKernelTunables=true
 ProtectProc=invisible
 LockPersonality=true
-MemoryDenyWriteExecute=true
+# MemoryDenyWriteExecute is deliberately omitted: the V8 JIT needs writable
+# executable pages and the process traps immediately with it enabled.
 RestrictNamespaces=true
 RestrictRealtime=true
 RestrictSUIDSGID=true
