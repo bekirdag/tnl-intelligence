@@ -23,11 +23,51 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate container metadata
+        id: metadata
+        uses: docker/metadata-action@v6
+        env:
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+        with:
+          images: ghcr.io/bekirdag/tnl-intelligence
+          tags: |
+            type=raw,value=${{ inputs.version }}
+            type=raw,value=latest
+          labels: |
+            org.opencontainers.image.title=TNL Intelligence
+            org.opencontainers.image.description=Read-only cited intelligence and evidence-backed research over MCP
+            org.opencontainers.image.documentation=https://theneuralledger.com/developers
+            org.opencontainers.image.source=https://github.com/bekirdag/tnl-intelligence
+            org.opencontainers.image.url=https://theneuralledger.com
+            org.opencontainers.image.vendor=The Neural Ledger
+            org.opencontainers.image.version=${{ inputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.licenses=MIT
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/bekirdag/tnl-intelligence/${{ github.sha }}/README.md
+            io.artifacthub.package.category=ai-machine-learning
+            io.artifacthub.package.license=MIT
+            io.artifacthub.package.logo-url=https://raw.githubusercontent.com/bekirdag/tnl-intelligence/${{ github.sha }}/integrations/cursor/tnl-intelligence/assets/tnl-int-logo.png
+          annotations: |
+            org.opencontainers.image.title=TNL Intelligence
+            org.opencontainers.image.description=Read-only cited intelligence and evidence-backed research over MCP
+            org.opencontainers.image.documentation=https://theneuralledger.com/developers
+            org.opencontainers.image.source=https://github.com/bekirdag/tnl-intelligence
+            org.opencontainers.image.url=https://theneuralledger.com
+            org.opencontainers.image.vendor=The Neural Ledger
+            org.opencontainers.image.version=${{ inputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.licenses=MIT
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/bekirdag/tnl-intelligence/${{ github.sha }}/README.md
+            io.artifacthub.package.category=ai-machine-learning
+            io.artifacthub.package.license=MIT
+            io.artifacthub.package.logo-url=https://raw.githubusercontent.com/bekirdag/tnl-intelligence/${{ github.sha }}/integrations/cursor/tnl-intelligence/assets/tnl-int-logo.png
       - uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: |
-            ghcr.io/bekirdag/tnl-intelligence:${{ inputs.version }}
-            ghcr.io/bekirdag/tnl-intelligence:latest
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
+          annotations: ${{ steps.metadata.outputs.annotations }}
+          provenance: mode=max
+          sbom: true

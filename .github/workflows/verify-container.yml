@@ -39,9 +39,22 @@ jobs:
             <<<"$manifest" >/dev/null
           jq -e '.manifests | any(.platform.os == "linux" and .platform.architecture == "arm64")' \
             <<<"$manifest" >/dev/null
-          digest="$(docker image inspect "$image" --format '{{ index .RepoDigests 0 }}')"
+          jq -e '.annotations["org.opencontainers.image.description"] | length > 0' \
+            <<<"$manifest" >/dev/null
+          jq -e '.annotations["org.opencontainers.image.created"] | length > 0' \
+            <<<"$manifest" >/dev/null
+          jq -e '.annotations["io.artifacthub.package.readme-url"] | length > 0' \
+            <<<"$manifest" >/dev/null
+          image_config="$(docker image inspect "$image")"
+          digest="$(jq -r '.[0].RepoDigests[0] // empty' <<<"$image_config")"
           test -n "$digest"
-          test "$(docker image inspect "$image" --format '{{ .Config.User }}')" = "node"
+          test "$(jq -r '.[0].Config.User' <<<"$image_config")" = "node"
+          test -n "$(jq -r \
+            '.[0].Config.Labels["org.opencontainers.image.description"] // empty' \
+            <<<"$image_config")"
+          test -n "$(jq -r \
+            '.[0].Config.Labels["io.artifacthub.package.readme-url"] // empty' \
+            <<<"$image_config")"
 
           docker run -d \
             --name "$container" \
@@ -68,5 +81,7 @@ jobs:
           test "$status" = "401"
 
           printf 'Verified %s\n' "$digest"
-          printf '### Published container verification\n\n- `%s`\n- platforms: `linux/amd64`, `linux/arm64`\n- `/healthz`: pass\n- unauthenticated `/mcp`: `401`\n' \
+          # Markdown backticks in the step summary are literals.
+          # shellcheck disable=SC2016
+          printf '### Published container verification\n\n- `%s`\n- platforms: `linux/amd64`, `linux/arm64`\n- Artifact Hub metadata: pass\n- `/healthz`: pass\n- unauthenticated `/mcp`: `401`\n' \
             "$digest" >>"$GITHUB_STEP_SUMMARY"

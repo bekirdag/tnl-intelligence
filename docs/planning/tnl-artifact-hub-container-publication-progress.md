@@ -1,0 +1,56 @@
+# TNL Artifact Hub Container Publication Progress
+
+Date: 2026-07-30
+Status: In progress — image gate audited; metadata release required
+Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-publication-plan.md)
+
+## Workstream Progress
+
+| Workstream                      | Status            | Evidence or next gate                                                                                  |
+| ------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------ |
+| Public image inspection         | Complete          | `0.1.0` index and both platform configs inspected                                                      |
+| Architecture gate               | Complete          | `linux/amd64` and `linux/arm64` present                                                                |
+| Provenance baseline             | Complete          | Per-platform attestation manifests present                                                             |
+| Artifact Hub metadata gate      | Failed on `0.1.0` | Required README/created/description annotations or labels are absent                                   |
+| Release workflow update         | Complete          | OCI/Artifact Hub labels and index annotations, SBOM, and explicit provenance added; all static checks pass |
+| New immutable image             | Pending           | Publish and verify a patch tag                                                                         |
+| Artifact Hub account/repository | Pending           | Create only after the new image passes                                                                 |
+| Verified publisher              | Pending           | Requires Artifact Hub repository ID and OCI metadata artifact                                          |
+
+## Baseline Evidence
+
+- Tag: `ghcr.io/bekirdag/tnl-intelligence:0.1.0`
+- OCI index:
+  `sha256:c40569e9ad52f936055c50a4e3de57e4a807db3d61c3e5a42480e73c409998cc`
+- Platform manifests:
+  - `linux/amd64`:
+    `sha256:2e7ae8732826b866165f261340f4271664d1aa718475c440e9a3bf0b4c7749f2`
+  - `linux/arm64`:
+    `sha256:427b28f30e64142c273ac2501af0923bc83c13f306276addb375d9c067413a70`
+- Both configs declare `User=node`, port `7317`, the HTTP MCP entrypoint, and
+  the `/healthz` health check.
+- The index contains provenance attestation manifests but no Artifact Hub
+  package annotations.
+- The platform image configs contain no OCI labels.
+
+## Planning Evidence
+
+- Docdex impact analysis found no inbound or outbound dependency edges for
+  `.github/workflows/release-container.yml`.
+- Docdex AST inspection reported `unsupported_language` for GitHub Actions YAML;
+  the change will therefore use YAML/action validation and live workflow evidence
+  instead of claiming AST coverage.
+- Current Artifact Hub documentation confirms that multi-architecture OCI
+  indexes may carry annotations and that image configs may carry labels. The
+  required fields are README URL, RFC3339 creation time, and description.
+- YAML parsing, Prettier, Actionlint, ShellCheck, and diff validation pass for
+  both container workflows.
+- The published-container workflow now fails unless the multi-architecture
+  index exposes the required Artifact Hub annotations and the pulled image
+  exposes the corresponding config labels.
+
+## Current Blocker
+
+Artifact Hub account creation and repository registration are intentionally
+blocked until a new immutable image includes the required metadata and passes
+the existing published-container canary.
