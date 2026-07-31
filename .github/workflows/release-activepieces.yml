@@ -1,0 +1,44 @@
+name: Release Activepieces community piece
+
+on:
+  push:
+    tags:
+      - 'activepieces-v*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    defaults:
+      run:
+        working-directory: integrations/activepieces/piece-tnl-intelligence
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org/
+          cache: npm
+          cache-dependency-path: integrations/activepieces/piece-tnl-intelligence/package-lock.json
+      - run: npm install --global npm@latest
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npm run pack:check
+      - name: Verify tag matches package version
+        shell: bash
+        run: |
+          expected="activepieces-v$(node -p "require('./package.json').version")"
+          test "${GITHUB_REF_NAME}" = "${expected}" || {
+            echo "Expected tag ${expected}; got ${GITHUB_REF_NAME}" >&2
+            exit 1
+          }
+      - name: Publish through npm trusted publishing
+        run: npm publish --access public
+        env:
+          NPM_CONFIG_PROVENANCE: 'true'

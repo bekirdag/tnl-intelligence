@@ -85,6 +85,16 @@ The first four actions use `https://theneuralledger.com`. Research actions use
   and six-action inventory.
 - Record the public package URL and installation command.
 
+### 6. Tokenless Release Maintenance
+
+- Bind `release-activepieces.yml` to the package as its GitHub Actions trusted
+  publisher, restricted to repository `bekirdag/tnl-intelligence` and the
+  existing `npm` environment.
+- Require future releases to use a matching `activepieces-v<version>` tag.
+- Run clean install, typecheck, tests, build, package inventory, and tag/version
+  validation before the OIDC-backed publish step.
+- Keep traditional npm automation tokens out of the workflow.
+
 ## Promotion Gates
 
 - No secret, local credential, `.env`, cache, log, VCS metadata, or test fixture
