@@ -1,21 +1,21 @@
 # TNL Artifact Hub Container Publication Progress
 
 Date: 2026-07-30
-Status: In progress — `0.1.2` qualified; account email verification pending
+Status: Complete — public, verified publisher, and security-scanned
 Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-publication-plan.md)
 
 ## Workstream Progress
 
-| Workstream                      | Status             | Evidence or next gate                                                                                                                 |
-| ------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Public image inspection         | Complete           | `0.1.0` index and both platform configs inspected                                                                                     |
-| Architecture gate               | Complete           | `linux/amd64` and `linux/arm64` present                                                                                               |
-| Provenance baseline             | Complete           | Per-platform attestation manifests present                                                                                            |
-| Artifact Hub metadata gate      | Failed on `0.1.0`  | Required README/created/description annotations or labels are absent                                                                  |
-| Release workflow update         | Complete           | OCI/Artifact Hub labels and index annotations, SBOM, and explicit provenance added; all static checks pass                            |
-| New immutable image             | Complete           | `0.1.2` published and independently verified at digest `sha256:bcd63ce34d50f694fb9ae6add066dcccd0054b5a24f7dd36e55463a17af1efe3` |
-| Artifact Hub account/repository | Verification pending | Account `theneuralledger` created with `tnladmin@theneuralledger.com`; email verification link sent |
-| Verified publisher              | Pending            | Requires Artifact Hub repository ID and OCI metadata artifact                                                                         |
+| Workstream                      | Status            | Evidence or next gate                                                                                                            |
+| ------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Public image inspection         | Complete          | `0.1.0` index and both platform configs inspected                                                                                |
+| Architecture gate               | Complete          | `linux/amd64` and `linux/arm64` present                                                                                          |
+| Provenance baseline             | Complete          | Per-platform attestation manifests present                                                                                       |
+| Artifact Hub metadata gate      | Failed on `0.1.0` | Required README/created/description annotations or labels are absent                                                             |
+| Release workflow update         | Complete          | OCI/Artifact Hub labels and index annotations, SBOM, and explicit provenance added; all static checks pass                       |
+| New immutable image             | Complete          | `0.1.2` published and independently verified at digest `sha256:bcd63ce34d50f694fb9ae6add066dcccd0054b5a24f7dd36e55463a17af1efe3` |
+| Artifact Hub account/repository | Complete          | Verified account owns organization `the-neural-ledger` and container repository `tnl-intelligence`                               |
+| Verified publisher              | Complete          | Public package API reports `verified_publisher: true`; repository metadata and security scan are active                          |
 
 ## Baseline Evidence
 
@@ -82,9 +82,30 @@ Plan: [TNL Artifact Hub Container Publication Plan](tnl-artifact-hub-container-p
 - No existing TNL package or matching GHCR repository was found in Artifact Hub.
 - Artifact Hub accepted the `theneuralledger` signup using
   `tnladmin@theneuralledger.com` and sent the required verification link.
+- The verified account created organization `the-neural-ledger` with the TNL
+  logo, homepage, and public description.
+- Container repository `tnl-intelligence` was registered at
+  `oci://ghcr.io/bekirdag/tnl-intelligence` with immutable tag `0.1.2` and
+  mutable tag `latest`. Artifact Hub assigned repository ID
+  `38330819-b5d4-445f-8770-f6b49fe56260`.
+- Commit `e509b0e` added `artifacthub-repo.yml` and a minimum-permission GHCR
+  metadata workflow. Run
+  [`30636972401`](https://github.com/bekirdag/tnl-intelligence/actions/runs/30636972401)
+  published the reserved `artifacthub.io` OCI artifact and verified its content
+  with a registry pull-back comparison.
+- Independent OCI inspection confirmed config media type
+  `application/vnd.cncf.artifacthub.config.v1+yaml` and layer media type
+  `application/vnd.cncf.artifacthub.repository-metadata.layer.v1.yaml`.
+- Artifact Hub indexed public releases `0.1.2` and `latest`. The package renders
+  the README, MIT license, provider, homepage/source/documentation links, and
+  both `linux/amd64` and `linux/arm64` platforms.
+- The package API reports `verified_publisher: true` for organization
+  `the-neural-ledger`.
+- Artifact Hub's Trivy `0.69.3` report completed with one medium finding and zero
+  high or critical findings.
 
 ## Current Blocker
 
-Repository registration is blocked only by the account verification link sent
-to `tnladmin@theneuralledger.com`, which routes to `info@wodo.io`. That routed
-mailbox is not available through the connected Gmail or Outlook sessions.
+None. The container-image publication and Verified Publisher qualification are
+complete. Official status is a separate optional manual-review program and is
+not required for this publication objective.

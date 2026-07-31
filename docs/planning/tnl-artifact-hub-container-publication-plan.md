@@ -1,7 +1,7 @@
 # TNL Artifact Hub Container Publication Plan
 
 Date: 2026-07-30
-Status: In progress
+Status: Complete
 Progress: [TNL Artifact Hub Container Publication Progress](tnl-artifact-hub-container-publication-progress.md)
 
 ## Objective
