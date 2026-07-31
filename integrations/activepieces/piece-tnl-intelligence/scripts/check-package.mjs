@@ -5,7 +5,10 @@ const output = execFileSync('npm', ['pack', '--dry-run', '--json'], {
   encoding: 'utf8',
 });
 const packages = JSON.parse(output);
-const files = packages[0]?.files?.map((entry) => entry.path) ?? [];
+const packageDetails = Array.isArray(packages)
+  ? packages[0]
+  : Object.values(packages)[0];
+const files = packageDetails?.files?.map((entry) => entry.path) ?? [];
 const prohibited = files.filter((file) => {
   return (
     file.includes('node_modules/') ||
