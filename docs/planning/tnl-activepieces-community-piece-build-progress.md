@@ -1,7 +1,7 @@
 # TNL Activepieces Community Piece Build Progress
 
-Date: 2026-07-30  
-Status: Ready to publish — implementation and local qualification complete; npm authentication required  
+Date: 2026-07-31
+Status: Ready to publish — implementation and local qualification complete; npm organization-owner access required
 Plan: [TNL Activepieces Community Piece Build Plan](tnl-activepieces-community-piece-build-plan.md)
 
 ## Workstream Progress
@@ -15,7 +15,7 @@ Plan: [TNL Activepieces Community Piece Build Plan](tnl-activepieces-community-p
 | Piece implementation | Complete | Six-action scoped package under `integrations/activepieces/piece-tnl-intelligence/` |
 | Deterministic tests | Complete | Eight API, MCP, metadata, boundary, and redaction checks pass |
 | Package qualification | Complete | Build, format, pack inventory, and clean consumer install pass |
-| npm publication | Blocked later | Stored npm login and recorded granular token currently return `E401` |
+| npm publication | Owner access blocked | `tnlintelligence` login is restored, but that account owns only `n8n-nodes-tnl-intelligence` and has no `@theneuralledger` organization access; the organization owner is `bekirdag` |
 | Activepieces install canary | Pending | Install public package after registry publication |
 
 ## Verified Baseline
@@ -41,6 +41,9 @@ Plan: [TNL Activepieces Community Piece Build Plan](tnl-activepieces-community-p
 | TNL duplicate search | No result |
 | `npm whoami` using stored npm config | `E401` |
 | `npm whoami` using `.creds` granular token | `E401` |
+| npm web login recovery | `tnlintelligence` restored successfully on 2026-07-31 |
+| npm publisher authorization | `tnlintelligence` has no organizations and cannot grant a token access to `@theneuralledger`; only its personal scope and `n8n-nodes-tnl-intelligence` are selectable |
+| npm organization owner | Existing publication records identify `bekirdag` as owner; a password-reset email was requested on 2026-07-31 but is not delivered to the connected service-registration Gmail account |
 | `npm run typecheck` | Passed |
 | `npm test` | Eight tests passed |
 | `npm run build` | Passed |
@@ -65,7 +68,12 @@ recorded rather than hidden or "fixed" by downgrading the current framework.
 
 ## Current Blocker
 
-Public npm publication is the only remaining blocker. It requires a refreshed
-login or granular publishing token for the `tnlintelligence` publisher account.
-After publication, install the package in Activepieces and run a six-action
-canary before marking the channel live.
+Public npm publication is the only remaining blocker. The restored
+`tnlintelligence` account is not a member of the `@theneuralledger`
+organization, so creating a token there would not authorize the planned
+package name. Resume by authenticating the actual organization owner
+`bekirdag`, or by using that owner account to invite `tnlintelligence` to the
+organization with package publication rights. After that, create a
+package-scoped token, publish the qualified tarball, revoke the bootstrap token,
+install the public package in Activepieces, and run the six-action canary before
+marking the channel live.
