@@ -1,7 +1,7 @@
 # TNL Activepieces Community Piece Build Progress
 
 Date: 2026-07-31
-Status: Ready to publish — implementation and local qualification complete; npm organization-owner access required
+Status: Ready to publish — blocked by npm's first-publication bootstrap constraint under the CI/CD-only policy
 Plan: [TNL Activepieces Community Piece Build Plan](tnl-activepieces-community-piece-build-plan.md)
 
 ## Workstream Progress
@@ -15,7 +15,7 @@ Plan: [TNL Activepieces Community Piece Build Plan](tnl-activepieces-community-p
 | Piece implementation | Complete | Six-action scoped package under `integrations/activepieces/piece-tnl-intelligence/` |
 | Deterministic tests | Complete | Eight API, MCP, metadata, boundary, and redaction checks pass |
 | Package qualification | Complete | Build, format, pack inventory, and clean consumer install pass |
-| npm publication | Owner access blocked | `tnlintelligence` login is restored, but that account owns only `n8n-nodes-tnl-intelligence` and has no `@theneuralledger` organization access; the organization owner is `bekirdag` |
+| npm publication | Registry bootstrap blocked | `bekirdag` is authenticated and owns `@theneuralledger`, but npm trusted publishing can only be configured after the package exists; the CI/CD-only policy forbids granular tokens |
 | Activepieces install canary | Pending | Install public package after registry publication |
 
 ## Verified Baseline
@@ -44,6 +44,10 @@ Plan: [TNL Activepieces Community Piece Build Plan](tnl-activepieces-community-p
 | npm web login recovery | `tnlintelligence` restored successfully on 2026-07-31 |
 | npm publisher authorization | `tnlintelligence` has no organizations and cannot grant a token access to `@theneuralledger`; only its personal scope and `n8n-nodes-tnl-intelligence` are selectable |
 | npm organization owner | Existing publication records identify `bekirdag` as owner; a password-reset email was requested on 2026-07-31 but is not delivered to the connected service-registration Gmail account |
+| npm owner session | `bekirdag` authenticated successfully in npm web and the `theneuralledger` organization is visible |
+| Package existence | `npm view @theneuralledger/piece-tnl-intelligence version` returns `E404` |
+| Trusted-publisher bootstrap | npm's official `npm trust` documentation requires the package to already exist; trusted publishers are configured from an existing package's settings |
+| Token policy | No granular token was generated; the draft token form was explicitly cancelled and discarded |
 | `npm run typecheck` | Passed |
 | `npm test` | Eight tests passed |
 | `npm run build` | Passed |
@@ -68,12 +72,18 @@ recorded rather than hidden or "fixed" by downgrading the current framework.
 
 ## Current Blocker
 
-Public npm publication is the only remaining blocker. The restored
-`tnlintelligence` account is not a member of the `@theneuralledger`
-organization, so creating a token there would not authorize the planned
-package name. Resume by authenticating the actual organization owner
-`bekirdag`, or by using that owner account to invite `tnlintelligence` to the
-organization with package publication rights. After that, create a
-package-scoped token, publish the qualified tarball, revoke the bootstrap token,
-install the public package in Activepieces, and run the six-action canary before
-marking the channel live.
+Public npm publication is the only remaining blocker. The intended package does
+not yet exist, while npm permits a GitHub Actions trusted publisher to be
+configured only on an existing package. Under the TNL policy, no granular token
+may be created or used and all package publication must run through CI/CD.
+Consequently, the registry currently offers no compliant path to create this
+new package name with OIDC alone.
+
+Do not create a token or silently change the package scope. The remaining owner
+decision is either to authorize one tokenless, interactive 2FA bootstrap publish
+of `0.1.0` and then configure GitHub Actions/OIDC for every subsequent release,
+or to keep the package unpublished until npm supports pre-registration of a
+trusted publisher for a new package. Once the package exists, bind
+`release-npm.yml` (environment `npm`) as its trusted publisher, publish future
+versions only through CI/CD, install the public package in Activepieces, and run
+the six-action canary.
