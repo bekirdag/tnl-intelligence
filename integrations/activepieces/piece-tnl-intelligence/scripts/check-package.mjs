@@ -24,6 +24,7 @@ for (const required of [
   'package.json',
   'README.md',
   'LICENSE',
+  'src/index.js',
   'dist/src/index.js',
   'dist/src/index.d.ts',
 ]) {

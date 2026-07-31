@@ -1,13 +1,14 @@
 {
   "name": "@theneuralledger/piece-tnl-intelligence",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read-only TNL Intelligence actions for Activepieces and its MCP tool surface.",
   "license": "MIT",
   "type": "commonjs",
-  "main": "./dist/src/index.js",
+  "main": "./src/index.js",
   "types": "./dist/src/index.d.ts",
   "files": [
     "dist",
+    "src/**/*.js",
     "LICENSE",
     "README.md"
   ],
@@ -35,8 +36,8 @@
     "tnl"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && tsc -p tsconfig.json && node scripts/sync-runtime.mjs",
+    "clean": "node scripts/sync-runtime.mjs --clean",
     "pack:check": "node scripts/check-package.mjs",
     "test": "node --import tsx --test test/*.test.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
