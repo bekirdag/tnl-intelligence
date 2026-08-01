@@ -4,21 +4,21 @@ Date: 2026-08-01
 Plan: [TNL Railway and Render Deployment Plan](tnl-railway-render-deployment-plan.md)
 Status: In progress — provider projects ready; clean canaries await dedicated non-production credentials
 
-| Area                             | Status   | Evidence / blocker                                                                                                                                                                         |
-| -------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Provider documentation audit     | Complete | Current official Railway and Render config, variables, Blueprint, health-check, and deploy-button documentation reviewed 2026-08-01                                                        |
-| Repository architecture audit    | Complete | `Dockerfile.gateway` and `packages/gateway/src/config.ts` are the production OAuth path; the root MCP image is intentionally unsuitable for public shared-key hosting                      |
-| Plan and progress trail          | Complete | Separate plan and this progress document created before implementation                                                                                                                     |
-| Runtime portability              | Complete | Provider public-origin and `PORT` discovery implemented with explicit TNL settings taking precedence; malformed/insecure provider origins are rejected                                     |
-| Railway manifest                 | Complete | `railway.json` uses `Dockerfile.gateway`, `/readyz`, bounded restart, deploy overlap, and draining; validates against the live Railway schema                                              |
-| Render Blueprint                 | Complete | `render.yaml` uses the gateway image, Render's `free` plan, `/readyz`, disabled automatic deployment, and `sync: false` for every required user-supplied value                             |
-| Local qualification              | Complete | Formatting, gateway tests (23), manifest tests (3), gateway build, live Railway schema, YAML parse, image build, provider-port health/readiness canary, and fail-closed startup all passed |
-| Railway account/setup            | Complete | TNL-owned account authenticated; GitHub App access is restricted to `bekirdag/tnl-intelligence`; free-trial project `glistening-passion` and service `tnl-intelligence` were created.      |
-| Railway image deployment         | Complete | Deployment `25630c83-4d15-4e7d-8b83-a44ee456db60` built and pushed the gateway image successfully; startup then failed closed because required configuration was intentionally absent.     |
-| Railway clean canary/publication | Blocked  | Requires dedicated non-production public origin and identity/control-plane configuration from the developer. Only free Trial/Free credits are permitted; exhaustion must suspend service.  |
-| Render account/setup             | Complete | The emailed activation URL was already invalid/expired, but GitHub sign-in completed successfully for `bekir@piyote.com`; the Render dashboard and Blueprint flow are accessible.          |
-| Render Blueprint validation      | Complete | The live planner found `render.yaml` on `main`, accepted the Free service after removing the unsupported shutdown-delay field, and displayed all required prompted variables.              |
-| Render clean canary/button       | Blocked  | Deployment requires dedicated non-production introspection/control-plane credentials and service token; production secrets will not be reused. Only the Free instance is permitted.        |
+| Area                             | Status   | Evidence / blocker                                                                                                                                                                           |
+| -------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Provider documentation audit     | Complete | Current official Railway and Render config, variables, Blueprint, health-check, and deploy-button documentation reviewed 2026-08-01                                                          |
+| Repository architecture audit    | Complete | `Dockerfile.gateway` and `packages/gateway/src/config.ts` are the production OAuth path; the root MCP image is intentionally unsuitable for public shared-key hosting                        |
+| Plan and progress trail          | Complete | Separate plan and this progress document created before implementation                                                                                                                       |
+| Runtime portability              | Complete | Provider public-origin and `PORT` discovery implemented with explicit TNL settings taking precedence; malformed/insecure provider origins are rejected                                       |
+| Railway manifest                 | Complete | `railway.json` uses `Dockerfile.gateway`, `/readyz`, bounded restart, deploy overlap, and draining; validates against the live Railway schema                                                |
+| Render Blueprint                 | Complete | `render.yaml` uses the gateway image, Render's `free` plan, `/readyz`, disabled automatic deployment, and `sync: false` for every required user-supplied value                               |
+| Local qualification              | Complete | Formatting, gateway tests (23), manifest tests (3), gateway build, live Railway schema, YAML parse, image build, provider-port health/readiness canary, and fail-closed startup all passed   |
+| Railway account/setup            | Complete | TNL-owned account authenticated; GitHub App access is restricted to `bekirdag/tnl-intelligence`; free-trial project `glistening-passion` and service `tnl-intelligence` were created.        |
+| Railway image deployment         | Complete | Deployment `25630c83-4d15-4e7d-8b83-a44ee456db60` built and pushed the gateway image, then reached terminal `Failed` on healthcheck because required configuration was intentionally absent. |
+| Railway clean canary/publication | Blocked  | Requires dedicated non-production public origin and identity/control-plane configuration from the developer. Only free Trial/Free credits are permitted; exhaustion must suspend service.    |
+| Render account/setup             | Complete | The emailed activation URL was already invalid/expired, but GitHub sign-in completed successfully for `bekir@piyote.com`; the Render dashboard and Blueprint flow are accessible.            |
+| Render Blueprint validation      | Complete | The live planner found `render.yaml` on `main`, accepted the Free service after removing the unsupported shutdown-delay field, and displayed all required prompted variables.                |
+| Render clean canary/button       | Blocked  | Deployment requires dedicated non-production introspection/control-plane credentials and service token; production secrets will not be reused. Only the Free instance is permitted.          |
 
 ## Audit notes
 
@@ -69,7 +69,8 @@ Status: In progress — provider projects ready; clean canaries await dedicated 
   `sha256:fd63a4a3d257c25405c863d8aba4d7fefd29c95dfc2688934c3eb5128d5c44da`.
   Its deploy logs then reported `TNL_GATEWAY_PUBLIC_URL is required`, proving
   that the live provider deployment also fails closed before any unsecured
-  runtime becomes ready. The service remains unexposed.
+  runtime becomes ready. Railway subsequently marked it terminal `Failed` with
+  `Healthcheck failure` after 05:38. The service remains unexposed.
 - `docker build -f Dockerfile.gateway`: passed, image
   `sha256:5a86d22a45c1f62e247934fbe5d4b36cb3355a30c113be342aa72683b5f650c3`.
 - A container using only provider `PORT=17319` served both `/healthz` and
