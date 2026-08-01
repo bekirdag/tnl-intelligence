@@ -2,7 +2,7 @@
 
 Date: 2026-08-01
 Plan: [TNL Railway and Render Deployment Plan](tnl-railway-render-deployment-plan.md)
-Status: In progress — provider projects ready; clean canaries await dedicated non-production credentials
+Status: Blocked — no verified non-production identity/control plane exists for safe provider canaries
 
 | Area                             | Status   | Evidence / blocker                                                                                                                                                                           |
 | -------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -15,10 +15,10 @@ Status: In progress — provider projects ready; clean canaries await dedicated 
 | Local qualification              | Complete | Formatting, gateway tests (23), manifest tests (3), gateway build, live Railway schema, YAML parse, image build, provider-port health/readiness canary, and fail-closed startup all passed   |
 | Railway account/setup            | Complete | TNL-owned account authenticated; GitHub App access is restricted to `bekirdag/tnl-intelligence`; free-trial project `glistening-passion` and service `tnl-intelligence` were created.        |
 | Railway image deployment         | Complete | Deployment `25630c83-4d15-4e7d-8b83-a44ee456db60` built and pushed the gateway image, then reached terminal `Failed` on healthcheck because required configuration was intentionally absent. |
-| Railway clean canary/publication | Blocked  | Requires dedicated non-production public origin and identity/control-plane configuration from the developer. Only free Trial/Free credits are permitted; exhaustion must suspend service.    |
+| Railway clean canary/publication | Blocked  | No externally reachable non-production identity/control plane exists to issue safe credentials. Production Keycloak and production secrets are explicitly excluded.                          |
 | Render account/setup             | Complete | The emailed activation URL was already invalid/expired, but GitHub sign-in completed successfully for `bekir@piyote.com`; the Render dashboard and Blueprint flow are accessible.            |
 | Render Blueprint validation      | Complete | The live planner found `render.yaml` on `main`, accepted the Free service after removing the unsupported shutdown-delay field, and displayed all required prompted variables.                |
-| Render clean canary/button       | Blocked  | Deployment requires dedicated non-production introspection/control-plane credentials and service token; production secrets will not be reused. Only the Free instance is permitted.          |
+| Render clean canary/button       | Blocked  | No externally reachable non-production identity/control plane exists to issue safe credentials. Production Keycloak and production secrets are explicitly excluded.                          |
 
 ## Audit notes
 
@@ -83,10 +83,32 @@ Status: In progress — provider projects ready; clean canaries await dedicated 
   auto-fixed because dependency changes are outside this deployment-manifest
   work and can require compatibility review.
 
+## Developer-reported blocker verification
+
+The TNL developer reported the following on 2026-08-01. These facts have not
+been independently re-probed from this workstation and are recorded as a
+developer handoff rather than as observed production evidence:
+
+- No dedicated canary credentials were created because there is no verified,
+  externally reachable non-production identity/control plane from which to
+  issue them.
+- Railway has only its existing production-named environment; no staging/canary
+  GitHub environment or gateway variables exist.
+- Render has only the production-mode Blueprint definition and no verified
+  canary service.
+- Candidate staging/canary HTTPS endpoints were either nonexistent or failed
+  TLS readiness.
+- The only reachable identity surface was production Keycloak, which was not
+  used.
+- `.creds` remained unchanged at mode `0600` and contains none of the requested
+  gateway variables. No production secret was copied or exposed.
+
 ## Publication gate
 
 Do not add a public Railway or Render button yet. The broader one-click promise
 remains gated on documented public onboarding for the external identity/control
-dependencies and two clean provider canaries with rollback evidence. The TNL
-developer is preparing the dedicated non-production configuration for both
-providers; production credentials must not be copied into either project.
+dependencies and two clean provider canaries with rollback evidence. Work may
+resume only after a dedicated, externally reachable non-production identity and
+control plane passes TLS/readiness checks and can issue least-privilege,
+revocable canary credentials. Production Keycloak and production credentials
+must not be used to bypass this gate.
