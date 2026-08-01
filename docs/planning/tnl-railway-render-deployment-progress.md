@@ -15,8 +15,9 @@ Status: In progress — local implementation and qualification underway
 | Local qualification              | Complete    | Formatting, gateway tests (23), manifest tests (3), gateway build, live Railway schema, YAML parse, image build, provider-port health/readiness canary, and fail-closed startup all passed |
 | Railway account/setup            | In progress | TNL-owned account authenticated and terms accepted; 30-day/$5 trial is active. Repository setup is blocked on installing the Railway GitHub App for only `bekirdag/tnl-intelligence`.      |
 | Railway clean canary/publication | Blocked     | After repository authorization, requires configured non-production control dependencies. Only free Trial/Free credits are permitted; exhaustion must suspend service instead of charging.  |
-| Render account/setup             | In progress | Account exists, but the live dashboard still requires verification of the email sent to `bekir@piyote.com`. No service or payment method has been created.                                 |
-| Render clean canary/button       | Blocked     | Requires a valid email verification/sign-in, provider-side Blueprint validation, and configured non-production control dependencies; only the free instance is permitted.                  |
+| Render account/setup             | Complete    | The emailed activation URL was already invalid/expired, but GitHub sign-in completed successfully for `bekir@piyote.com`; the Render dashboard and Blueprint flow are accessible.          |
+| Render Blueprint validation      | Complete    | The live planner found `render.yaml` on `main`, accepted the Free service after removing the unsupported shutdown-delay field, and displayed all required prompted variables.              |
+| Render clean canary/button       | Blocked     | Deployment requires dedicated non-production introspection/control-plane credentials and service token; production secrets will not be reused. Only the Free instance is permitted.        |
 
 ## Audit notes
 
@@ -54,6 +55,9 @@ Status: In progress — local implementation and qualification underway
 - Render's live Blueprint planner found the repository manifest and correctly
   rejected `maxShutdownDelaySeconds` because that field is unsupported on Free
   services. The field was removed and an automated regression assertion added.
+- Commits `a5f081f` and `968a60f` were pushed to `main`. The live Render planner
+  then accepted the corrected Free Blueprint and presented all thirteen
+  `sync: false` values without reporting a schema or tier error.
 - `docker build -f Dockerfile.gateway`: passed, image
   `sha256:5a86d22a45c1f62e247934fbe5d4b36cb3355a30c113be342aa72683b5f650c3`.
 - A container using only provider `PORT=17319` served both `/healthz` and
