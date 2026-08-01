@@ -51,6 +51,9 @@ Status: In progress — local implementation and qualification underway
 - `render.yaml`: parsed successfully as YAML; the Render CLI is not installed on
   this host, so provider-side Blueprint validation remains part of the clean
   account canary.
+- Render's live Blueprint planner found the repository manifest and correctly
+  rejected `maxShutdownDelaySeconds` because that field is unsupported on Free
+  services. The field was removed and an automated regression assertion added.
 - `docker build -f Dockerfile.gateway`: passed, image
   `sha256:5a86d22a45c1f62e247934fbe5d4b36cb3355a30c113be342aa72683b5f650c3`.
 - A container using only provider `PORT=17319` served both `/healthz` and

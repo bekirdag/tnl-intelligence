@@ -8,7 +8,6 @@ services:
     region: frankfurt
     healthCheckPath: /readyz
     autoDeployTrigger: off
-    maxShutdownDelaySeconds: 30
     envVars:
       - key: TNL_GATEWAY_MODE
         value: production

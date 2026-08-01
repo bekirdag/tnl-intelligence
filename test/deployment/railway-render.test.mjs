@@ -36,6 +36,7 @@ describe('Railway and Render deployment definitions', () => {
     assert.match(blueprint, /autoDeployTrigger: off/);
     assert.match(blueprint, /plan: free/);
     assert.doesNotMatch(blueprint, /plan: (?:starter|standard|pro)/);
+    assert.doesNotMatch(blueprint, /maxShutdownDelaySeconds/);
     assert.doesNotMatch(blueprint, /TNL_API_KEY/);
     for (const variable of requiredVariables) {
       assert.match(blueprint, new RegExp(`- key: ${variable}\\n\\s+sync: false`));
