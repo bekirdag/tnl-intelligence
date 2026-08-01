@@ -1,0 +1,48 @@
+services:
+  - type: web
+    name: tnl-intelligence-gateway
+    runtime: docker
+    repo: https://github.com/bekirdag/tnl-intelligence
+    dockerfilePath: ./Dockerfile.gateway
+    plan: free
+    region: frankfurt
+    healthCheckPath: /readyz
+    autoDeployTrigger: off
+    maxShutdownDelaySeconds: 30
+    envVars:
+      - key: TNL_GATEWAY_MODE
+        value: production
+      - key: TNL_GATEWAY_HOST
+        value: 0.0.0.0
+      - key: TNL_GATEWAY_AUTHORIZATION_SERVERS
+        sync: false
+      - key: TNL_GATEWAY_ISSUER
+        sync: false
+      - key: TNL_GATEWAY_INTROSPECTION_URL
+        sync: false
+      - key: TNL_GATEWAY_INTROSPECTION_CLIENT_ID
+        sync: false
+      - key: TNL_GATEWAY_INTROSPECTION_CLIENT_SECRET
+        sync: false
+      - key: TNL_GATEWAY_ACCESS_URL
+        sync: false
+      - key: TNL_GATEWAY_CAPABILITY_URL
+        sync: false
+      - key: TNL_GATEWAY_QUOTA_URL
+        sync: false
+      - key: TNL_GATEWAY_DISABLE_URL
+        sync: false
+      - key: TNL_GATEWAY_AUDIT_URL
+        sync: false
+      - key: TNL_GATEWAY_IDP_HEALTH_URL
+        sync: false
+      - key: TNL_GATEWAY_CONTROL_HEALTH_URL
+        sync: false
+      - key: TNL_GATEWAY_SERVICE_TOKEN
+        sync: false
+      - key: TNL_GATEWAY_MAX_BODY_BYTES
+        value: '131072'
+      - key: TNL_GATEWAY_REQUEST_TIMEOUT_MS
+        value: '35000'
+      - key: TNL_GATEWAY_MAX_CONCURRENCY
+        value: '100'

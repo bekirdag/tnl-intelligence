@@ -22,7 +22,8 @@ export function configFromEnvironment(env: NodeJS.ProcessEnv = process.env): Gat
   }
   const production = mode === 'production';
   const publicUrl =
-    env.TNL_GATEWAY_PUBLIC_URL ??
+    env.TNL_GATEWAY_PUBLIC_URL?.trim() ??
+    providerPublicUrl(env) ??
     (production ? required(env, 'TNL_GATEWAY_PUBLIC_URL') : 'http://127.0.0.1:7318');
   const authorizationServers = csv(
     env.TNL_GATEWAY_AUTHORIZATION_SERVERS ??
@@ -91,7 +92,7 @@ export function configFromEnvironment(env: NodeJS.ProcessEnv = process.env): Gat
     };
     return {
       host: env.TNL_GATEWAY_HOST ?? '0.0.0.0',
-      port: integer(env, 'TNL_GATEWAY_PORT', 7318, 1, 65_535),
+      port: gatewayPort(env),
       server,
     };
   }
@@ -165,9 +166,55 @@ export function configFromEnvironment(env: NodeJS.ProcessEnv = process.env): Gat
   };
   return {
     host: env.TNL_GATEWAY_HOST ?? '127.0.0.1',
-    port: integer(env, 'TNL_GATEWAY_PORT', 7318, 1, 65_535),
+    port: gatewayPort(env),
     server,
   };
+}
+
+function providerPublicUrl(env: NodeJS.ProcessEnv): string | undefined {
+  const renderUrl = env.RENDER_EXTERNAL_URL?.trim();
+  if (renderUrl) return httpsOrigin('RENDER_EXTERNAL_URL', renderUrl);
+
+  const providerHostname =
+    env.RENDER_EXTERNAL_HOSTNAME?.trim() || env.RAILWAY_PUBLIC_DOMAIN?.trim();
+  if (!providerHostname) return undefined;
+  if (providerHostname.includes('://')) {
+    throw new TypeError('provider public domain must be a hostname without a scheme');
+  }
+  const url = new URL(`https://${providerHostname}`);
+  if (
+    url.hostname.toLowerCase() !== providerHostname.toLowerCase() ||
+    url.port ||
+    url.username ||
+    url.password ||
+    url.pathname !== '/' ||
+    url.search ||
+    url.hash
+  ) {
+    throw new TypeError('provider public domain must be a valid hostname');
+  }
+  return url.origin;
+}
+
+function httpsOrigin(name: string, value: string): string {
+  const url = new URL(value);
+  if (
+    url.protocol !== 'https:' ||
+    url.username ||
+    url.password ||
+    url.pathname !== '/' ||
+    url.search ||
+    url.hash
+  ) {
+    throw new TypeError(`${name} must be an HTTPS origin`);
+  }
+  return url.origin;
+}
+
+function gatewayPort(env: NodeJS.ProcessEnv): number {
+  const name =
+    env.TNL_GATEWAY_PORT === undefined && env.PORT !== undefined ? 'PORT' : 'TNL_GATEWAY_PORT';
+  return integer(env, name, 7318, 1, 65_535);
 }
 
 function required(env: NodeJS.ProcessEnv, name: string): string {

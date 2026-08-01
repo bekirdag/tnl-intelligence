@@ -110,6 +110,46 @@ describe('gateway environment configuration', () => {
     assert.equal(config.server.capabilityProvider.constructor.name, 'HttpCapabilityProvider');
   });
 
+  it('discovers provider public origins and ports without weakening production mode', () => {
+    const render = productionEnvironment();
+    delete render.TNL_GATEWAY_PUBLIC_URL;
+    render.RENDER_EXTERNAL_URL = 'https://tnl-gateway.onrender.com';
+    render.PORT = '10000';
+    const renderConfig = configFromEnvironment(render);
+    assert.equal(renderConfig.server.publicUrl, 'https://tnl-gateway.onrender.com');
+    assert.equal(renderConfig.port, 10000);
+    assert.equal(renderConfig.server.requireHttps, true);
+
+    const railway = productionEnvironment();
+    delete railway.TNL_GATEWAY_PUBLIC_URL;
+    railway.RAILWAY_PUBLIC_DOMAIN = 'tnl-gateway.up.railway.app';
+    railway.PORT = '8080';
+    const railwayConfig = configFromEnvironment(railway);
+    assert.equal(railwayConfig.server.publicUrl, 'https://tnl-gateway.up.railway.app');
+    assert.equal(railwayConfig.port, 8080);
+    assert.equal(railwayConfig.server.requireHttps, true);
+  });
+
+  it('prefers explicit TNL deployment settings and rejects malformed provider origins', () => {
+    const explicit = productionEnvironment();
+    explicit.TNL_GATEWAY_PORT = '7443';
+    explicit.PORT = '10000';
+    explicit.RENDER_EXTERNAL_URL = 'https://ignored.onrender.com';
+    const explicitConfig = configFromEnvironment(explicit);
+    assert.equal(explicitConfig.server.publicUrl, 'https://mcp.example');
+    assert.equal(explicitConfig.port, 7443);
+
+    const malformed = productionEnvironment();
+    delete malformed.TNL_GATEWAY_PUBLIC_URL;
+    malformed.RAILWAY_PUBLIC_DOMAIN = 'https://attacker.example/path';
+    assert.throws(() => configFromEnvironment(malformed), /hostname without a scheme/);
+
+    const insecure = productionEnvironment();
+    delete insecure.TNL_GATEWAY_PUBLIC_URL;
+    insecure.RENDER_EXTERNAL_URL = 'http://gateway.onrender.com';
+    assert.throws(() => configFromEnvironment(insecure), /HTTPS origin/);
+  });
+
   it('requires a dedicated token and HTTPS when the research service is configured', () => {
     const missingToken = productionEnvironment();
     missingToken.TNL_GATEWAY_RESEARCH_URL = 'https://research.internal.example';
