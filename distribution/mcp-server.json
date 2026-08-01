@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/mcp-distribution.schema.json",
   "schemaVersion": "1.0",
-  "generatorVersion": "1.0.0",
+  "generatorVersion": "1.1.0",
   "product": {
     "name": "tnl-intelligence",
     "displayName": "TNL Intelligence",
@@ -110,6 +110,11 @@
     },
     { "path": "distribution/generated/docker/catalog.json", "kind": "catalog", "host": "docker" },
     { "path": "distribution/generated/mcpb/manifest.json", "kind": "manifest", "host": "mcpb" },
+    {
+      "path": "distribution/generated/mcpb/README.md",
+      "kind": "documentation",
+      "host": "mcpb"
+    },
     { "path": "distribution/generated/compatibility-matrix.json", "kind": "matrix", "host": "all" },
     { "path": "distribution/generated/docs/INSTALL.md", "kind": "documentation", "host": "all" },
     { "path": "distribution/generated/artifact-index.json", "kind": "index", "host": "all" }

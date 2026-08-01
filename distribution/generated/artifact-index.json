@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatorVersion": "1.0.0",
+  "generatorVersion": "1.1.0",
   "productVersion": "0.1.0",
   "capabilitySource": "runtime-introspection",
   "entries": [
@@ -78,8 +78,15 @@
       "path": "distribution/generated/mcpb/manifest.json",
       "kind": "manifest",
       "host": "mcpb",
-      "bytes": 3522,
-      "sha256": "17cc8443ea13cffad152865d8f8872d9e37deed5d549feb73d8882d9d959a2ce"
+      "bytes": 5107,
+      "sha256": "6677bb8714a96e40d0e111cb03b335cf0f0d35b86fac7a1267635ba9887a527c"
+    },
+    {
+      "path": "distribution/generated/mcpb/README.md",
+      "kind": "documentation",
+      "host": "mcpb",
+      "bytes": 2315,
+      "sha256": "10bfd92928f158aa3e420272f61c7253f4fa1d9631ea9b43578fe7eb87b5d9ae"
     },
     {
       "path": "distribution/generated/compatibility-matrix.json",
@@ -93,7 +100,7 @@
       "kind": "documentation",
       "host": "all",
       "bytes": 2241,
-      "sha256": "791992e643944a06330ebee21825b0f2d94ce17b83256c7d3bf0ed3b8921db5b"
+      "sha256": "0efdaf9992185e7fb3f775af5083ec655a7268c7f56fda9d4f181095ce04315b"
     },
     {
       "path": "distribution/generated/artifact-index.json",

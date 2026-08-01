@@ -8,7 +8,7 @@
   "long_description": "Read-only event, evidence, entity, asset, causal-impact, and Ledger AI intelligence from The Neural Ledger.",
   "author": {
     "name": "The Neural Ledger",
-    "url": "https://theneuralledger.com"
+    "url": "https://github.com/bekirdag"
   },
   "repository": {
     "type": "git",
@@ -35,35 +35,91 @@
   "tools": [
     {
       "name": "tnl_latest_news",
-      "description": "Return recent evidence-backed news intelligence, optionally filtered by category or country."
+      "title": "Latest TNL intelligence",
+      "description": "Return recent evidence-backed news intelligence, optionally filtered by category or country.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
     },
     {
       "name": "tnl_search_news",
-      "description": "Search TNL stories and return structured evidence, impacted assets, entities, and impact paths."
+      "title": "Search TNL intelligence",
+      "description": "Search TNL stories and return structured evidence, impacted assets, entities, and impact paths.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
     },
     {
       "name": "tnl_asset_intelligence",
-      "description": "Return event intelligence linked to an asset ticker. This is not a live trading-price tool."
+      "title": "Asset intelligence",
+      "description": "Return event intelligence linked to an asset ticker. This is not a live trading-price tool.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
     },
     {
       "name": "tnl_entity_intelligence",
-      "description": "Return recent stories connected to a named TNL entity or entity id."
+      "title": "Entity intelligence",
+      "description": "Return recent stories connected to a named TNL entity or entity id.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
     },
     {
       "name": "tnl_impact_path",
-      "description": "Return stories associated with a causal or market impact path."
+      "title": "Impact-path intelligence",
+      "description": "Return stories associated with a causal or market impact path.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
     },
     {
       "name": "tnl_explain_event",
-      "description": "Ask Ledger AI to explain a TNL event using its evidence, contradictions, affected assets, and likely impact paths."
+      "title": "Explain an event",
+      "description": "Ask Ledger AI to explain a TNL event using its evidence, contradictions, affected assets, and likely impact paths.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
     },
     {
       "name": "tnl_deep_research",
-      "description": "Run a question through TNL Ledger AI research orchestration and return its answer with citations and context."
+      "title": "Deep research with Ledger AI",
+      "description": "Run a question through TNL Ledger AI research orchestration and return its answer with citations and context.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
     },
     {
       "name": "tnl_service_status",
-      "description": "Check API access, plan usage, market-context freshness, and current rate-limit headers."
+      "title": "TNL service status",
+      "description": "Check API access, plan usage, market-context freshness, and current rate-limit headers.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
     }
   ],
   "tools_generated": true,

@@ -116,6 +116,10 @@ await copyFile(
   resolve(bundle, 'manifest.json'),
 );
 await copyFile(
+  resolve(root, 'distribution/generated/mcpb/README.md'),
+  resolve(bundle, 'README.md'),
+);
+await copyFile(
   resolve(root, 'packages/research/public/assets/tnl-bot.png'),
   resolve(bundle, 'icon.png'),
 );
@@ -146,6 +150,7 @@ await command('unzip', ['-q', archive, '-d', unpacked]);
 await scanBundle(unpacked);
 const unpackedManifest = JSON.parse(await readFile(resolve(unpacked, 'manifest.json'), 'utf8'));
 validateMcpbManifest(unpackedManifest);
+validateMcpbReadme(await readFile(resolve(unpacked, 'README.md'), 'utf8'));
 
 const archiveBytes = (await stat(archive)).size;
 if (archiveBytes > manifest.limits.bundleBytes)
@@ -328,6 +333,23 @@ function validateMcpbManifest(value) {
     throw new TypeError('MCPB Node server configuration is incomplete');
   if (value.user_config?.tnl_api_key?.sensitive !== true)
     throw new TypeError('MCPB TNL API key configuration must be sensitive');
+  if (!Array.isArray(value.tools) || value.tools.length === 0)
+    throw new TypeError('MCPB manifest must declare tools');
+  for (const tool of value.tools) {
+    if (!tool.title) throw new TypeError(`MCPB tool ${tool.name ?? '<unknown>'} is missing title`);
+    if (tool.annotations?.readOnlyHint !== true || tool.annotations?.destructiveHint !== false)
+      throw new TypeError(`MCPB tool ${tool.name ?? '<unknown>'} is not declared read-only`);
+  }
+  if (!Array.isArray(value.privacy_policies) || value.privacy_policies.length === 0)
+    throw new TypeError('MCPB manifest must declare a privacy policy');
+}
+
+function validateMcpbReadme(value) {
+  if (!/^## Privacy Policy$/m.test(value))
+    throw new TypeError('MCPB README must contain a Privacy Policy section');
+  for (const required of ['data', 'retention', 'sharing', 'support'])
+    if (!value.toLowerCase().includes(required))
+      throw new TypeError(`MCPB README privacy disclosure is missing ${required}`);
 }
 
 function sanitizeSbom(value) {

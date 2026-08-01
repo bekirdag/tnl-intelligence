@@ -22,7 +22,7 @@ afterEach(async () => {
 describe('distribution generator', () => {
   it('renders deterministic secret-safe host artifacts from runtime capabilities', () => {
     const outputs = renderDistributionArtifacts(manifest(), capabilities());
-    assert.equal(outputs.size, 14);
+    assert.equal(outputs.size, 15);
     assert.deepEqual(
       JSON.parse(required(outputs, 'distribution/generated/vscode/local.mcp.json')),
       {
@@ -46,9 +46,21 @@ describe('distribution generator', () => {
     const all = [...outputs.values()].join('\n');
     assert.doesNotMatch(all, /\/Users\//);
     assert.doesNotMatch(all, /BEGIN PRIVATE KEY/);
+    const mcpb = JSON.parse(required(outputs, 'distribution/generated/mcpb/manifest.json'));
+    assert.equal(mcpb.user_config.tnl_api_key.sensitive, true);
+    assert.deepEqual(mcpb.author, {
+      name: 'The Neural Ledger',
+      url: 'https://github.com/bekirdag',
+    });
+    assert.deepEqual(mcpb.tools[0], {
+      name: 'tnl_latest_news',
+      title: 'Latest TNL news',
+      description: 'Latest news',
+      annotations: { readOnlyHint: true, destructiveHint: false },
+    });
     assert.match(
-      required(outputs, 'distribution/generated/mcpb/manifest.json'),
-      /"sensitive": true/,
+      required(outputs, 'distribution/generated/mcpb/README.md'),
+      /^## Privacy Policy$/m,
     );
   });
 
@@ -62,9 +74,28 @@ describe('distribution generator', () => {
       () =>
         renderDistributionArtifacts(manifest(), {
           ...capabilities(),
-          tools: [{ name: 'unsafe', annotations: { readOnlyHint: false } }],
+          tools: [
+            {
+              name: 'unsafe',
+              title: 'Unsafe tool',
+              annotations: { readOnlyHint: false },
+            },
+          ],
         }),
       /read-only annotations/,
+    );
+    assert.throws(
+      () =>
+        renderDistributionArtifacts(manifest(), {
+          ...capabilities(),
+          tools: [
+            {
+              name: 'untitled',
+              annotations: { readOnlyHint: true, destructiveHint: false },
+            },
+          ],
+        }),
+      /does not have a title/,
     );
   });
 });
@@ -134,13 +165,14 @@ function manifest(): DistributionManifest {
     'cursor/remote.mcp.json',
     'docker/catalog.json',
     'mcpb/manifest.json',
+    'mcpb/README.md',
     'compatibility-matrix.json',
     'docs/INSTALL.md',
     'artifact-index.json',
   ].map((path) => `distribution/generated/${path}`);
   return {
     schemaVersion: '1.0',
-    generatorVersion: '1.0.0',
+    generatorVersion: '1.1.0',
     product: {
       name: 'tnl-intelligence',
       displayName: 'TNL Intelligence',
@@ -197,6 +229,7 @@ function capabilities(): CapabilityInventory {
     tools: [
       {
         name: 'tnl_latest_news',
+        title: 'Latest TNL news',
         description: 'Latest news',
         annotations: { readOnlyHint: true, destructiveHint: false },
       },
