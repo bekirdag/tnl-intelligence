@@ -57,6 +57,11 @@ Status: In progress
 - Fedia exposes two-factor authentication. Enrollment is staged at the QR-code and
   verification screen and requires the account holder's authenticator code and current
   password.
+- The missing Fedia account password was reset through the verified
+  `synthomusmagnus@gmail.com` recovery mailbox on 2026-08-08. A strong replacement was
+  installed directly in the ignored, mode-`0600` `.creds` file and used to restore the
+  signed-in session without printing it. The replacement password is prefilled on the new
+  two-factor enrollment screen; only the account holder's authenticator code remains.
 - The repository has no Fedia/Mbin publisher adapter or OAuth callback route under
   `packages/publisher/src`. A new confidential client must not be registered until
   engineering supplies and deploys the exact HTTPS redirect URI; Mbin requires an exact
