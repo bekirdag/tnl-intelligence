@@ -13,7 +13,7 @@ module.exports = {
   noun: 'Research Result',
   display: {
     label: 'Get TNL Research Result',
-    description: 'Retrieve a previously started TNL Bot research result by stable result ID.',
+    description: 'Retrieves a previously started TNL Bot research result by stable result ID.',
   },
   operation: {
     perform,

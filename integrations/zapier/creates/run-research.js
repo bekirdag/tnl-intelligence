@@ -17,7 +17,7 @@ const perform = async (z, bundle) => {
 module.exports = {
   key: 'run_research',
   noun: 'Research Result',
-  display: { label: 'Run TNL Research', description: 'Run evidence-first TNL Bot research with citations and an as-of boundary.' },
+  display: { label: 'Run TNL Research', description: 'Runs evidence-first TNL Bot research with citations and an as-of boundary.' },
   operation: {
     perform,
     inputFields: [

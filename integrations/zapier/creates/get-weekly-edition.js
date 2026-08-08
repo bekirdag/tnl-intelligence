@@ -11,7 +11,7 @@ const perform = async (z, bundle) => {
 module.exports = {
   key: 'get_weekly_edition',
   noun: 'Weekly Edition',
-  display: { label: 'Get TNL Weekly Edition', description: 'Generate a cited consequential-development edition.' },
+  display: { label: 'Create TNL Weekly Edition', description: 'Creates a cited consequential-development edition.' },
   operation: {
     perform,
     inputFields: [

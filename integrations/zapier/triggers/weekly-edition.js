@@ -27,7 +27,7 @@ module.exports = {
   key: 'weekly_edition',
   noun: 'Weekly Edition',
   display: {
-    label: 'TNL Weekly Consequential Edition',
+    label: 'New TNL Weekly Consequential Edition',
     description: 'Triggers when TNL publishes a signed weekly consequential edition.',
   },
   operation: {

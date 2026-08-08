@@ -14,21 +14,21 @@ const test = async (z, bundle) => {
 module.exports = {
   type: 'custom',
   test,
-  connectionLabel: 'TNL Intelligence {{connection_name}}',
+  connectionLabel: '{{connection_name}}',
   fields: [
     {
       key: 'api_key',
       label: 'TNL API Key',
-      type: 'string',
+      type: 'password',
       required: true,
-      helpText: 'Use a TNL API key as described in the [TNL client documentation](https://github.com/bekirdag/tnl-intelligence#authentication).',
+      helpText: 'Use an API key as described in [The Neural Ledger authentication guide](https://developers.theneuralledger.com/guides/authentication).',
     },
     {
       key: 'webhook_secret',
       label: 'Webhook Verification Secret',
       type: 'password',
       required: true,
-      helpText: 'Create a base64url secret with 32-64 decoded bytes using the [webhook operations guide](https://github.com/bekirdag/tnl-intelligence/blob/main/docs/webhook-operations.md). Zapier stores it only in this connection.',
+      helpText: 'Create a base64url secret with 32-64 decoded bytes using [The Neural Ledger webhook verification guide](https://developers.theneuralledger.com/webhooks/verifying). Zapier stores it only in this connection.',
     },
   ],
 };

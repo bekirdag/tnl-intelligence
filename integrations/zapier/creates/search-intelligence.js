@@ -20,7 +20,7 @@ const perform = async (z, bundle) => {
 module.exports = {
   key: 'search_intelligence',
   noun: 'Intelligence Search',
-  display: { label: 'Search TNL Intelligence', description: 'Search cited TNL intelligence with time and cursor controls.' },
+  display: { label: 'Search TNL Intelligence', description: 'Searches cited TNL intelligence with time and cursor controls.' },
   operation: {
     perform,
     inputFields: [

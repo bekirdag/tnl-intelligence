@@ -37,8 +37,24 @@ describe('Zapier integration', () => {
     const key = App.authentication.fields.find((field) => field.key === 'api_key');
     assert.equal(secret.type, 'password');
     assert.equal(secret.required, true);
+    assert.equal(key.type, 'password');
     assert.equal(key.required, true);
-    assert.equal(App.authentication.connectionLabel, 'TNL Intelligence {{connection_name}}');
+    assert.equal(App.authentication.connectionLabel, '{{connection_name}}');
+  });
+
+  it('uses reviewer-compliant weekly labels and third-person action descriptions', () => {
+    assert.equal(
+      App.triggers.weekly_edition.display.label,
+      'New TNL Weekly Consequential Edition',
+    );
+    assert.equal(App.creates.get_weekly_edition.display.label, 'Create TNL Weekly Edition');
+
+    for (const action of [...Object.values(App.creates), ...Object.values(App.searches)]) {
+      assert.match(
+        action.display.description,
+        /^(Creates|Finds|Lists|Retrieves|Runs|Searches)\b/,
+      );
+    }
   });
 
   it('omits null optional query parameters from API requests', async () => {
@@ -60,5 +76,46 @@ describe('Zapier integration', () => {
     });
 
     assert.deepEqual(requestOptions.params, { q: 'Turkey', page_size: 2 });
+  });
+
+  it('normalizes Zapier list defaults before creating a webhook subscription', async () => {
+    let requestOptions;
+    const z = {
+      request: async (options) => {
+        requestOptions = options;
+        return {
+          status: 201,
+          data: {
+            data: {
+              subscription: {
+                id: 'sub_test123456789',
+                activeKeyId: 'key_test123456789',
+              },
+              secret: 'test-webhook-secret',
+            },
+          },
+          throwForStatus() {},
+        };
+      },
+    };
+
+    const result =
+      await App.triggers.new_or_updated_intelligence.operation.performSubscribe(z, {
+        authData: {
+          api_key: 'test-key',
+          webhook_secret: 'test-webhook-secret',
+          webhook_url: 'https://hooks.example.com',
+        },
+        inputData: {
+          event_types: ['intelligence.published,intelligence.updated'],
+        },
+        targetUrl: 'https://hooks.zapier.com/hooks/standard/example',
+      });
+
+    assert.deepEqual(requestOptions.body.eventTypes, [
+      'intelligence.published',
+      'intelligence.updated',
+    ]);
+    assert.deepEqual(result, { id: 'sub_test123456789' });
   });
 });

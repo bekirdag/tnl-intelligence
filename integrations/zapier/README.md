@@ -1,6 +1,6 @@
-# TNL Intelligence for Zapier
+# The Neural Ledger for Zapier
 
-This Zapier Platform CLI 19 integration provides a REST Hook trigger, one search, and four read-only
+This Zapier Platform CLI 19 integration provides two REST Hook triggers, one search, and five read-only
 actions. It runs on Node 22 and reuses `@theneuralledger/connectors` through Zapier's logged request
 adapter.
 

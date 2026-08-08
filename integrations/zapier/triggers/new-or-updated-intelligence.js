@@ -1,9 +1,15 @@
 const { createSubscription, deleteSubscription, processWebhook } = require('../lib/common');
 
+const eventTypes = (value) =>
+  (Array.isArray(value) ? value : [value])
+    .flatMap((item) => String(item ?? '').split(','))
+    .map((item) => item.trim())
+    .filter(Boolean);
+
 const subscribe = async (z, bundle) => {
   const subscription = await createSubscription(z, bundle, {
     endpoint: bundle.targetUrl,
-    eventTypes: bundle.inputData.event_types,
+    eventTypes: eventTypes(bundle.inputData.event_types),
     secret: bundle.authData.webhook_secret,
     filters: {
       ...(bundle.inputData.category ? { categories: [bundle.inputData.category] } : {}),

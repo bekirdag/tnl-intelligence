@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "private": true,
   "files": ["authentication.js", "creates", "index.js", "lib", "searches", "triggers", "README.md"],
-  "description": "TNL Intelligence actions, searches, and REST Hook triggers for Zapier.",
+  "description": "The Neural Ledger actions, searches, and REST Hook triggers for Zapier.",
   "license": "MIT",
   "main": "index.js",
   "engines": { "node": ">=22" },

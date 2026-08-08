@@ -19,7 +19,7 @@ module.exports = {
   noun: 'Intelligence Changes',
   display: {
     label: 'List Recent TNL Changes',
-    description: 'List published, revised, and retracted intelligence since a UTC timestamp.',
+    description: 'Lists published, revised, and retracted intelligence since a UTC timestamp.',
   },
   operation: {
     perform,

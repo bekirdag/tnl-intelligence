@@ -15,7 +15,7 @@ const perform = async (z, bundle) => {
 module.exports = {
   key: 'find_intelligence',
   noun: 'Intelligence Item',
-  display: { label: 'Find TNL Intelligence Item', description: 'Find one TNL item by stable ID or slug.' },
+  display: { label: 'Find TNL Intelligence Item', description: 'Finds one TNL item by stable ID or slug.' },
   operation: {
     perform,
     inputFields: [

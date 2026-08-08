@@ -11,7 +11,7 @@ const perform = async (z, bundle) => {
 module.exports = {
   key: 'get_exposure',
   noun: 'Exposure',
-  display: { label: 'Get TNL Exposure', description: 'Get cited entity, asset, or impact-path exposure.' },
+  display: { label: 'Get TNL Exposure', description: 'Retrieves cited entity, asset, or impact-path exposure.' },
   operation: {
     perform,
     inputFields: [
