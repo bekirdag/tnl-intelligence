@@ -40,3 +40,19 @@ destination without exposing credentials or purchasing service access.
 - Do not purchase a plan or enable a paid trial.
 - Do not publish a public Fedia/Mbin canary without a verified dedicated TNL destination.
 - Record all completed checks and human gates in the separate progress document.
+
+## Fedia engineering handoff
+
+Before account management can create the replacement OAuth client, engineering must:
+
+1. Add a stable production HTTPS callback route for Fedia/Mbin and return its exact URL.
+2. Implement OAuth `authorization_code` with CSRF `state`, exact redirect matching,
+   confidential-client secret handling, refresh-token rotation, and revocation handling.
+3. Add a Fedia/Mbin publishing adapter for `entry:create` targeted only at magazine ID
+   `71137` (`https://fedia.io/m/theneuralledger`).
+4. Request only `entry:create` and, only if the adapter actually needs it,
+   `user:profile:read`; do not request the broad `write` scope.
+5. Store the client secret, access token, and refresh token through the existing protected
+   publisher credential path; never commit or log them.
+6. Provide a network-inert preview and health check, followed by one controlled canary and
+   its public URL after account authorization succeeds.

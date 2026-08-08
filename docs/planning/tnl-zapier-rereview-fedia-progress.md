@@ -16,10 +16,11 @@ Status: In progress
 
 ## Fedia/Mbin
 
-- [ ] Select the target free instance.
-- [ ] Verify the dedicated TNL account and public profile.
-- [ ] Verify or create a writable TNL magazine/community.
-- [ ] Confirm a manual controlled entry can be submitted.
+- [x] Select the target free instance.
+- [x] Verify the dedicated TNL account and public profile.
+- [x] Create a writable, moderator-restricted TNL magazine/community.
+- [x] Confirm a manual controlled entry can be submitted.
+- [ ] Complete the user-present Fedia two-factor enrollment and retain recovery codes.
 - [ ] Confirm the exact engineering callback URL.
 - [ ] Register and authorize a least-privilege private OAuth client.
 - [ ] Store secrets securely and record only non-secret identifiers here.
@@ -46,3 +47,17 @@ Status: In progress
   successfully submitted. The reviewer email is not present in the signed-in
   `synthomusmagnus@gmail.com` mailbox, so the required reply cannot be sent from that
   account.
+- Selected Mbin instance: `https://fedia.io`, running Mbin `1.10.1`.
+- Dedicated account: `@theneuralledger@fedia.io`, public profile
+  `https://fedia.io/u/theneuralledger`.
+- Created the moderator-restricted, discoverable and indexable magazine **The Neural
+  Ledger** at `https://fedia.io/m/theneuralledger`; observed magazine ID `71137`.
+- Published and verified the account-side welcome entry at
+  `https://fedia.io/m/theneuralledger/t/4232628/Welcome-to-The-Neural-Ledger-on-Fedia`.
+- Fedia exposes two-factor authentication. Enrollment is staged at the QR-code and
+  verification screen and requires the account holder's authenticator code and current
+  password.
+- The repository has no Fedia/Mbin publisher adapter or OAuth callback route under
+  `packages/publisher/src`. A new confidential client must not be registered until
+  engineering supplies and deploys the exact HTTPS redirect URI; Mbin requires an exact
+  match during the authorization-code exchange.
