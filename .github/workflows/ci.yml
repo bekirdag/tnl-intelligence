@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   node:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wodo-ci]
     strategy:
       matrix:
         node: [22, 24]
@@ -31,7 +31,7 @@ jobs:
       - run: npm audit --omit=dev --audit-level=high
 
   python:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wodo-ci]
     strategy:
       matrix:
         python: ['3.10', '3.13']
@@ -49,7 +49,7 @@ jobs:
       - run: python -m build python/tnl_intelligence
 
   container:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wodo-ci]
     steps:
       - uses: actions/checkout@v7
       - uses: docker/setup-buildx-action@v4
@@ -61,7 +61,7 @@ jobs:
 
   dependency-review:
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64, wodo-ci]
     permissions:
       contents: read
     steps:
