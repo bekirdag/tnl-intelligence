@@ -78,7 +78,7 @@ export class MysqlMemberKeyDirectory implements MemberKeyDirectory {
   async findByHash(keyHash: string): Promise<MemberKeyRecord | undefined> {
     if (!this.#pool) throw new Error('member key directory is closed');
     const [rows] = await this.#pool.execute(
-      `SELECT id, owner_sub, plan_slug, email_verified_at
+      `SELECT *
        FROM member_api_keys
        WHERE key_hash = ? AND revoked_at IS NULL
        LIMIT 1`,
@@ -86,6 +86,16 @@ export class MysqlMemberKeyDirectory implements MemberKeyDirectory {
     );
     const row = (rows as Array<Record<string, unknown>>)[0];
     if (!row) return undefined;
+    // Legacy keys have no expiry. Read the optional field without requiring a
+    // synchronized schema rollout, and reject invalid stored dates as expired.
+    if (row.expires_at !== undefined && row.expires_at !== null) {
+      const value = row.expires_at;
+      const raw = typeof value === 'string' ? value : '';
+      const normalized = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:\.\d{1,3})?$/.test(raw) ? raw.replace(' ', 'T') + 'Z' : raw;
+      const validIso = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/.test(normalized);
+      const expiry = value instanceof Date ? value.getTime() : validIso ? Date.parse(normalized) : NaN;
+      if (!Number.isFinite(expiry) || expiry <= Date.now() || (!(value instanceof Date) && new Date(expiry).toISOString().slice(0, 19) !== normalized.slice(0, 19))) return undefined;
+    }
     return {
       id: String(row.id),
       ownerSub: String(row.owner_sub),
